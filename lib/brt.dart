@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/ticket.dart';
-import 'package:flutter_application_brt_bub/hitory_tikete.dart';
 import 'package:flutter_application_brt_bub/proflie.dart';
 import 'package:flutter_application_brt_bub/tikkets.dart';
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class BusPage extends StatefulWidget {
   final int total;
@@ -34,9 +34,9 @@ class _BusPageState extends State<BusPage> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: const Text(
-                "ຂາຍປີ້ລົດ",
-                style: TextStyle(
+              child: Text(
+                tr('sell_bus_ticket'),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -54,7 +54,7 @@ class _BusPageState extends State<BusPage> {
                   'assets/images/bus_ticket.png',
                   width: double.infinity,
                   height: double.infinity,
-                  fit: BoxFit.fill, // ຂະຫຍາຍຮູບພາບໃຫ້ເຕັມພື້ນທີ່
+                  fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(
                       child: Text(
@@ -81,17 +81,17 @@ class _BusPageState extends State<BusPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "ລາຄາ",
-                        style: TextStyle(
+                      Text(
+                        tr('price'),
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        "7,000 ກີບ / ຄົນ",
-                        style: TextStyle(fontSize: 14, color: Colors.black87),
+                      Text(
+                        "7,000 ${tr('kip_per_person')}",
+                        style: const TextStyle(fontSize: 14, color: Colors.black87),
                       ),
                       const SizedBox(height: 15),
 
@@ -102,13 +102,13 @@ class _BusPageState extends State<BusPage> {
                           width: 160,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.6),
+                            color: Colors.white.withValues(alpha: 0.6),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: Colors.grey.shade400),
                           ),
                           child: Center(
                             child: Text(
-                              "$totalAmount ກີບ",
+                              "$totalAmount ${tr('kip')}",
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -189,9 +189,9 @@ class _BusPageState extends State<BusPage> {
                             ),
                             elevation: 0,
                           ),
-                          child: const Text(
-                            "ເລືອກສະຖານີປາຍທາງ",
-                            style: TextStyle(
+                          child: Text(
+                            tr('select_station_btn'),
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

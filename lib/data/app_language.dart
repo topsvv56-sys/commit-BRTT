@@ -10,72 +10,132 @@ Map<String, Map<String, String>> localizedValues = {
     'welcome_brt': 'WELCOME TO BRT',
     'phone_email': 'ເບີໂທລະສັບ / ອີເມວ',
     'password': 'ລະຫັດຜ່ານ',
-    'remember_me': 'ຈື່ຂ້ອຍ',
+    'remember_me': 'ຈື່ຈຳຂ້ອຍ',
     'login_btn': 'ເຂົ້າສູ່ລະບົບ',
     'forgot_pass': 'ລືມລະຫັດຜ່ານ',
+    'forgot_pass_q': 'ລືມລະຫັດຜ່ານບໍ',
+    'no_account_q': 'ຍັງບໍ່ມີບັນຊີບໍ?',
+    'register_btn': 'ສະໝັກສະມາຊິກ',
+    'please_fill_all': 'ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ',
+    'login_failed': 'ເຂົ້າສູ່ລະບົບບໍ່ສຳເລັດ',
+    'phone_email_hint': 'ປ້ອນຊື່ ເບີໂທ ຫຼື ອີເມວຂອງທ່ານ',
+    'password_hint': 'ປ້ອນລະຫັດຜ່ານຂອງທ່ານ',
 
-    // --- 2. ໜ້າ ປ່ຽນລະຫັດຜ່ານ ---
+    // --- 2. ໜ້າ ສະໝັກສະມາຊິກ (Register) ---
+    'create_account_title': 'CREATE ACCOUNT',
+    'full_name': 'ຊື່ ແລະ ນາມສະກຸນ',
+    'enter_full_name': 'ປ້ອນຊື່ ແລະ ນາມສະກຸນ',
+    'enter_phone_email': 'ປ້ອນເບີໂທ ຫຼື ອີເມວຂອງທ່ານ',
+    'enter_password_8': 'ປ້ອນລະຫັດຜ່ານ (ຢ່າງໜ້ອຍ 8 ຕົວ)',
+    'confirm_password_new': 'ຢືນຢັນລະຫັດຜ່ານໃໝ່',
+    'passwords_not_match': 'ລະຫັດຜ່ານ ແລະ ຢືນຢັນລະຫັດຜ່ານ ບໍ່ກົງກັນ',
+    'password_min_6': 'ລະຫັດຜ່ານຕ້ອງມີຢ່າງໜ້ອຍ 6 ຕົວອັກສອນ',
+    'register_success': 'ສະໝັກສະມາຊິກສຳເລັດ!',
+    'already_have_account_q': 'ມີບັນຊີຢູ່ແລ້ວບໍ?',
+
+    // --- 3. ໜ້າ ກູ້ຄືນລະຫັດຜ່ານ (Forgot Password) ---
+    'recover_password_title': 'ກູ້ຄືນລະຫັດຜ່ານ',
+    'send_recovery_link': 'ສົ່ງລິ້ງກູ້ຄືນລະຫັດຜ່ານ',
+    'recovery_link_sent': 'ສົ່ງລິ້ງຣີເຊັດລະຫັດຜ່ານໄປຫາ ອີເມວ ຂອງທ່ານແລ້ວ!',
+
+    // --- 4. ໜ້າ ປ່ຽນລະຫັດຜ່ານ (Change Password) ---
     'change_pass_title': 'ປ່ຽນລະຫັດຜ່ານ',
     'old_pass': 'ລະຫັດຜ່ານເກົ່າ',
     'new_pass': 'ລະຫັດຜ່ານໃໝ່',
     'confirm_pass': 'ຢືນຢັນລະຫັດຜ່ານໃໝ່',
     'confirm_change_btn': 'ຢືນຢັນການປ່ຽນລະຫັດຜ່ານ',
 
-    // --- 3. ໜ້າ ຊື້ປີ້ລົດ ---
+    // --- 5. ໜ້າ ຂາຍປີ້ລົດ (Bus Tickets) ---
+    'sell_bus_ticket': 'ຂາຍປີ້ລົດ',
     'bus_ticket_title': 'ຊື້ປີ້ລົດ',
     'price': 'ລາຄາ',
     'kip_per_ticket': 'ກີບ / ໃບ',
+    'kip_per_person': 'ກີບ / ຄົນ',
+    'kip': 'ກີບ',
     'select_station_btn': 'ເລືອກສະຖານີປາຍທາງ',
 
-    // --- 4. ໜ້າ ເລືອກສະຖານີ ---
+    // --- 6. ໜ້າ ເລືອກສະຖານີ ---
     'select_station_title': 'ເລືອກສະຖານີລົດ',
+    'select_origin_title': 'ເລືອກສະຖານີຂຶ້ນລົດ',
     'origin_station': 'ສະຖານີຂຶ້ນລົດ',
     'destination_station': 'ສະຖານີລົງ',
+    'select_hint': 'ເລືອກ',
     'calculate_route_btn': 'ຄຳນວນເສັ້ນທາງ',
+    'please_select_all_stations': 'ກະລຸນາເລືອກສະຖານີໃຫ້ຄົບຖ້ວນ',
+    'same_station_error': 'ກະລຸນາເລືອກສະຖານທີ່ໃໝ່ເພາະວ່າທ່ານເລືອກສະຖານທີ່ດຽວກັນ',
+    'station_talatxao': 'ຕະຫຼາດເຊົ້າ',
+    'station_dongdok': 'ດົງໂດກ',
+    'station_thatluang': 'ທາດຫຼວງ',
+    'station_sihom': 'ສີຫອມ',
+    'station_sikeut': 'ສີເກີດ',
 
-    // --- 5. ໜ້າ ສະແກນ QR ເພື່ອຈ່າຍເງິນ ---
+    // --- 7. ໜ້າ ສະແກນ QR ເພື່ອຈ່າຍເງິນ ---
     'scan_qr_title': 'ສະແກນ QR ເພື່ອຈ່າຍເງິນ',
-    'qr_hint': 'ກົດໃສ່ຮູບ QR ເພື່ອດາວໂຫລດສະແກນຈ່າຍເງິນ',
+    'qr_hint': 'ກົດໃສ່ຮູບ QR ເພື່ອດາວໂຫຼດສະແກນຈ່າຍເງິນ',
     'tickets_count': '2 ໃບ',
     'confirm_pay_btn': 'ຢືນຢັນການຊຳລະເງິນ',
+    'confirm_and_receipt': 'ຮັບບິນຢ່າງຖືກຕ້ອງ',
+    'qr_scanned_success': 'ສະແກນ QR ສຳເລັດ',
+    'no_qr_found_image': 'ບໍ່ພົບ QR Code ໃນຮູບພາບນີ້',
 
-    // --- 6. ໜ້າ ປີ້ລົດສຳເລັດ ---
+    // --- 8. ໜ້າ ປີ້ລົດສຳເລັດ (Tickets Success) ---
     'my_tickets_title': 'ປີ້ລົດຂອງທ່ານ',
-    'pay_success': 'ຈ່າຍປີ້ສຳເລັດ!',
+    'pay_success': 'ຈ່າຍເງິນສຳເລັດ!',
     'status_paid': 'ຊຳລະແລ້ວ',
+    'paid_status': 'ຈ່າຍແລ້ວ',
+    'payment_status_label': 'ສະຖານະການຈ່າຍ:',
+    'tickets_received_label': 'ຍອດຕົ໋ວທີ່ໄດ້:',
+    'tickets_unit': 'ໃບ',
     'total_paid': 'ຍອດເງິນທັງໝົດ:',
+    'show_qr_to_officer': 'ສະແດງ QR ນີ້ຕໍ່ເຈົ້າໜ້າທີ່ເວລານັກຂຶ້ນລົດ',
     'scan_qr_hint': 'ສະແກນ QR ນີ້ຢູ່ທາງເຂົ້າ-ອອກ',
     'back_to_main_btn': 'ກັບຄືນໜ້າຫຼັກ',
 
-    // --- 7. ໜ້າ ຂໍ້ມູນສ່ວນຕົວ (Profile) ---
+    // --- 9. ໜ້າ ຂໍ້ມູນສ່ວນຕົວ (Profile) ---
     'profile_title': 'ຂໍ້ມູນສ່ວນຕົວ',
     'purchase_history': 'ປະຫວັດການຊື້ປີ້',
     'payment_method': 'ບັນຊີ / ວິທີຈ່າຍເງິນ',
     'system_settings': 'ຕັ້ງຄ່າລະບົບ',
 
-    // --- 8. ໜ້າ ປະຫວັດການຊື້ປີ້ ---
+    // --- 10. ໜ້າ ປະຫວັດການຊື້ປີ້ ---
     'history_title': 'ປະຫວັດການຊື້ປີ້',
     'status_used': 'ໃຊ້ແລ້ວ',
-    'status_expired': 'ໝົດອາຢຸ',
+    'status_expired': 'ໝົດອາຍຸ',
     'date_label': 'ວັນທີ:',
     'price_label': 'ລາຄາ:',
 
-    // --- 9. ໜ້າ ບັນຊີ / ວິທີຈ່າຍເງິນ ---
+    // --- 11. ໜ້າ ບັນຊີ / ວິທີຈ່າຍເງິນ ---
     'payment_title': 'ບັນຊີ / ວິທີຈ່າຍເງິນ',
     'my_payment_method': 'ວິທີຈ່າຍເງິນຂອງຂ້ອຍ',
     'primary_acc': 'ບັນຊີຫຼັກ ພັນທະມິດ',
     'add_account_btn': '+ ເພີ່ມບັນຊີ ຫຼື ບັດອື່ນໆ',
+    'status_linked': 'ສະຖານະ: ຜູກແລ້ວ',
 
-    // --- 10. ໜ້າ ຕັ້ງຄ່າລະບົບ ---
+    // --- 12. ໜ້າ ເພີ່ມບັນຊີ / ວິທີຈ່າຍເງິນ ---
+    'add_payment_title': 'ເພີ່ມບັນຊີ / ວິທີຈ່າຍເງິນ',
+    'select_bank_method': 'ເລືອກທະນາຄານ ຫຼື ວິທີຈ່າຍເງິນ',
+    'account_name_title': 'ຊື່ບັນຊີ / ຊື່ເຈົ້າຂອງບັດ',
+    'account_name_hint': 'ປ້ອນຊື່ ແລະ ນາມສະກຸນ',
+    'account_number_title': 'ເລກບັນຊີ / ເລກບັດ',
+    'account_number_hint': 'ປ້ອນເລກບັນຊີ',
+    'confirm_add_account': 'ຢືນຢັນການເພີ່ມບັນຊີ',
+    'add_account_success': 'ເພີ່ມບັນຊີສຳເລັດ!',
+    'please_enter_name': 'ກະລຸນາປ້ອນຊື່ບັນຊີ',
+    'please_enter_number': 'ກະລຸນາປ້ອນເລກບັນຊີ',
+    'visa_master': 'ບັດ Visa / Mastercard',
+
+    // --- 13. ໜ້າ ຕັ້ງຄ່າລະບົບ ---
     'settings_title': 'ຕັ້ງຄ່າລະບົບ',
     'change_language': 'ປ່ຽນພາສາ (Language)',
     'notifications': 'ການແຈ້ງເຕືອນ',
+    'change_password': 'ປ່ຽນລະຫັດຜ່ານ',
     'logout': 'ອອກຈາກລະບົບ',
     'logout_confirm': 'ທ່ານຕ້ອງການອອກຈາກລະບົບ ຫຼື ບໍ່?',
     'cancel': 'ຍົກເລີກ',
     'confirm': 'ຢືນຢັນ',
     'lao_lang': 'ພາສາລາວ',
     'eng_lang': 'English',
+    'zh_lang': '中文 (Chinese)',
   },
   'en': {
     // --- 1. Login ---
@@ -85,69 +145,261 @@ Map<String, Map<String, String>> localizedValues = {
     'remember_me': 'Remember Me',
     'login_btn': 'Login',
     'forgot_pass': 'Forgot Password?',
+    'forgot_pass_q': 'Forgot Password?',
+    'no_account_q': "Don't have an account?",
+    'register_btn': 'Register',
+    'please_fill_all': 'Please fill in all fields',
+    'login_failed': 'Login failed',
+    'phone_email_hint': 'Enter name, phone or email',
+    'password_hint': 'Enter your password',
 
-    // --- 2. Change Password ---
+    // --- 2. Register ---
+    'create_account_title': 'CREATE ACCOUNT',
+    'full_name': 'Full Name',
+    'enter_full_name': 'Enter full name',
+    'enter_phone_email': 'Enter phone or email',
+    'enter_password_8': 'Enter password (min 8 chars)',
+    'confirm_password_new': 'Confirm new password',
+    'passwords_not_match': 'Passwords do not match',
+    'password_min_6': 'Password must be at least 6 characters',
+    'register_success': 'Registration successful!',
+    'already_have_account_q': 'Already have an account?',
+
+    // --- 3. Forgot Password ---
+    'recover_password_title': 'Recover Password',
+    'send_recovery_link': 'Send Recovery Link',
+    'recovery_link_sent': 'Password reset link sent to your email!',
+
+    // --- 4. Change Password ---
     'change_pass_title': 'Change Password',
     'old_pass': 'Old Password',
     'new_pass': 'New Password',
     'confirm_pass': 'Confirm New Password',
     'confirm_change_btn': 'Confirm Password Change',
 
-    // --- 3. Bus Ticket ---
+    // --- 5. Bus Tickets ---
+    'sell_bus_ticket': 'Bus Tickets',
     'bus_ticket_title': 'Bus Ticket',
     'price': 'Price',
     'kip_per_ticket': 'Kip / ticket',
+    'kip_per_person': 'Kip / person',
+    'kip': 'Kip',
     'select_station_btn': 'Select Destination Station',
 
-    // --- 4. Select Station ---
+    // --- 6. Select Station ---
     'select_station_title': 'Select Bus Station',
+    'select_origin_title': 'Select Departure Station',
     'origin_station': 'Departure Station',
     'destination_station': 'Arrival Station',
+    'select_hint': 'Select',
     'calculate_route_btn': 'Calculate Route',
+    'please_select_all_stations': 'Please select both stations',
+    'same_station_error': 'Please select different stations',
+    'station_talatxao': 'Morning Market (Talat Sao)',
+    'station_dongdok': 'Dongdok',
+    'station_thatluang': 'That Luang',
+    'station_sihom': 'Sihom',
+    'station_sikeut': 'Sikeut',
 
-    // --- 5. Scan QR ---
+    // --- 7. Scan QR ---
     'scan_qr_title': 'Scan QR to Pay',
-    'qr_hint': 'Click on QR image to download scan pay',
+    'qr_hint': 'Click on QR image to download and scan pay',
     'tickets_count': '2 Tickets',
     'confirm_pay_btn': 'Confirm Payment',
+    'confirm_and_receipt': 'Confirm & View Ticket',
+    'qr_scanned_success': 'QR scan successful',
+    'no_qr_found_image': 'No QR Code found in this image',
 
-    // --- 6. Ticket Success ---
+    // --- 8. Ticket Success ---
     'my_tickets_title': 'Your Bus Ticket',
     'pay_success': 'Payment Successful!',
     'status_paid': 'Paid',
+    'paid_status': 'Paid',
+    'payment_status_label': 'Payment Status:',
+    'tickets_received_label': 'Tickets Received:',
+    'tickets_unit': 'tickets',
     'total_paid': 'Total Amount:',
+    'show_qr_to_officer': 'Show this QR code to the officer when boarding',
     'scan_qr_hint': 'Scan this QR code at entry/exit',
     'back_to_main_btn': 'Back to Main Page',
 
-    // --- 7. Profile ---
+    // --- 9. Profile ---
     'profile_title': 'Personal Information',
     'purchase_history': 'Purchase History',
     'payment_method': 'Account / Payment Method',
     'system_settings': 'System Settings',
 
-    // --- 8. Purchase History ---
+    // --- 10. Purchase History ---
     'history_title': 'Purchase History',
     'status_used': 'Used',
     'status_expired': 'Expired',
     'date_label': 'Date:',
     'price_label': 'Price:',
 
-    // --- 9. Payment Method ---
+    // --- 11. Payment Method ---
     'payment_title': 'Account / Payment Method',
     'my_payment_method': 'My Payment Method',
     'primary_acc': 'Primary Account',
     'add_account_btn': '+ Add Account or Card',
+    'status_linked': 'Status: Linked',
 
-    // --- 10. Settings ---
+    // --- 12. Add Payment Method ---
+    'add_payment_title': 'Add Account / Payment Method',
+    'select_bank_method': 'Select Bank or Payment Method',
+    'account_name_title': 'Account Name / Cardholder Name',
+    'account_name_hint': 'Enter full name',
+    'account_number_title': 'Account Number / Card Number',
+    'account_number_hint': 'Enter account number',
+    'confirm_add_account': 'Confirm Add Account',
+    'add_account_success': 'Account added successfully!',
+    'please_enter_name': 'Please enter account name',
+    'please_enter_number': 'Please enter account number',
+    'visa_master': 'Visa / Mastercard Card',
+
+    // --- 13. Settings ---
     'settings_title': 'System Settings',
     'change_language': 'Change Language',
     'notifications': 'Notifications',
+    'change_password': 'Change Password',
     'logout': 'Logout',
     'logout_confirm': 'Are you sure you want to logout?',
     'cancel': 'Cancel',
     'confirm': 'Confirm',
-    'lao_lang': 'Lao',
+    'lao_lang': 'Lao (ພາສາລາວ)',
     'eng_lang': 'English',
+    'zh_lang': 'Chinese (中文)',
+  },
+  'zh': {
+    // --- 1. 登录 ---
+    'welcome_brt': '欢迎来到 BRT',
+    'phone_email': '电话号码 / 电子邮箱',
+    'password': '密码',
+    'remember_me': '记住我',
+    'login_btn': '登录',
+    'forgot_pass': '忘记密码？',
+    'forgot_pass_q': '忘记密码？',
+    'no_account_q': '还没有账号？',
+    'register_btn': '注册账号',
+    'please_fill_all': '请填写完整信息',
+    'login_failed': '登录失败',
+    'phone_email_hint': '输入姓名、电话或邮箱',
+    'password_hint': '输入您的密码',
+
+    // --- 2. 注册 ---
+    'create_account_title': '创建新账号',
+    'full_name': '姓名',
+    'enter_full_name': '输入姓名',
+    'enter_phone_email': '输入电话号码或邮箱',
+    'enter_password_8': '输入密码（至少8位）',
+    'confirm_password_new': '确认新密码',
+    'passwords_not_match': '两次输入的密码不一致',
+    'password_min_6': '密码长度至少为6位',
+    'register_success': '注册成功！',
+    'already_have_account_q': '已有账号？',
+
+    // --- 3. 找回密码 ---
+    'recover_password_title': '找回密码',
+    'send_recovery_link': '发送找回链接',
+    'recovery_link_sent': '重置密码链接已发送至您的邮箱！',
+
+    // --- 4. 修改密码 ---
+    'change_pass_title': '修改密码',
+    'old_pass': '原密码',
+    'new_pass': '新密码',
+    'confirm_pass': '确认新密码',
+    'confirm_change_btn': '确认修改密码',
+
+    // --- 5. 车票 ---
+    'sell_bus_ticket': '售车票',
+    'bus_ticket_title': '购买车票',
+    'price': '价格',
+    'kip_per_ticket': '基普 / 张',
+    'kip_per_person': '基普 / 人',
+    'kip': '基普',
+    'select_station_btn': '选择目的地车站',
+
+    // --- 6. 选择车站 ---
+    'select_station_title': '选择公交车站',
+    'select_origin_title': '选择出发车站',
+    'origin_station': '出发车站',
+    'destination_station': '到达车站',
+    'select_hint': '选择',
+    'calculate_route_btn': '计算路线',
+    'please_select_all_stations': '请完整选择出发站和到达站',
+    'same_station_error': '出发站与到达站不能相同',
+    'station_talatxao': '早市 (Talat Sao)',
+    'station_dongdok': '东都 (Dongdok)',
+    'station_thatluang': '塔銮 (That Luang)',
+    'station_sihom': '西荷姆 (Sihom)',
+    'station_sikeut': '西格 (Sikeut)',
+
+    // --- 7. 扫描二维码 ---
+    'scan_qr_title': '扫码支付',
+    'qr_hint': '点击二维码图片以下载并扫码支付',
+    'tickets_count': '2 张',
+    'confirm_pay_btn': '确认支付',
+    'confirm_and_receipt': '确认付款并获取凭证',
+    'qr_scanned_success': '二维码扫描成功',
+    'no_qr_found_image': '此图片中未找到二维码',
+
+    // --- 8. 购票成功 ---
+    'my_tickets_title': '您的车票',
+    'pay_success': '支付成功！',
+    'status_paid': '已支付',
+    'paid_status': '已支付',
+    'payment_status_label': '支付状态：',
+    'tickets_received_label': '获得车票：',
+    'tickets_unit': '张',
+    'total_paid': '总金额：',
+    'show_qr_to_officer': '乘车时请向工作人员出示此二维码',
+    'scan_qr_hint': '请在进出站时扫描此二维码',
+    'back_to_main_btn': '返回主页',
+
+    // --- 9. 个人信息 ---
+    'profile_title': '个人信息',
+    'purchase_history': '购票历史',
+    'payment_method': '账户 / 支付方式',
+    'system_settings': '系统设置',
+
+    // --- 10. 购票历史 ---
+    'history_title': '购票历史',
+    'status_used': '已使用',
+    'status_expired': '已过期',
+    'date_label': '日期：',
+    'price_label': '价格：',
+
+    // --- 11. 支付方式 ---
+    'payment_title': '账户 / 支付方式',
+    'my_payment_method': '我的支付方式',
+    'primary_acc': '主账户',
+    'add_account_btn': '+ 添加账户或其他银行卡',
+    'status_linked': '状态：已绑定',
+
+    // --- 12. 添加账户 ---
+    'add_payment_title': '添加账户 / 支付方式',
+    'select_bank_method': '选择银行或支付方式',
+    'account_name_title': '账户名称 / 持卡人姓名',
+    'account_name_hint': '输入姓名',
+    'account_number_title': '账号 / 卡号',
+    'account_number_hint': '输入账号',
+    'confirm_add_account': '确认添加账户',
+    'add_account_success': '账户添加成功！',
+    'please_enter_name': '请输入账户名称',
+    'please_enter_number': '请输入账号',
+    'visa_master': 'Visa / Mastercard 卡',
+
+    // --- 13. 设置 ---
+    'settings_title': '系统设置',
+    'change_language': '切换语言 (Language)',
+    'notifications': '通知',
+    'change_password': '修改密码',
+    'logout': '退出登录',
+    'logout_confirm': '您确定要退出登录吗？',
+    'cancel': '取消',
+    'confirm': '确认',
+    'lao_lang': '老挝语 (ພາສາລາວ)',
+    'eng_lang': '英语 (English)',
+    'zh_lang': '中文 (Chinese)',
   },
 };
 

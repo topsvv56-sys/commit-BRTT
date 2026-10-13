@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -12,21 +13,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   void _sendResetLink() {
     if (_emailOrPhoneController.text.isNotEmpty) {
-      // ໃສ່ Logic ສົ່ງ OTP ຫຼື Reset Link ໄປຫາ ອີເມວ/ເບີໂທ
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ສົ່ງລະຫັດກູ້ຄືນໄປຫາ ອີເມວ/ເບີໂທ ແລ້ວ!')),
+        SnackBar(content: Text(tr('recovery_link_sent'))),
       );
-      Navigator.pop(context); // ກັບໄປໜ້າ Login
+      Navigator.pop(context);
     }
+  }
+
+  @override
+  void dispose() {
+    _emailOrPhoneController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'ກູ້ຄືນລະຫັດຜ່ານ',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          tr('recover_password_title'),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 23, 32, 157),
       ),
@@ -35,15 +41,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'ກະລຸນາປ້ອນ ເບີໂທລະສັບ ຫຼື ອີເມວ ຂອງທ່ານເພື່ອຮັບລະຫັດກູ້ຄືນລະຫັດຜ່ານ',
-              style: TextStyle(fontSize: 16),
+            Text(
+              tr('phone_email_hint'),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _emailOrPhoneController,
               decoration: InputDecoration(
-                hintText: 'ເບີໂທລະສັບ / ອີເມວ',
+                hintText: tr('phone_email'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -56,9 +62,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
               onPressed: _sendResetLink,
-              child: const Text(
-                'ສົ່ງລະຫັດກູ້ຄືນ',
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                tr('send_recovery_link'),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/brt.dart';
 import 'package:flutter_application_brt_bub/proflie.dart';
-import '../tikkets.dart'; // ຖ້າ tikkets.dart ຢູ່ lib/
+import 'package:flutter_application_brt_bub/data/app_language.dart';
+import '../tikkets.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // ຂໍ້ມູນຕົວຢ່າງປະຫວັດການຊື້ປີ້ຕາມ UI ຮູບທີ 4
     final List<Map<String, String>> historyList = [
       {
         "date": "30/06/2026",
@@ -30,31 +30,25 @@ class HistoryPage extends StatelessWidget {
       },
     ];
 
-    Color getStatusColor(String status) {
-      switch (status) {
-        case 'ຈ່າຍແລ້ວ':
-          return const Color(0xFF2F80ED); // ສີຟ້າ
-        case 'ໃຊ້ແລ້ວ':
-          return const Color(0xFF4CAF50); // ສີຂຽວ
-        case 'ໝົດອາຍຸ':
-          return const Color(0xFFE53935); // ສີແດງ
-        default:
-          return Colors.grey;
-      }
+    String displayStatus(String status) {
+      if (status == 'ໃຊ້ແລ້ວ') return tr('status_used');
+      if (status == 'ໝົດອາຍຸ') return tr('status_expired');
+      if (status == 'ຈ່າຍແລ້ວ') return tr('status_paid');
+      return status;
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFBF7F9), // ພື້ນຫຼັງສີຂາວອົມຊົມພູ
+      backgroundColor: const Color(0xFFFBF7F9),
       appBar: AppBar(
-        title: const Text(
-          "ປະຫວັດການຊື້ປີ້",
-          style: TextStyle(
+        title: Text(
+          tr('history_title'),
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: const Color(0xFFD97724), // ສີສົ້ມຕາມແບບ UI
+        backgroundColor: const Color(0xFFD97724),
         centerTitle: true,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -70,7 +64,7 @@ class HistoryPage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5EBF0), // ສີກອບອົມຊົມພູອ່ອນ
+              color: const Color(0xFFF5EBF0),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -107,14 +101,14 @@ class HistoryPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        "ວັນທີ: ${item["date"]}",
+                        "${tr('date_label')} ${item["date"]}",
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 11,
                         ),
                       ),
                       Text(
-                        "ລາຄາ: ${item["price"]}",
+                        "${tr('price_label')} ${item["price"]}",
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 11,
@@ -124,9 +118,9 @@ class HistoryPage extends StatelessWidget {
                   ),
                 ),
 
-                // ສະຖານະ (ໃຊ້ແລ້ວ / ໝົດອາຍຸ)
+                // ສະຖານະ
                 Text(
-                  item["status"]!,
+                  displayStatus(item["status"]!),
                   style: TextStyle(
                     color: isUsed
                         ? const Color(0xFF4CAF50)
@@ -161,7 +155,7 @@ class HistoryPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => SuccessPage(total: 7000, qty: 1),
+                    builder: (_) => const SuccessPage(total: 7000, qty: 1),
                   ),
                 );
               },

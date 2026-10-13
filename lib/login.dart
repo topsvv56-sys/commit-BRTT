@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_brt_bub/Regis_ter_Page.dart';
 import 'package:flutter_application_brt_bub/brt.dart';
-import 'package:flutter_application_brt_bub/bus_page.dart';
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 // --- หน้า ป່ຽນ/ກູ້ຄືນລະຫັດຜ່ານ (ForgotPasswordPage) ---
 class ForgotPasswordPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     if (input.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ກະລຸນາປ້ອນອີເມວ ຫຼື ເບີໂທລະສັບ')),
+        SnackBar(content: Text(tr('please_fill_all'))),
       );
       return;
     }
@@ -41,8 +41,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('ສົ່ງລິ້ງຣີເຊັດລະຫັດຜ່ານໄປຫາ ອີເມວ ຂອງທ່ານແລ້ວ!'),
+          SnackBar(
+            content: Text(tr('recovery_link_sent')),
             backgroundColor: Colors.green,
           ),
         );
@@ -52,7 +52,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('ຜິດພາດ: ${e.message}'),
+            content: Text('${tr('login_failed')}: ${e.message}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -66,9 +66,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'ກູ້ຄືນລະຫັດຜ່ານ',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          tr('recover_password_title'),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 211, 69, 9),
       ),
@@ -83,8 +83,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                hintText: 'ປ້ອນຊື່ ເບີໂທ ຫຼື ອີເມວຂອງທ່ານ',
-                prefixIcon: const Icon(Icons.email_outlined), // [ເພີ່ມ] ໄອຄອນ
+                hintText: tr('phone_email_hint'),
+                prefixIcon: const Icon(Icons.email_outlined),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -110,9 +110,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text(
-                      'ສົ່ງລິ້ງກູ້ຄືນລະຫັດຜ່ານ',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                  : Text(
+                      tr('send_recovery_link'),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
             ),
           ],
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool rememberMe = false;
   bool _isLoading = false;
-  bool _isObscure = true; // [ເພີ່ມ] ຕົວແປສຳລັບເປີດ/ປິດເບິ່ງລະຫັດຜ່ານ
+  bool _isObscure = true;
 
   @override
   void dispose() {
@@ -151,9 +151,9 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text.trim();
 
     if (input.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(tr('please_fill_all'))),
+      );
       return;
     }
 
@@ -170,14 +170,14 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => BusPage(total: 2)),
+          MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
         );
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('ເຂົ້າສູ່ລະບົບບໍ່ສຳເລັດ: ${e.message}'),
+            content: Text('${tr('login_failed')}: ${e.message}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -202,21 +202,21 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               const SizedBox(height: 30),
 
-              const Center(
+              Center(
                 child: Text(
-                  "WELCOME TO BRT",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  tr('welcome_brt'),
+                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
               ),
 
               const SizedBox(height: 30),
 
-              // USERNAME / EMAIL / PHONE (ເພີ່ມ Icon ໜ້າ)
+              // USERNAME / EMAIL / PHONE
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
-                  hintText: 'ປ້ອນຊື່ ເບີໂທ ຫຼື ອີເມວຂອງທ່ານ',
-                  prefixIcon: const Icon(Icons.person_outline), // [ເພີ່ມ]
+                  hintText: tr('phone_email_hint'),
+                  prefixIcon: const Icon(Icons.person_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -225,15 +225,14 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 15),
 
-              // PASSWORD (ເພີ່ມ Icon ແລະ ປຸ່ມເປີດ/ປິດ ຕາ)
+              // PASSWORD
               TextField(
                 controller: _passwordController,
-                obscureText: _isObscure, // [ປັບປຸງ]
+                obscureText: _isObscure,
                 decoration: InputDecoration(
-                  hintText: 'ປ້ອນລະຫັດຜ່ານຂອງທ່ານ',
-                  prefixIcon: const Icon(Icons.lock_outline), // [ເພີ່ມ]
+                  hintText: tr('password_hint'),
+                  prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
-                    // [ເພີ່ມ] ປຸ່ມເປີດ/ປິດເບິ່ງລະຫັດ
                     icon: Icon(
                       _isObscure ? Icons.visibility_off : Icons.visibility,
                     ),
@@ -262,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     },
                   ),
-                  const Text('ຈື່ຈຳຂ້ອຍ'),
+                  Text(tr('remember_me')),
                 ],
               ),
 
@@ -287,9 +286,9 @@ class _LoginPageState extends State<LoginPage> {
                           strokeWidth: 2,
                         ),
                       )
-                    : const Text(
-                        'ເຂົ້າສູ່ລະບົບ',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                    : Text(
+                        tr('login_btn'),
+                        style: const TextStyle(fontSize: 16, color: Colors.white),
                       ),
               ),
 
@@ -306,18 +305,18 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   },
-                  child: const Text(
-                    'ລືມລະຫັດຜ່ານບໍ',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  child: Text(
+                    tr('forgot_pass_q'),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
               ),
 
-              // [ເພີ່ມ] ປຸ່ມສະໝັກສະມາຊິກໃໝ່ (Register Link)
+              // Register Link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("ຍັງບໍ່ມີບັນຊີບໍ?"),
+                  Text(tr('no_account_q')),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -325,9 +324,9 @@ class _LoginPageState extends State<LoginPage> {
                         MaterialPageRoute(builder: (_) => const RegisterPage()),
                       );
                     },
-                    child: const Text(
-                      'ສະໝັກສະມາຊິກ',
-                      style: TextStyle(
+                    child: Text(
+                      tr('register_btn'),
+                      style: const TextStyle(
                         color: Color.fromARGB(255, 211, 69, 9),
                         fontWeight: FontWeight.bold,
                       ),

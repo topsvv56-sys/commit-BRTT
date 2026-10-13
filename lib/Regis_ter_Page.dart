@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_brt_bub/brt.dart';
-import 'package:flutter_application_brt_bub/bus_page.dart';
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -44,15 +44,15 @@ class _RegisterPageState extends State<RegisterPage> {
         password.isEmpty ||
         confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບຖ້ວນ')),
+        SnackBar(content: Text(tr('please_fill_all'))),
       );
       return;
     }
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ລະຫັດຜ່ານ ແລະ ຢືນຢັນລະຫັດຜ່ານ ບໍ່ກົງກັນ'),
+        SnackBar(
+          content: Text(tr('passwords_not_match')),
           backgroundColor: Colors.red,
         ),
       );
@@ -61,8 +61,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (password.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ລະຫັດຜ່ານຕ້ອງມີຢ່າງໜ້ອຍ 6 ຕົວອັກສອນ'),
+        SnackBar(
+          content: Text(tr('password_min_6')),
           backgroundColor: Colors.red,
         ),
       );
@@ -84,8 +84,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('ສະໝັກສະມາຊິກສຳເລັດ!'),
+          SnackBar(
+            content: Text(tr('register_success')),
             backgroundColor: Colors.green,
           ),
         );
@@ -93,18 +93,16 @@ class _RegisterPageState extends State<RegisterPage> {
         // ເມື່ອສະໝັກສຳເລັດໃຫ້ເຂົ້າໄປໜ້າ BusPage ເລີຍ
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => BusPage(total: 2)),
+          MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
         );
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
-        String errorMessage = 'ສະໝັກສະມາຊິກບໍ່ສຳເລັດ';
+        String errorMessage = tr('login_failed');
         if (e.code == 'email-already-in-use') {
-          errorMessage = 'ອີເມວ ຫຼື ເບີໂທ ນີ້ຖືກນຳໃຊ້ແລ້ວ';
+          errorMessage = e.message ?? errorMessage;
         } else if (e.code == 'weak-password') {
-          errorMessage = 'ລະຫັດຜ່ານອ່ອນເກີນໄປ';
-        } else if (e.code == 'invalid-email') {
-          errorMessage = 'ຮູບແບບ ອີເມວ/ເບີໂທ ບໍ່ຖືກຕ້ອງ';
+          errorMessage = tr('password_min_6');
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -121,9 +119,9 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'ສະໝັກສະມາຊິກ',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          tr('register_btn'),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: orangePrimary,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -136,10 +134,10 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 10),
-              const Center(
+              Center(
                 child: Text(
-                  "CREATE ACCOUNT",
-                  style: TextStyle(
+                  tr('create_account_title'),
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: orangePrimary,
@@ -152,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
               TextField(
                 controller: _fullNameController,
                 decoration: InputDecoration(
-                  hintText: 'ປ້ອນຊື່ ແລະ ນາມສະກຸນ',
+                  hintText: tr('enter_full_name'),
                   prefixIcon: const Icon(
                     Icons.person_outline,
                     color: orangePrimary,
@@ -177,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'ປ້ອນເບີໂທ ຫຼື ອີເມວຂອງທ່ານ',
+                  hintText: tr('enter_phone_email'),
                   prefixIcon: const Icon(
                     Icons.phone_android_outlined,
                     color: orangePrimary,
@@ -202,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _passwordController,
                 obscureText: _isObscurePass,
                 decoration: InputDecoration(
-                  hintText: 'ປ້ອນລະຫັດຜ່ານ (ຢ່າງໜ້ອຍ 8 ຕົວ)',
+                  hintText: tr('enter_password_8'),
                   prefixIcon: const Icon(
                     Icons.lock_outline,
                     color: orangePrimary,
@@ -238,7 +236,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _confirmPasswordController,
                 obscureText: _isObscureConfirm,
                 decoration: InputDecoration(
-                  hintText: 'ຢືນຢັນລະຫັດຜ່ານໃໝ່',
+                  hintText: tr('confirm_password_new'),
                   prefixIcon: const Icon(
                     Icons.lock_reset_outlined,
                     color: orangePrimary,
@@ -291,9 +289,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           strokeWidth: 2,
                         ),
                       )
-                    : const Text(
-                        'ສະໝັກສະມາຊິກ',
-                        style: TextStyle(
+                    : Text(
+                        tr('register_btn'),
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -307,14 +305,14 @@ class _RegisterPageState extends State<RegisterPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("ມີບັນຊີຢູ່ແລ້ວບໍ?"),
+                  Text(tr('already_have_account_q')),
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context); // ກັບໄປໜ້າ Login
+                      Navigator.pop(context);
                     },
-                    child: const Text(
-                      'ເຂົ້າສູ່ລະບົບ',
-                      style: TextStyle(
+                    child: Text(
+                      tr('login_btn'),
+                      style: const TextStyle(
                         color: orangePrimary,
                         fontWeight: FontWeight.bold,
                       ),

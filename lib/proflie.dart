@@ -3,12 +3,8 @@ import 'package:flutter_application_brt_bub/brt.dart';
 import 'package:flutter_application_brt_bub/data/bay_many.dart';
 import 'package:flutter_application_brt_bub/data/hitory_bay.dart';
 import 'package:flutter_application_brt_bub/data/setting.dart';
-import 'package:flutter_application_brt_bub/hitory_tikete.dart';
 import 'package:flutter_application_brt_bub/tikkets.dart';
-import 'bus_page.dart';
-import 'history_page.dart';
-import 'account_payment_page.dart';
-import 'settings_page.dart';
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -18,13 +14,12 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text(
-          "ຂໍ້ມູນສ່ວນຕົວ",
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          tr('profile_title'),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 218, 129, 45),
-        automaticallyImplyLeading:
-            false, // ບໍ່ໃຫ້ມີປຸ່ມ back ເພາະມີ bottom bar ແລ້ວ
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -40,7 +35,7 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             const Text(
-              "ໍHannalong Savayvanh",
+              "Hannalong Savayvanh",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const Text(
@@ -61,25 +56,25 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.history, color: Colors.blue),
-                      title: const Text("ປະຫວັດການຊື້ປີ້"),
+                      title: Text(tr('purchase_history')),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => HistoryPage()),
+                          MaterialPageRoute(builder: (_) => const HistoryPage()),
                         );
                       },
                     ),
                     const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.payment, color: Colors.green),
-                      title: const Text("ບັນຊີ/ ວິທີຈ່າຍເງິນ"),
+                      title: Text(tr('payment_method')),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => AccountPaymentPage(),
+                            builder: (_) => const AccountPaymentPage(),
                           ),
                         );
                       },
@@ -87,12 +82,12 @@ class ProfilePage extends StatelessWidget {
                     const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.settings, color: Colors.grey),
-                      title: const Text("ຕັ້ງຄ່າລະບົບ"),
+                      title: Text(tr('system_settings')),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => SettingsPage()),
+                          MaterialPageRoute(builder: (_) => const SettingsPage()),
                         );
                       },
                     ),
@@ -104,7 +99,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
 
-      // 🔻 Bottom Navigation Bar ທີ່ກົດໄດ້ແທ້
+      // Bottom Navigation Bar
       bottomNavigationBar: Container(
         height: 60,
         color: const Color.fromARGB(255, 218, 129, 45),
@@ -115,11 +110,11 @@ class ProfilePage extends StatelessWidget {
               icon: const Icon(
                 Icons.home,
                 color: Colors.white70,
-              ), // ສີຈາງລົງບອກວ່າບໍ່ໄດ້ຢູ່ໜ້ານີ້
+              ),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => const BusPage(total: 2)),
+                  MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
                 );
               },
             ),
@@ -129,22 +124,14 @@ class ProfilePage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => SuccessPage(total: 1, qty: 2),
+                    builder: (_) => const SuccessPage(total: 7000, qty: 1),
                   ),
                 );
               },
             ),
             IconButton(
-              icon: const Icon(
-                Icons.person,
-                color: Colors.white,
-              ), // ສີແຈ້ງເພາະຢູ່ໜ້າໂປຣຟາຍ
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfilePage()),
-                );
-              }, // ຢູ່ໜ້ານີ້ແລ້ວບໍ່ຕ້ອງເຮັດຫຍັງ
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {},
             ),
           ],
         ),

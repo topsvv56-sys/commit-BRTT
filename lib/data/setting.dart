@@ -46,7 +46,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   leading: const Icon(Icons.language, color: Colors.orange),
                   title: Text(tr('change_language')),
                   trailing: Text(
-                    appLanguageNotifier.value == 'lao' ? 'ພາສາລາວ' : 'English',
+                    appLanguageNotifier.value == 'lao'
+                        ? 'ພາສາລາວ'
+                        : (appLanguageNotifier.value == 'zh' ? '中文' : 'English'),
                     style: const TextStyle(color: Colors.grey),
                   ),
                   onTap: _showLanguageBottomSheet,
@@ -62,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: Text(tr('notifications')),
                   trailing: Switch(
                     value: AppSettings.isNotificationOn,
-                    activeColor: Colors.deepPurple,
+                    activeThumbColor: Colors.deepPurple,
                     onChanged: (val) {
                       setState(() {
                         AppSettings.isNotificationOn = val;
@@ -132,6 +134,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   // ອັບເດດພາສາເປັນ ອັງກິດ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
                   appLanguageNotifier.value = 'en';
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text(tr('zh_lang')),
+                trailing: appLanguageNotifier.value == 'zh'
+                    ? const Icon(Icons.check, color: Colors.blue)
+                    : null,
+                onTap: () {
+                  // ອັບເດດພາສາເປັນ ຈີນ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
+                  appLanguageNotifier.value = 'zh';
                   Navigator.pop(context);
                 },
               ),

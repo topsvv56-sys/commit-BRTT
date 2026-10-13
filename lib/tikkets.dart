@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/proflie.dart' show ProfilePage;
-
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 import 'brt.dart' show BusPage;
 
 class SuccessPage extends StatelessWidget {
@@ -14,9 +14,9 @@ class SuccessPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "ປີ້ລົດຂອງທ່ານ",
-          style: TextStyle(
+        title: Text(
+          tr('my_tickets_title'),
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -38,9 +38,9 @@ class SuccessPage extends StatelessWidget {
               child: Icon(Icons.check, color: Colors.white, size: 24),
             ),
             const SizedBox(height: 8),
-            const Text(
-              "ຈ່າຍເງິນສຳເລັດ!",
-              style: TextStyle(
+            Text(
+              tr('pay_success'),
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF4CAF50),
@@ -50,9 +50,9 @@ class SuccessPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "ສະຖານະການຈ່າຍ:",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                Text(
+                  tr('payment_status_label'),
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -63,9 +63,9 @@ class SuccessPage extends StatelessWidget {
                     color: const Color(0xFFE8F5E9),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text(
-                    "ຈ່າຍແລ້ວ",
-                    style: TextStyle(
+                  child: Text(
+                    tr('paid_status'),
+                    style: const TextStyle(
                       color: Color(0xFF4CAF50),
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
@@ -78,12 +78,12 @@ class SuccessPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "ຍອດຕົ໋ວທີ່ໄດ້:",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                Text(
+                  tr('tickets_received_label'),
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 Text(
-                  "$qty ໃບ",
+                  "$qty ${tr('tickets_unit')}",
                   style: const TextStyle(
                     color: Color(0xFF2F80ED),
                     fontSize: 14,
@@ -93,9 +93,9 @@ class SuccessPage extends StatelessWidget {
               ],
             ),
             const Divider(height: 30),
-            const Text(
-              "ສະແດງ QR ນີ້ຕໍ່ເຈົ້າໜ້າທີ່ເວລານັກຂຶ້ນລົດ",
-              style: TextStyle(color: Colors.grey, fontSize: 11),
+            Text(
+              tr('show_qr_to_officer'),
+              style: const TextStyle(color: Colors.grey, fontSize: 11),
             ),
             const SizedBox(height: 15),
             Container(
@@ -125,9 +125,9 @@ class SuccessPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.popUntil(context, (route) => route.isFirst);
                 },
-                child: const Text(
-                  "ກັບຄືນໜ້າຫຼັກ",
-                  style: TextStyle(
+                child: Text(
+                  tr('back_to_main_btn'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -148,7 +148,7 @@ class SuccessPage extends StatelessWidget {
               icon: const Icon(
                 Icons.home,
                 color: Colors.white70,
-              ), // ສີຈາງລົງບອກວ່າບໍ່ໄດ້ຢູ່ໜ້ານີ້
+              ),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -171,13 +171,13 @@ class SuccessPage extends StatelessWidget {
               icon: const Icon(
                 Icons.person,
                 color: Colors.white,
-              ), // ສີແຈ້ງເພາະຢູ່ໜ້າໂປຣຟາຍ
+              ),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const ProfilePage()),
                 );
-              }, // ຢູ່ໜ້ານີ້ແລ້ວບໍ່ຕ້ອງເຮັດຫຍັງ
+              },
             ),
           ],
         ),

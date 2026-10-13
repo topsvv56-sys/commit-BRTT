@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 import 'tikkets.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -35,13 +36,13 @@ class _PaymentPageState extends State<PaymentPage> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('ສະແກນ QR ສຳເລັດ: $_scannedQrData')),
+            SnackBar(content: Text('${tr('qr_scanned_success')}: $_scannedQrData')),
           );
         }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('ບໍ່ພົບ QR Code ໃນຮູບພາບນີ້')),
+            SnackBar(content: Text(tr('no_qr_found_image'))),
           );
         }
       }
@@ -49,7 +50,7 @@ class _PaymentPageState extends State<PaymentPage> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('ເກີດຂໍ້ຜິດພາດ: $e')));
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -65,9 +66,9 @@ class _PaymentPageState extends State<PaymentPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFFBF7F9),
       appBar: AppBar(
-        title: const Text(
-          "ສະແກນ QR ເພື່ອຈ່າຍເງິນ",
-          style: TextStyle(
+        title: Text(
+          tr('scan_qr_title'),
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -97,7 +98,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -112,15 +113,15 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
             const SizedBox(height: 16),
 
-            const Text(
-              "ກົດໃສ່ຮູບ QR ເພື່ອດາວໂຫຼດສະແກນຈ່າຍເງິນ",
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+            Text(
+              tr('qr_hint'),
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
             const SizedBox(height: 24),
 
             // ສະແດງຍອດເງິນຕົວຈິງ
             Text(
-              "${widget.total} ກີບ",
+              "${widget.total} ${tr('kip')}",
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -151,9 +152,9 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   );
                 },
-                child: const Text(
-                  "ຮັບບິນຢ່າງຖືກຕ້ອງ",
-                  style: TextStyle(
+                child: Text(
+                  tr('confirm_and_receipt'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,

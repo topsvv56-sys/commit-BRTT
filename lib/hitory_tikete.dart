@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/brt.dart';
-import 'bus_page.dart'; // Import ເພື່ອກັບຄືນໜ້າທຳອິດ
+import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class TicketPage extends StatelessWidget {
-  final int total; // ຮັບຄ່າຍອດເງິນມາສະແດງໃນບິນ
+  final int total;
 
   const TicketPage({super.key, required this.total, required int qty});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1E5F74), // ໃຊ້ໂທນສີດຽວກັນກັບໜ້າ BRT
+      backgroundColor: const Color(0xFF1E5F74),
       appBar: AppBar(
-        title: const Text(
-          "ປີ້ລົດເມຂອງທ່ານ",
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          tr('my_tickets_title'),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF1E5F74),
         elevation: 0,
@@ -44,9 +44,9 @@ class TicketPage extends StatelessWidget {
               children: [
                 const Icon(Icons.check_circle, color: Colors.green, size: 70),
                 const SizedBox(height: 10),
-                const Text(
-                  "ຈ່າຍເງິນສຳເລັດ!",
-                  style: TextStyle(
+                Text(
+                  tr('pay_success'),
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.green,
@@ -60,9 +60,9 @@ class TicketPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "ສະຖານະການຈ່າຍ:",
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    Text(
+                      tr('payment_status_label'),
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -73,9 +73,9 @@ class TicketPage extends StatelessWidget {
                         color: Colors.green.shade100,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Text(
-                        "ຈ່າຍແລ້ວ",
-                        style: TextStyle(
+                      child: Text(
+                        tr('paid_status'),
+                        style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,
                         ),
@@ -87,12 +87,12 @@ class TicketPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "ຍອດເງິນທັງໝົດ:",
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    Text(
+                      tr('total_paid'),
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     Text(
-                      "$total ກີບ",
+                      "$total ${tr('kip')}",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -106,10 +106,10 @@ class TicketPage extends StatelessWidget {
                 const Divider(color: Colors.grey),
                 const SizedBox(height: 15),
 
-                // QR Code ສຳລັບກວດປີ້ (ອັນນີ້ໃຊ້ Icon ແທນ ຫາກມີຮູບສາມາດປ່ຽນເປັນ Image.asset ໄດ້)
-                const Text(
-                  "ສະແດງ QR ນີ້ຕໍ່ເຈົ້າໜ້າທີ່ເວລາຂຶ້ນລົດ",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                // QR Code
+                Text(
+                  tr('show_qr_to_officer'),
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 const SizedBox(height: 10),
                 Container(
@@ -139,18 +139,17 @@ class TicketPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      // ລ້າງໜ້າທັງໝົດແລ້ວກັບໄປໜ້າທຳອິດ (BusPage)
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const BusPage(total: 2),
+                          builder: (_) => const BusPage(total: 7000),
                         ),
                         (route) => false,
                       );
                     },
-                    child: const Text(
-                      "ກັບຄືນໜ້າຫຼັກ",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    child: Text(
+                      tr('back_to_main_btn'),
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
