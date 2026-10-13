@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # flutter_application_brt_bub
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# commit-BRTT
+>>>>>>> 9060ad7f25c5e635a29ef10cfe07bc0cc2a5a421
