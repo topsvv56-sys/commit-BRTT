@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_brt_bub/register_page.dart';
-import 'package:flutter_application_brt_bub/brt.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/pages/auth/register_page.dart';
+import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 // --- หน้า ป່ຽນ/ກູ້ຄືນລະຫັດຜ່ານ (ForgotPasswordPage) ---
 class ForgotPasswordPage extends StatefulWidget {
@@ -27,9 +27,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     String input = _emailController.text.trim();
 
     if (input.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(tr('please_fill_all'))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(tr('please_fill_all'))));
       return;
     }
 
@@ -151,9 +151,9 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text.trim();
 
     if (input.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(tr('please_fill_all'))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(tr('please_fill_all'))));
       return;
     }
 
@@ -205,7 +205,10 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: Text(
                   tr('welcome_brt'),
-                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
 
@@ -288,7 +291,10 @@ class _LoginPageState extends State<LoginPage> {
                       )
                     : Text(
                         tr('login_btn'),
-                        style: const TextStyle(fontSize: 16, color: Colors.white),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
                       ),
               ),
 

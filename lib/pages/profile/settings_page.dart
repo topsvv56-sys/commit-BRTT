@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/login.dart';
-import 'app_language.dart'; // import ໄຟລ໌ພາສາທີ່ສ້າງໃໝ່
+import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart'; // import ໄຟລ໌ພາສາທີ່ສ້າງໃໝ່
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -44,7 +44,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   trailing: Text(
                     appLanguageNotifier.value == 'lao'
                         ? 'ພາສາລາວ'
-                        : (appLanguageNotifier.value == 'zh' ? '中文' : 'English'),
+                        : (appLanguageNotifier.value == 'zh'
+                              ? '中文'
+                              : 'English'),
                     style: const TextStyle(color: Colors.grey),
                   ),
                   onTap: _showLanguageBottomSheet,

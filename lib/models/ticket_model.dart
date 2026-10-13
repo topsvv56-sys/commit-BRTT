@@ -11,7 +11,8 @@ class TicketModel {
   final int pricePerTicket; // ລາຄາຕໍ່ໃບ (ກີບ)
   final int totalAmount; // ຍອດເງິນລວມ (ກີບ)
   final String currency; // "LAK" (ກີບ)
-  final String status; // 'paid' (ຈ່າຍແລ້ວ), 'used' (ໃຊ້ແລ້ວ), 'expired' (ໝົດອາຍຸ)
+  final String
+  status; // 'paid' (ຈ່າຍແລ້ວ), 'used' (ໃຊ້ແລ້ວ), 'expired' (ໝົດອາຍຸ)
   final String paymentMethod; // 'BCEL OnePay', 'Lao QR', 'Visa/Master'
   final String transactionId; // ລະຫັດອ້າງອີງທຸລະກຳ
   final DateTime createdAt; // ວັນເວລາທີ່ຊື້
@@ -78,12 +79,10 @@ class TicketModel {
       createdAt: map['createdAt'] != null
           ? DateTime.tryParse(map['createdAt']) ?? DateTime.now()
           : DateTime.now(),
-      usedAt: map['usedAt'] != null
-          ? DateTime.tryParse(map['usedAt'])
-          : null,
+      usedAt: map['usedAt'] != null ? DateTime.tryParse(map['usedAt']) : null,
       expiresAt: map['expiresAt'] != null
           ? DateTime.tryParse(map['expiresAt']) ??
-              DateTime.now().add(const Duration(hours: 24))
+                DateTime.now().add(const Duration(hours: 24))
           : DateTime.now().add(const Duration(hours: 24)),
       qrPayload: map['qrPayload'] ?? '',
     );

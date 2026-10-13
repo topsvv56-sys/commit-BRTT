@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class AddPaymentPage extends StatefulWidget {
   const AddPaymentPage({super.key});
@@ -21,11 +21,11 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
   bool _isLoading = false;
 
   List<String> get _providers => [
-        'BCEL One / OnePay',
-        'LDB Bank',
-        'JDB Bank',
-        tr('visa_master'),
-      ];
+    'BCEL One / OnePay',
+    'LDB Bank',
+    'JDB Bank',
+    tr('visa_master'),
+  ];
 
   @override
   void dispose() {
@@ -185,9 +185,7 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                     TextFormField(
                       controller: _accountNumberController,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: InputDecoration(
                         hintText: tr('account_number_hint'),
                         prefixIcon: const Icon(

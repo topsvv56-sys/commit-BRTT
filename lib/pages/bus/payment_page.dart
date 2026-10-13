@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
-import 'package:flutter_application_brt_bub/data/payment_service.dart';
-import 'package:flutter_application_brt_bub/data/ticket_service.dart';
-import 'package:flutter_application_brt_bub/tikkets.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/services/payment_service.dart';
+import 'package:flutter_application_brt_bub/services/ticket_service.dart';
+import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final int total;
@@ -37,7 +37,8 @@ class _PaymentPageState extends State<PaymentPage> {
   void initState() {
     super.initState();
     final rand = 1000 + Random().nextInt(9000);
-    _orderRef = 'BRT-ORD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}-$rand';
+    _orderRef =
+        'BRT-ORD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}-$rand';
     _paymentQrData = PaymentService.generatePaymentQrString(
       amount: widget.total,
       orderRef: _orderRef,
@@ -85,7 +86,10 @@ class _PaymentPageState extends State<PaymentPage> {
       if (!mounted) return;
       setState(() => _isProcessing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Payment Error: $e'), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('Payment Error: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
@@ -108,9 +112,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => SuccessPage(ticket: ticket),
-        ),
+        MaterialPageRoute(builder: (_) => SuccessPage(ticket: ticket)),
       );
     } catch (e) {
       if (!mounted) return;
@@ -135,22 +137,24 @@ class _PaymentPageState extends State<PaymentPage> {
         final scannedData = barcodes.barcodes.first.rawValue ?? 'Valid Slip';
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${tr('qr_scanned_success')}: $scannedData')),
+            SnackBar(
+              content: Text('${tr('qr_scanned_success')}: $scannedData'),
+            ),
           );
         }
         await _handleConfirmPayment();
       } else {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(tr('no_qr_found_image'))),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(tr('no_qr_found_image'))));
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -368,7 +372,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         elevation: 0,
                       ),
                       onPressed: _handleConfirmPayment,
-                      icon: const Icon(Icons.check_circle_outline, color: Colors.white),
+                      icon: const Icon(
+                        Icons.check_circle_outline,
+                        color: Colors.white,
+                      ),
                       label: Text(
                         tr('confirm_and_receipt'),
                         style: const TextStyle(
@@ -384,7 +391,11 @@ class _PaymentPageState extends State<PaymentPage> {
                   // ປຸ່ມ 3: ສະແກນຮູບສະລິບຈາກ Gallery
                   TextButton.icon(
                     onPressed: _scanQrFromGallery,
-                    icon: const Icon(Icons.photo_library, size: 18, color: Colors.blueGrey),
+                    icon: const Icon(
+                      Icons.photo_library,
+                      size: 18,
+                      color: Colors.blueGrey,
+                    ),
                     label: const Text(
                       "ອັບໂຫລດຮູບ QR / ສະລິບຈາກເຄື່ອງ",
                       style: TextStyle(color: Colors.blueGrey, fontSize: 13),

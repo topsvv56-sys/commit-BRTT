@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/API/firebase_options.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
-import 'package:flutter_application_brt_bub/login.dart'; // import ໜ້າ Login
+import 'package:flutter_application_brt_bub/config/firebase_options.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,1 +1,0 @@
-export '../tikkets.dart';

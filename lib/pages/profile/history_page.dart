@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_application_brt_bub/brt.dart';
-import 'package:flutter_application_brt_bub/proflie.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
-import 'package:flutter_application_brt_bub/data/ticket_model.dart';
-import 'package:flutter_application_brt_bub/data/ticket_service.dart';
-import '../tikkets.dart';
+import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/models/ticket_model.dart';
+import 'package:flutter_application_brt_bub/services/ticket_service.dart';
+import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -39,8 +39,12 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   Color getStatusColor(String status) {
-    if (status == 'paid' || status == 'ຈ່າຍແລ້ວ') return const Color(0xFF2E7D32);
-    if (status == 'used' || status == 'ໃຊ້ແລ້ວ') return Colors.blueGrey;
+    if (status == 'paid' || status == 'ຈ່າຍແລ້ວ') {
+      return const Color(0xFF2E7D32);
+    }
+    if (status == 'used' || status == 'ໃຊ້ແລ້ວ') {
+      return Colors.blueGrey;
+    }
     return const Color(0xFFE53935);
   }
 
@@ -109,7 +113,10 @@ class _HistoryPageState extends State<HistoryPage> {
 
               Text(
                 "${tr('price_label')} ${ticket.totalAmount} ${tr('kip')} (${ticket.quantity} ${tr('tickets_unit')})",
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -155,7 +162,9 @@ class _HistoryPageState extends State<HistoryPage> {
                           _loadTickets();
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('ສະແກນໃຊ້ຕົ໋ວສຳເລັດແລ້ວ!')),
+                              const SnackBar(
+                                content: Text('ສະແກນໃຊ້ຕົ໋ວສຳເລັດແລ້ວ!'),
+                              ),
                             );
                           }
                         },
@@ -228,7 +237,9 @@ class _HistoryPageState extends State<HistoryPage> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
+                        MaterialPageRoute(
+                          builder: (_) => const BusPage(total: 7000),
+                        ),
                       );
                     },
                     child: const Text("ໄປຊື້ຕົ໋ວລົດເມດຽວນີ້"),
@@ -246,7 +257,9 @@ class _HistoryPageState extends State<HistoryPage> {
               itemCount: list.length,
               itemBuilder: (context, index) {
                 final item = list[index];
-                final dateStr = DateFormat('dd/MM/yyyy HH:mm').format(item.createdAt);
+                final dateStr = DateFormat(
+                  'dd/MM/yyyy HH:mm',
+                ).format(item.createdAt);
 
                 return InkWell(
                   onTap: () => _showTicketDetailModal(item),
@@ -268,7 +281,9 @@ class _HistoryPageState extends State<HistoryPage> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: getStatusColor(item.status).withValues(alpha: 0.5),
+                              color: getStatusColor(
+                                item.status,
+                              ).withValues(alpha: 0.5),
                               width: 1,
                             ),
                           ),
@@ -319,7 +334,9 @@ class _HistoryPageState extends State<HistoryPage> {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: getStatusColor(item.status).withValues(alpha: 0.1),
+                            color: getStatusColor(
+                              item.status,
+                            ).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(

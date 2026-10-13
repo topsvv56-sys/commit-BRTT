@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/ticket.dart';
-import 'package:flutter_application_brt_bub/proflie.dart';
-import 'package:flutter_application_brt_bub/tikkets.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/pages/bus/station_select_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart';
+import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class BusPage extends StatefulWidget {
   final int total;
@@ -91,7 +91,10 @@ class _BusPageState extends State<BusPage> {
                       const SizedBox(height: 4),
                       Text(
                         "7,000 ${tr('kip_per_person')}",
-                        style: const TextStyle(fontSize: 14, color: Colors.black87),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
                       ),
                       const SizedBox(height: 15),
 

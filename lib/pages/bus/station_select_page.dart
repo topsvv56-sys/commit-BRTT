@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/brt.dart'; // import ເພື່ອເອີ້ນ BusPage
-import 'package:flutter_application_brt_bub/page/qr_code.dart';
-import 'package:flutter_application_brt_bub/proflie.dart';
-import 'package:flutter_application_brt_bub/tikkets.dart';
+import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
+import 'package:flutter_application_brt_bub/pages/bus/payment_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart';
+import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class BRTpage extends StatefulWidget {
   final int total;
-  const BRTpage({super.key, required this.total, required int qty});
+  final int qty;
+  const BRTpage({super.key, required this.total, required this.qty});
 
   @override
   State<BRTpage> createState() => _BRTpageState();
@@ -16,12 +18,12 @@ class _BRTpageState extends State<BRTpage> {
   String? startStation;
   String? endStation;
 
-  List<String> stations = [
-    "ຕະຫຼາດເຊົ້າ",
-    "ດົງໂດກ",
-    "ທາດຫຼວງ",
-    "ສີຫອມ",
-    "ສີເກີດ",
+  final List<String> stationKeys = [
+    "station_talatxao",
+    "station_dongdok",
+    "station_thatluang",
+    "station_sihom",
+    "station_sikeut",
   ];
 
   @override
@@ -36,9 +38,9 @@ class _BRTpageState extends State<BRTpage> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 color: const Color.fromARGB(255, 211, 69, 9),
-                child: const Text(
-                  "ເລືອກສະຖານີຂຶ້ນລົດ",
-                  style: TextStyle(
+                child: Text(
+                  tr('select_origin_title'),
+                  style: const TextStyle(
                     fontSize: 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -64,7 +66,10 @@ class _BRTpageState extends State<BRTpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("ສະຖານີຂຶ້ນລົດ", style: TextStyle(fontSize: 16)),
+                    Text(
+                      tr('origin_station'),
+                      style: const TextStyle(fontSize: 16),
+                    ),
                     const SizedBox(height: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -74,12 +79,15 @@ class _BRTpageState extends State<BRTpage> {
                       ),
                       child: DropdownButton<String>(
                         value: startStation,
-                        hint: const Text("ເລືອກ"),
+                        hint: Text(tr('select_hint')),
                         isExpanded: true,
                         underline: const SizedBox(),
-                        items: stations
+                        items: stationKeys
                             .map(
-                              (s) => DropdownMenuItem(value: s, child: Text(s)),
+                              (s) => DropdownMenuItem(
+                                value: s,
+                                child: Text(tr(s)),
+                              ),
                             )
                             .toList(),
                         onChanged: (val) => setState(() => startStation = val),
@@ -94,7 +102,10 @@ class _BRTpageState extends State<BRTpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("ສະຖານີລົງ", style: TextStyle(fontSize: 16)),
+                    Text(
+                      tr('destination_station'),
+                      style: const TextStyle(fontSize: 16),
+                    ),
                     const SizedBox(height: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -104,19 +115,19 @@ class _BRTpageState extends State<BRTpage> {
                       ),
                       child: DropdownButton<String>(
                         value: endStation,
-                        hint: const Text(
-                          "ເລືອກ",
-                          style: TextStyle(color: Colors.white),
+                        hint: Text(
+                          tr('select_hint'),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         dropdownColor: const Color(0xFF1E5F74),
                         isExpanded: true,
                         underline: const SizedBox(),
-                        items: stations
+                        items: stationKeys
                             .map(
                               (s) => DropdownMenuItem(
                                 value: s,
                                 child: Text(
-                                  s,
+                                  tr(s),
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -144,8 +155,8 @@ class _BRTpageState extends State<BRTpage> {
                     onPressed: () {
                       if (startStation == null || endStation == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('ກະລຸນາເລືອກສະຖານີໃຫ້ຄົບຖ້ວນ'),
+                          SnackBar(
+                            content: Text(tr('please_select_all_stations')),
                           ),
                         );
                         return;
@@ -153,11 +164,7 @@ class _BRTpageState extends State<BRTpage> {
 
                       if (startStation == endStation) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'ກະລຸນາເລືອກສະຖານທີ່ໃໝ່ເພາະວ່າທ່ານເລືອກສະຖານທີ່ດຽວກັນ',
-                            ),
-                          ),
+                          SnackBar(content: Text(tr('same_station_error'))),
                         );
                         return;
                       }
@@ -165,13 +172,18 @@ class _BRTpageState extends State<BRTpage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => PaymentPage(total: widget.total),
+                          builder: (_) => PaymentPage(
+                            total: widget.total,
+                            qty: widget.qty,
+                            originStation: startStation!,
+                            destinationStation: endStation!,
+                          ),
                         ),
                       );
                     },
-                    child: const Text(
-                      "ຄຳນວນເສັ້ນທາງ",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    child: Text(
+                      tr('calculate_route_btn'),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),
@@ -201,7 +213,7 @@ class _BRTpageState extends State<BRTpage> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const SuccessPage(total: 1, qty: 2),
+                    builder: (_) => SuccessPage(total: 1, qty: 2),
                   ),
                 );
               },

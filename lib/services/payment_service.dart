@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'ticket_model.dart';
+import 'package:flutter_application_brt_bub/models/ticket_model.dart';
 import 'ticket_service.dart';
 
 class PaymentResult {
@@ -33,8 +33,6 @@ class PaymentService {
   }
 
   /// ຈຳລອງການຮັບ Webhook ຈາກລະບົບທະນາຄານ (Bank Webhook Simulation)
-  /// ໃນຊີວິດຈິງ Server ຂອງທະນາຄານ (ເຊັ່ນ: BCEL) ຈະຍິງ Webhook POST ມາຫາ Server
-  /// ແລ້ວແອັບຈະໄດ້ຮັບ Event ອັດໂຕໂນມັດຜ່ານ Stream/Socket
   Future<PaymentResult> simulateBankWebhookPayment({
     required String originStation,
     required String destinationStation,

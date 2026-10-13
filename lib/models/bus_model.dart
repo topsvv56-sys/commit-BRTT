@@ -5,6 +5,7 @@ class Bus {
   final String route;
   final String time;
   final int price;
+
   Bus({
     required this.id,
     required this.busname,
@@ -14,7 +15,7 @@ class Bus {
     required this.price,
   });
 
-  factory Bus.fromjson(Map<String, dynamic> json) {
+  factory Bus.fromJson(Map<String, dynamic> json) {
     return Bus(
       id: json['id'] as int,
       busname: json['busname'] ?? '',
@@ -27,7 +28,7 @@ class Bus {
     );
   }
 
-  Map<String, dynamic> tojson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'busname': busname,

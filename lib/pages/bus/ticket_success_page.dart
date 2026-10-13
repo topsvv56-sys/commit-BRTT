@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_application_brt_bub/proflie.dart' show ProfilePage;
-import 'package:flutter_application_brt_bub/data/app_language.dart';
-import 'package:flutter_application_brt_bub/data/ticket_model.dart';
-import 'package:flutter_application_brt_bub/data/hitory_bay.dart';
-import 'brt.dart' show BusPage;
+import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart'
+    show ProfilePage;
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/models/ticket_model.dart';
+import 'package:flutter_application_brt_bub/pages/profile/history_page.dart';
+import 'bus_page.dart' show BusPage;
 
 class SuccessPage extends StatelessWidget {
   final int total;
   final int qty;
   final TicketModel? ticket;
 
-  const SuccessPage({
-    super.key,
-    this.total = 7000,
-    this.qty = 1,
-    this.ticket,
-  });
+  const SuccessPage({super.key, this.total = 7000, this.qty = 1, this.ticket});
 
   @override
   Widget build(BuildContext context) {
     final int displayTotal = ticket?.totalAmount ?? total;
     final int displayQty = ticket?.quantity ?? qty;
-    final String ticketId = ticket?.id ?? 'BRT-TKT-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+    final String ticketId =
+        ticket?.id ??
+        'BRT-TKT-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
     final String qrData = ticket?.qrPayload ?? 'BRT:TICKET:$ticketId:VALID';
     final String origin = ticket?.originStation ?? 'station_talatxao';
     final String destination = ticket?.destinationStation ?? 'station_dongdok';
@@ -104,7 +102,11 @@ class SuccessPage extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 4),
-                            const Icon(Icons.copy, size: 14, color: Colors.grey),
+                            const Icon(
+                              Icons.copy,
+                              size: 14,
+                              color: Colors.grey,
+                            ),
                           ],
                         ),
                       ),
@@ -138,7 +140,10 @@ class SuccessPage extends StatelessWidget {
                     children: [
                       Text(
                         tr('payment_status_label'),
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -168,7 +173,10 @@ class SuccessPage extends StatelessWidget {
                     children: [
                       Text(
                         tr('tickets_received_label'),
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
                       ),
                       Text(
                         "$displayQty ${tr('tickets_unit')} ($displayTotal ${tr('kip')})",
@@ -267,7 +275,11 @@ class SuccessPage extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const HistoryPage()),
                 );
               },
-              icon: const Icon(Icons.history, size: 18, color: Color(0xFFD97724)),
+              icon: const Icon(
+                Icons.history,
+                size: 18,
+                color: Color(0xFFD97724),
+              ),
               label: Text(
                 tr('purchase_history'),
                 style: const TextStyle(color: Color(0xFFD97724), fontSize: 13),
@@ -297,7 +309,8 @@ class SuccessPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => SuccessPage(total: displayTotal, qty: displayQty),
+                    builder: (_) =>
+                        SuccessPage(total: displayTotal, qty: displayQty),
                   ),
                 );
               },

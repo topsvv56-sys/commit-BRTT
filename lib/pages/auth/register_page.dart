@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_brt_bub/brt.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -43,9 +43,9 @@ class _RegisterPageState extends State<RegisterPage> {
         input.isEmpty ||
         password.isEmpty ||
         confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(tr('please_fill_all'))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(tr('please_fill_all'))));
       return;
     }
 
@@ -121,7 +121,10 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         title: Text(
           tr('register_btn'),
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: orangePrimary,
         iconTheme: const IconThemeData(color: Colors.white),

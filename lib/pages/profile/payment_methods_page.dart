@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/add_payment_page.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/pages/profile/add_payment_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class AccountPaymentPage extends StatelessWidget {
   const AccountPaymentPage({super.key});
@@ -29,7 +29,10 @@ class AccountPaymentPage extends StatelessWidget {
               children: [
                 Text(
                   tr('my_payment_method'),
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 12),
 
@@ -113,7 +116,10 @@ class AccountPaymentPage extends StatelessWidget {
                   icon: const Icon(Icons.add, color: Color(0xFF2E5F8A)),
                   label: Text(
                     tr('add_account_btn'),
-                    style: const TextStyle(color: Color(0xFF2E5F8A), fontSize: 16),
+                    style: const TextStyle(
+                      color: Color(0xFF2E5F8A),
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],

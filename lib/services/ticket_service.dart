@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ticket_model.dart';
+import 'package:flutter_application_brt_bub/models/ticket_model.dart';
 
 class TicketService {
   static final TicketService _instance = TicketService._internal();
@@ -17,7 +17,8 @@ class TicketService {
 
   /// ດຶງ User ID ປັດຈຸບັນ
   String get currentUserId => _auth.currentUser?.uid ?? 'guest_user';
-  String get currentUserEmail => _auth.currentUser?.email ?? 'passenger@brt.com';
+  String get currentUserEmail =>
+      _auth.currentUser?.email ?? 'passenger@brt.com';
 
   /// ສ້າງ Ticket ID ແບບສະເພາະ ເຊັ່ນ: BRT-2610-8934
   static String generateTicketId() {
@@ -100,7 +101,9 @@ class TicketService {
           .timeout(const Duration(seconds: 5));
       debugPrint('Ticket saved to Firestore successfully: ${ticket.id}');
     } catch (e) {
-      debugPrint('Warning: Could not save to Firestore directly (offline or rules): $e');
+      debugPrint(
+        'Warning: Could not save to Firestore directly (offline or rules): $e',
+      );
     }
 
     return ticket;

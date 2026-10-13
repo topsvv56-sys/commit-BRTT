@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/brt.dart';
-import 'package:flutter_application_brt_bub/data/bay_many.dart';
-import 'package:flutter_application_brt_bub/data/hitory_bay.dart';
-import 'package:flutter_application_brt_bub/data/setting.dart';
-import 'package:flutter_application_brt_bub/tikkets.dart';
-import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/payment_methods_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/history_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/settings_page.dart';
+import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -61,7 +61,9 @@ class ProfilePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const HistoryPage()),
+                          MaterialPageRoute(
+                            builder: (_) => const HistoryPage(),
+                          ),
                         );
                       },
                     ),
@@ -87,7 +89,9 @@ class ProfilePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const SettingsPage()),
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsPage(),
+                          ),
                         );
                       },
                     ),
@@ -107,10 +111,7 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(
-                Icons.home,
-                color: Colors.white70,
-              ),
+              icon: const Icon(Icons.home, color: Colors.white70),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,

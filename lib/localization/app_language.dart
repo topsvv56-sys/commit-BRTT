@@ -62,7 +62,8 @@ Map<String, Map<String, String>> localizedValues = {
     'select_hint': 'ເລືອກ',
     'calculate_route_btn': 'ຄຳນວນເສັ້ນທາງ',
     'please_select_all_stations': 'ກະລຸນາເລືອກສະຖານີໃຫ້ຄົບຖ້ວນ',
-    'same_station_error': 'ກະລຸນາເລືອກສະຖານທີ່ໃໝ່ເພາະວ່າທ່ານເລືອກສະຖານທີ່ດຽວກັນ',
+    'same_station_error':
+        'ກະລຸນາເລືອກສະຖານທີ່ໃໝ່ເພາະວ່າທ່ານເລືອກສະຖານທີ່ດຽວກັນ',
     'station_talatxao': 'ຕະຫຼາດເຊົ້າ',
     'station_dongdok': 'ດົງໂດກ',
     'station_thatluang': 'ທາດຫຼວງ',
