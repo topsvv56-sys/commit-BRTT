@@ -12,6 +12,7 @@ class BUS extends StatefulWidget {
 class _BUSState extends State<BUS> {
   Future<List<dynamic>>? _busFuture;
 
+  @override
   void initState() {
     super.initState();
     _busFuture = fetchBus();

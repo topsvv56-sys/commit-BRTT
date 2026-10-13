@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_brt_bub/AddPaymentPage.dart';
+import 'package:flutter_application_brt_bub/add_payment_page.dart';
 import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class AccountPaymentPage extends StatelessWidget {

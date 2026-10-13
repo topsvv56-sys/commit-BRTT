@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_brt_bub/Regis_ter_Page.dart';
+import 'package:flutter_application_brt_bub/register_page.dart';
 import 'package:flutter_application_brt_bub/brt.dart';
 import 'package:flutter_application_brt_bub/data/app_language.dart';
 

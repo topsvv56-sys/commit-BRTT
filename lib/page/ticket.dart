@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/brt.dart'; // import ເພື່ອເອີ້ນ BusPage
-import 'package:flutter_application_brt_bub/page/QR_Code.dart';
+import 'package:flutter_application_brt_bub/page/qr_code.dart';
 import 'package:flutter_application_brt_bub/proflie.dart';
 import 'package:flutter_application_brt_bub/tikkets.dart';
 
