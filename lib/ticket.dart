@@ -7,7 +7,8 @@ import 'package:flutter_application_brt_bub/data/app_language.dart';
 
 class BRTpage extends StatefulWidget {
   final int total;
-  const BRTpage({super.key, required this.total, required int qty});
+  final int qty;
+  const BRTpage({super.key, required this.total, required this.qty});
 
   @override
   State<BRTpage> createState() => _BRTpageState();
@@ -167,7 +168,12 @@ class _BRTpageState extends State<BRTpage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => PaymentPage(total: widget.total),
+                          builder: (_) => PaymentPage(
+                            total: widget.total,
+                            qty: widget.qty,
+                            originStation: startStation!,
+                            destinationStation: endStation!,
+                          ),
                         ),
                       );
                     },

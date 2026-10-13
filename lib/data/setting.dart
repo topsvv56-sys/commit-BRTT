@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/login.dart';
 import 'app_language.dart'; // import ໄຟລ໌ພາສາທີ່ສ້າງໃໝ່
 
-class AppSettings {
-  static bool isNotificationOn = true;
-}
-
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -55,26 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const Divider(height: 1),
 
-                // ---------------- 2. ການແຈ້ງເຕືອນ ----------------
-                ListTile(
-                  leading: const Icon(
-                    Icons.notifications_active_outlined,
-                    color: Colors.red,
-                  ),
-                  title: Text(tr('notifications')),
-                  trailing: Switch(
-                    value: AppSettings.isNotificationOn,
-                    activeThumbColor: Colors.deepPurple,
-                    onChanged: (val) {
-                      setState(() {
-                        AppSettings.isNotificationOn = val;
-                      });
-                    },
-                  ),
-                ),
-                const Divider(height: 1),
-
-                // ---------------- 3. ປ່ຽນລະຫັດຜ່ານ ----------------
+                // ---------------- 2. ປ່ຽນລະຫັດຜ່ານ ----------------
                 ListTile(
                   leading: const Icon(Icons.lock_outline, color: Colors.blue),
                   title: Text(tr('change_password')),
@@ -83,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const Divider(height: 1),
 
-                // ---------------- 4. ອອກຈາກລະບົບ ----------------
+                // ---------------- 3. ອອກຈາກລະບົບ ----------------
                 ListTile(
                   leading: const Icon(Icons.logout, color: Colors.grey),
                   title: Text(
@@ -122,7 +99,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     : null,
                 onTap: () {
                   // ອັບເດດພາສາເປັນ ລາວ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
-                  appLanguageNotifier.value = 'lao';
+                  setState(() {
+                    appLanguageNotifier.value = 'lao';
+                  });
                   Navigator.pop(context);
                 },
               ),
@@ -133,7 +112,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     : null,
                 onTap: () {
                   // ອັບເດດພາສາເປັນ ອັງກິດ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
-                  appLanguageNotifier.value = 'en';
+                  setState(() {
+                    appLanguageNotifier.value = 'en';
+                  });
                   Navigator.pop(context);
                 },
               ),
@@ -143,8 +124,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     ? const Icon(Icons.check, color: Colors.blue)
                     : null,
                 onTap: () {
-                  // ອັບເດດພາສາເປັນ ຈີນ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
-                  appLanguageNotifier.value = 'zh';
+                  // ອັບເດດພາສາເປັນ ຈີນ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂนມັດ)
+                  setState(() {
+                    appLanguageNotifier.value = 'zh';
+                  });
                   Navigator.pop(context);
                 },
               ),

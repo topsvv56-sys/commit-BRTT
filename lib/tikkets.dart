@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_application_brt_bub/proflie.dart' show ProfilePage;
 import 'package:flutter_application_brt_bub/data/app_language.dart';
+import 'package:flutter_application_brt_bub/data/ticket_model.dart';
+import 'package:flutter_application_brt_bub/data/hitory_bay.dart';
 import 'brt.dart' show BusPage;
 
 class SuccessPage extends StatelessWidget {
   final int total;
   final int qty;
+  final TicketModel? ticket;
 
-  const SuccessPage({super.key, required this.total, required this.qty});
+  const SuccessPage({
+    super.key,
+    this.total = 7000,
+    this.qty = 1,
+    this.ticket,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final int displayTotal = ticket?.totalAmount ?? total;
+    final int displayQty = ticket?.quantity ?? qty;
+    final String ticketId = ticket?.id ?? 'BRT-TKT-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+    final String qrData = ticket?.qrPayload ?? 'BRT:TICKET:$ticketId:VALID';
+    final String origin = ticket?.originStation ?? 'station_talatxao';
+    final String destination = ticket?.destinationStation ?? 'station_dongdok';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,15 +44,15 @@ class SuccessPage extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             const CircleAvatar(
-              radius: 20,
+              radius: 22,
               backgroundColor: Color(0xFF4CAF50),
-              child: Icon(Icons.check, color: Colors.white, size: 24),
+              child: Icon(Icons.check, color: Colors.white, size: 28),
             ),
             const SizedBox(height: 8),
             Text(
@@ -46,71 +63,176 @@ class SuccessPage extends StatelessWidget {
                 color: Color(0xFF4CAF50),
               ),
             ),
+            const SizedBox(height: 16),
+
+            // ກ່ອງຂໍ້ມູນສະຖານະຕົ໋ວ
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF7F2),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Colors.orange.shade200),
+              ),
+              child: Column(
+                children: [
+                  // ລະຫັດຕົ໋ວ
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "ລະຫັດຕົ໋ວ (Ticket ID):",
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Clipboard.setData(ClipboardData(text: ticketId));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('ຄັດລອກລະຫັດຕົ໋ວແລ້ວ'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              ticketId,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Color(0xFFEE6C4D),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            const Icon(Icons.copy, size: 14, color: Colors.grey),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(height: 16),
+
+                  // ເສັ້ນທາງ
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "ເສັ້ນທາງ (Route):",
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      Text(
+                        "${tr(origin)} ➔ ${tr(destination)}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  // ສະຖານະການຈ່າຍ
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        tr('payment_status_label'),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          tr('paid_status'),
+                          style: const TextStyle(
+                            color: Color(0xFF4CAF50),
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  // ຍອດຕົ໋ວ
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        tr('tickets_received_label'),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      Text(
+                        "$displayQty ${tr('tickets_unit')} ($displayTotal ${tr('kip')})",
+                        style: const TextStyle(
+                          color: Color(0xFF2F80ED),
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  tr('payment_status_label'),
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8F5E9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    tr('paid_status'),
-                    style: const TextStyle(
-                      color: Color(0xFF4CAF50),
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  tr('tickets_received_label'),
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                Text(
-                  "$qty ${tr('tickets_unit')}",
-                  style: const TextStyle(
-                    color: Color(0xFF2F80ED),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const Divider(height: 30),
+
             Text(
               tr('show_qr_to_officer'),
-              style: const TextStyle(color: Colors.grey, fontSize: 11),
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 12),
+
+            // --- QR Code ແທ້ (Dynamic Ticket QR Code) ---
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: const Icon(
-                Icons.qr_code_2,
-                size: 120,
-                color: Colors.black87,
+              child: Column(
+                children: [
+                  QrImageView(
+                    data: qrData,
+                    version: QrVersions.auto,
+                    size: 160.0,
+                    backgroundColor: Colors.white,
+                    eyeStyle: const QrEyeStyle(
+                      eyeShape: QrEyeShape.square,
+                      color: Color(0xFFD97724),
+                    ),
+                    dataModuleStyle: const QrDataModuleStyle(
+                      dataModuleShape: QrDataModuleShape.square,
+                      color: Color(0xFF2B3A4A),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    tr('scan_qr_hint'),
+                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
+                ],
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 24),
+
+            // ປຸ່ມກັບຄືນໜ້າຫຼັກ
             SizedBox(
               width: double.infinity,
               height: 44,
@@ -135,6 +257,22 @@ class SuccessPage extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 10),
+
+            // ປຸ່ມເບິ່ງປະຫວັດການຊື້ຕົ໋ວທັງໝົດ
+            TextButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const HistoryPage()),
+                );
+              },
+              icon: const Icon(Icons.history, size: 18, color: Color(0xFFD97724)),
+              label: Text(
+                tr('purchase_history'),
+                style: const TextStyle(color: Color(0xFFD97724), fontSize: 13),
+              ),
+            ),
           ],
         ),
       ),
@@ -145,10 +283,7 @@ class SuccessPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(
-                Icons.home,
-                color: Colors.white70,
-              ),
+              icon: const Icon(Icons.home, color: Colors.white70),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -162,16 +297,13 @@ class SuccessPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const SuccessPage(total: 1, qty: 2),
+                    builder: (_) => SuccessPage(total: displayTotal, qty: displayQty),
                   ),
                 );
               },
             ),
             IconButton(
-              icon: const Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
+              icon: const Icon(Icons.person, color: Colors.white),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
