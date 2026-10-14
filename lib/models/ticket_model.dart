@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-/// ຮູບແບບຂໍ້ມູນຕົ໋ວລົດເມ (Ticket Schema) ສຳລັບເກັບໃນ Firebase Firestore
 class TicketModel {
-  final String id; // ລະຫັດຕົ໋ວ ເຊັ່ນ: BRT-20261013-8947
-  final String userId; // Firebase Auth UID
-  final String userEmail; // ອີເມວຜູ້ຊື້
-  final String originStation; // ສະຖານີຕົ້ນທາງ
+  final String id;
+  final String userId;
+  final String userEmail;
+  final String originStation;
   final String destinationStation; // ສະຖານີປາຍທາງ
   final int quantity; // ຈຳນວນຕົ໋ວ
   final int pricePerTicket; // ລາຄາຕໍ່ໃບ (ກີບ)
