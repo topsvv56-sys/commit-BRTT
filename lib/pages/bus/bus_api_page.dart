@@ -281,7 +281,7 @@ class _BUSState extends State<BUS> {
                             children: [
                               CircleAvatar(
                                 radius: 24,
-                                backgroundColor: const Color(0xFFD97724).withOpacity(0.15),
+                                backgroundColor: const Color(0xFFD97724).withValues(alpha: 0.15),
                                 child: Text(
                                   id,
                                   style: const TextStyle(
@@ -373,7 +373,7 @@ class _BUSState extends State<BUS> {
                                       vertical: 4,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFD97724).withOpacity(0.1),
+                                      color: const Color(0xFFD97724).withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
