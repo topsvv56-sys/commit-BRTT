@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'BRT App',
-          home: LoginPage(), // ກຳນົດໃຫ້ໜ້າທຳອິດເປັນໜ້າ Login
+          home: LoginPage(),
         );
       },
     );
