@@ -901,7 +901,7 @@ class _BusPageState extends State<BusPage> {
                             child: Image.asset(
                               'assets/images/bus_ticket.png',
                               fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => const Icon(
+                              errorBuilder: (context, error, stackTrace) => const Icon(
                                 Icons.directions_bus_rounded,
                                 color: Colors.white,
                                 size: 36,
