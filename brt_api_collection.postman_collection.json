@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "b3e9a110-6a9c-482d-8b01-brt-collection",
+		"name": "BRT Bus Application APIs",
+		"description": "API Collection สำหรับโปรเจกต์ BRT Bus App ประกอบด้วย Server Backend จริง (174.138.25.208:10200), Firebase Auth และ Firestore REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Backend Server (174.138.25.208:10200)",
+			"item": [
+				{
+					"name": "Login (Phone & Password)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"55800549\",\n    \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "http://174.138.25.208:10200/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"174",
+								"138",
+								"25",
+								"208"
+							],
+							"port": "10200",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "API Login เข้าสู่ระบบของเซิร์ฟเวอร์ Backend ตัวจริง ส่ง phone และ password"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{ACCESS_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://174.138.25.208:10200/api/user",
+							"protocol": "http",
+							"host": [
+								"174",
+								"138",
+								"25",
+								"208"
+							],
+							"port": "10200",
+							"path": [
+								"api",
+								"user"
+							]
+						},
+						"description": "ดึงข้อมูลผู้ใช้ปัจจุบัน (ต้องใส่ Bearer Token ที่ได้จาก Login)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Firebase Auth (brtapp-6d721)",
+			"item": [
+				{
+					"name": "Sign In with Phone as Email (Firebase Login)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"55800549@brtapp.com\",\n    \"password\": \"12345678\",\n    \"returnSecureToken\": true\n}"
+						},
+						"url": {
+							"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{FIREBASE_API_KEY}}",
+							"protocol": "https",
+							"host": [
+								"identitytoolkit",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts:signInWithPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{FIREBASE_API_KEY}}"
+								}
+							]
+						},
+						"description": "API เข้าสู่ระบบของ Firebase ตามที่เขียนไว้ใน LoginPage (แปลงเบอร์เป็น @brtapp.com)"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up with Phone as Email (Firebase Register)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"55800549@brtapp.com\",\n    \"password\": \"12345678\",\n    \"returnSecureToken\": true\n}"
+						},
+						"url": {
+							"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={{FIREBASE_API_KEY}}",
+							"protocol": "https",
+							"host": [
+								"identitytoolkit",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts:signUp"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{FIREBASE_API_KEY}}"
+								}
+							]
+						},
+						"description": "API สมัครสมาชิกใหม่ใน Firebase ตาม RegisterPage"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Cloud Firestore (Tickets)",
+			"item": [
+				{
+					"name": "Get All Tickets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://firestore.googleapis.com/v1/projects/{{FIREBASE_PROJECT_ID}}/databases/(default)/documents/tickets",
+							"protocol": "https",
+							"host": [
+								"firestore",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"{{FIREBASE_PROJECT_ID}}",
+								"databases",
+								"(default)",
+								"documents",
+								"tickets"
+							]
+						},
+						"description": "ดึงข้อมูลตั๋วโดยสารทั้งหมดจากคอลเลกชัน tickets ใน Firebase Firestore"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "FIREBASE_API_KEY",
+			"value": "AIzaSyACNb2ifrbMTF7Z5mcIukVH4oW5VNKJAnA",
+			"type": "string"
+		},
+		{
+			"key": "FIREBASE_PROJECT_ID",
+			"value": "brtapp-6d721",
+			"type": "string"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
