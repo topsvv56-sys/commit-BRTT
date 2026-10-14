@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/payment_page.dart';
 import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart';
-import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class BRTpage extends StatefulWidget {
@@ -55,11 +54,7 @@ class _BRTpageState extends State<BRTpage> {
       'lao': 'ໄອເຕັກ ມໍລ (ITECC Mall)',
       'desc': 'ສູນການຄ້າ ແລະ ວາງສະແດງ',
     },
-    {
-      'key': 'station_sihom',
-      'lao': 'ສີຫອມ (Sihom)',
-      'desc': 'ຖະໜົນເສດຖາທິຣາດ',
-    },
+    {'key': 'station_sihom', 'lao': 'ສີຫອມ (Sihom)', 'desc': 'ຖະໜົນເສດຖາທິຣາດ'},
     {
       'key': 'station_sikeut',
       'lao': 'ສີເກີດ (Sikeut)',
@@ -75,10 +70,7 @@ class _BRTpageState extends State<BRTpage> {
     return item['lao'] ?? key;
   }
 
-  void _showStationPicker({
-    required bool isOrigin,
-    required String title,
-  }) {
+  void _showStationPicker({required bool isOrigin, required String title}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -104,12 +96,17 @@ class _BRTpageState extends State<BRTpage> {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.directions_bus_rounded,
-                      color: isOrigin ? const Color(0xFFD97724) : const Color(0xFFE24A2B),
+                      color: isOrigin
+                          ? const Color(0xFFD97724)
+                          : const Color(0xFFE24A2B),
                     ),
                     const SizedBox(width: 10),
                     Text(
@@ -150,33 +147,45 @@ class _BRTpageState extends State<BRTpage> {
                     return ListTile(
                       leading: CircleAvatar(
                         backgroundColor: isSelected
-                            ? (isOrigin ? const Color(0xFFD97724) : const Color(0xFFE24A2B))
+                            ? (isOrigin
+                                  ? const Color(0xFFD97724)
+                                  : const Color(0xFFE24A2B))
                             : const Color(0xFFF1F5F9),
                         child: Icon(
                           Icons.location_on_rounded,
                           size: 20,
-                          color: isSelected ? Colors.white : Colors.grey.shade600,
+                          color: isSelected
+                              ? Colors.white
+                              : Colors.grey.shade600,
                         ),
                       ),
                       title: Text(
                         s['lao']!,
                         style: TextStyle(
                           fontSize: 15,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.w500,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.w500,
                           color: isSelected
-                              ? (isOrigin ? const Color(0xFFD97724) : const Color(0xFFE24A2B))
+                              ? (isOrigin
+                                    ? const Color(0xFFD97724)
+                                    : const Color(0xFFE24A2B))
                               : const Color(0xFF1E293B),
                         ),
                       ),
                       subtitle: Text(
                         s['desc']!,
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                       trailing: isSelected
                           ? Icon(
                               Icons.check_circle_rounded,
-                              color: isOrigin ? const Color(0xFFD97724) : const Color(0xFFE24A2B),
+                              color: isOrigin
+                                  ? const Color(0xFFD97724)
+                                  : const Color(0xFFE24A2B),
                             )
                           : null,
                       onTap: () {
@@ -281,9 +290,7 @@ class _BRTpageState extends State<BRTpage> {
                     children: [
                       // Map Background (Stylized Realistic Vector Google Map)
                       Positioned.fill(
-                        child: CustomPaint(
-                          painter: _RealisticMapPainter(),
-                        ),
+                        child: CustomPaint(painter: _RealisticMapPainter()),
                       ),
 
                       // Google Watermark
@@ -383,7 +390,9 @@ class _BRTpageState extends State<BRTpage> {
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('BRT Map Route: Dongdok ⇄ Talat Sao'),
+                                  content: Text(
+                                    'BRT Map Route: Dongdok ⇄ Talat Sao',
+                                  ),
                                   duration: Duration(seconds: 2),
                                 ),
                               );
@@ -423,7 +432,9 @@ class _BRTpageState extends State<BRTpage> {
                               });
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('ເລືອກສະຖານີປັດຈຸບັນ: ຕະຫຼາດເຊົ້າ'),
+                                  content: Text(
+                                    'ເລືອກສະຖານີປັດຈຸບັນ: ຕະຫຼາດເຊົ້າ',
+                                  ),
                                   duration: Duration(seconds: 2),
                                 ),
                               );
@@ -601,7 +612,9 @@ class _BRTpageState extends State<BRTpage> {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFD33C1D).withValues(alpha: 0.35),
+                              color: const Color(
+                                0xFFD33C1D,
+                              ).withValues(alpha: 0.35),
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),
@@ -706,14 +719,18 @@ class _BRTpageState extends State<BRTpage> {
           children: [
             Icon(
               icon,
-              color: isActive ? Colors.white : Colors.white.withValues(alpha: 0.7),
+              color: isActive
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.7),
               size: 24,
             ),
             const SizedBox(height: 3),
             Text(
               label,
               style: TextStyle(
-                color: isActive ? Colors.white : Colors.white.withValues(alpha: 0.7),
+                color: isActive
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.7),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
               ),
@@ -808,25 +825,53 @@ class _RealisticMapPainter extends CustomPainter {
 
     // 6. Station Pins & Bus Icons (matching screenshot exactly)
     // --- Station 1: Bus Icon Circle (Top-Left) ---
-    _drawBusCirclePin(canvas, Offset(size.width * 0.17, size.height * 0.33), const Color(0xFFD97724));
+    _drawBusCirclePin(
+      canvas,
+      Offset(size.width * 0.17, size.height * 0.33),
+      const Color(0xFFD97724),
+    );
 
     // --- Station 2: Bus Icon Teardrop ---
-    _drawBusPin(canvas, Offset(size.width * 0.25, size.height * 0.36), const Color(0xFFD97724));
+    _drawBusPin(
+      canvas,
+      Offset(size.width * 0.25, size.height * 0.36),
+      const Color(0xFFD97724),
+    );
 
     // --- Station 3: Orange Marker Pin ---
-    _drawMarkerPin(canvas, Offset(size.width * 0.35, size.height * 0.40), const Color(0xFFD97724));
+    _drawMarkerPin(
+      canvas,
+      Offset(size.width * 0.35, size.height * 0.40),
+      const Color(0xFFD97724),
+    );
 
     // --- Station 4: Orange Marker Pin ---
-    _drawMarkerPin(canvas, Offset(size.width * 0.44, size.height * 0.44), const Color(0xFFD97724));
+    _drawMarkerPin(
+      canvas,
+      Offset(size.width * 0.44, size.height * 0.44),
+      const Color(0xFFD97724),
+    );
 
     // --- Station 5: Orange Marker Pin (Midpoint) ---
-    _drawMarkerPin(canvas, Offset(size.width * 0.49, size.height * 0.48), const Color(0xFFEA580C));
+    _drawMarkerPin(
+      canvas,
+      Offset(size.width * 0.49, size.height * 0.48),
+      const Color(0xFFEA580C),
+    );
 
     // --- Station 6: Red Marker Pin (Destination) ---
-    _drawMarkerPin(canvas, Offset(size.width * 0.66, size.height * 0.65), const Color(0xFFDC2626));
+    _drawMarkerPin(
+      canvas,
+      Offset(size.width * 0.66, size.height * 0.65),
+      const Color(0xFFDC2626),
+    );
 
     // --- Station 7: Red Marker Pin (Terminal) ---
-    _drawMarkerPin(canvas, Offset(size.width * 0.77, size.height * 0.73), const Color(0xFFDC2626));
+    _drawMarkerPin(
+      canvas,
+      Offset(size.width * 0.77, size.height * 0.73),
+      const Color(0xFFDC2626),
+    );
   }
 
   // Draw Bus Station Circle
@@ -858,7 +903,11 @@ class _RealisticMapPainter extends CustomPainter {
   void _drawMarkerPin(Canvas canvas, Offset pos, Color color) {
     final shadowPaint = Paint()..color = Colors.black.withValues(alpha: 0.25);
     canvas.drawOval(
-      Rect.fromCenter(center: Offset(pos.dx, pos.dy + 12), width: 10, height: 4),
+      Rect.fromCenter(
+        center: Offset(pos.dx, pos.dy + 12),
+        width: 10,
+        height: 4,
+      ),
       shadowPaint,
     );
 
