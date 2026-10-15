@@ -183,6 +183,71 @@
 						"description": "ดึงข้อมูลตั๋วโดยสารทั้งหมดจากคอลเลกชัน tickets ใน Firebase Firestore"
 					},
 					"response": []
+				},
+				{
+					"name": "Create or Overwrite Ticket",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fields\": {\n    \"id\": {\"stringValue\": \"BRT-2610-8934\"},\n    \"userId\": {\"stringValue\": \"9zWKaL129fXOPQr45StuvwX\"},\n    \"userEmail\": {\"stringValue\": \"hannalong@brtlaos.com\"},\n    \"originStation\": {\"stringValue\": \"station_talatxao\"},\n    \"destinationStation\": {\"stringValue\": \"station_dongdok\"},\n    \"quantity\": {\"integerValue\": \"1\"},\n    \"pricePerTicket\": {\"integerValue\": \"7000\"},\n    \"totalAmount\": {\"integerValue\": \"7000\"},\n    \"currency\": {\"stringValue\": \"LAK\"},\n    \"status\": {\"stringValue\": \"paid\"},\n    \"paymentMethod\": {\"stringValue\": \"BCEL OnePay\"},\n    \"transactionId\": {\"stringValue\": \"BCEL-TXN-583921\"},\n    \"createdAt\": {\"stringValue\": \"2026-10-15T14:30:00.000Z\"},\n    \"usedAt\": {\"nullValue\": null},\n    \"expiresAt\": {\"stringValue\": \"2026-10-16T14:30:00.000Z\"},\n    \"qrPayload\": {\"stringValue\": \"{\\\"app\\\":\\\"BRT_LAOS\\\",\\\"tid\\\":\\\"BRT-2610-8934\\\",\\\"from\\\":\\\"station_talatxao\\\",\\\"to\\\":\\\"station_dongdok\\\",\\\"qty\\\":1,\\\"exp\\\":1792161000000,\\\"sec\\\":489214}\"}\n  }\n}"
+						},
+						"url": {
+							"raw": "https://firestore.googleapis.com/v1/projects/{{FIREBASE_PROJECT_ID}}/databases/(default)/documents/tickets/BRT-2610-8934",
+							"protocol": "https",
+							"host": [
+								"firestore",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"{{FIREBASE_PROJECT_ID}}",
+								"databases",
+								"(default)",
+								"documents",
+								"tickets",
+								"BRT-2610-8934"
+							]
+						},
+						"description": "สร้างหรือบันทึกตั๋วใหม่ลงในคอลเลกชัน tickets ผ่าน Firestore REST API"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://firestore.googleapis.com/v1/projects/{{FIREBASE_PROJECT_ID}}/databases/(default)/documents/tickets/BRT-2610-8934",
+							"protocol": "https",
+							"host": [
+								"firestore",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"{{FIREBASE_PROJECT_ID}}",
+								"databases",
+								"(default)",
+								"documents",
+								"tickets",
+								"BRT-2610-8934"
+							]
+						},
+						"description": "ดึงข้อมูลตั๋วรายใบตาม ID จาก Firestore"
+					},
+					"response": []
 				}
 			]
 		}

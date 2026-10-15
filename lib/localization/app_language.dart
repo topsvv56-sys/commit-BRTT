@@ -23,6 +23,9 @@ Map<String, Map<String, String>> localizedValues = {
     'login_failed': 'ເຂົ້າສູ່ລະບົບບໍ່ສຳເລັດ',
     'phone_email_hint': 'ປ້ອນຊື່ ເບີໂທ ຫຼື ອີເມວຂອງທ່ານ',
     'password_hint': 'ປ້ອນລະຫັດຜ່ານຂອງທ່ານ',
+    'guest_login': 'ເຂົ້າຊົມລະບົບ (Guest Mode)',
+    'transit_slogan': 'ລະບົບລົດເມດ່ວນ ນະຄອນຫຼວງວຽງຈັນ',
+    'or_divider': 'ຫຼື',
 
     // --- 2. ໜ້າ ສະໝັກສະມາຊິກ (Register) ---
     'create_account_title': 'CREATE ACCOUNT',
@@ -227,6 +230,9 @@ Map<String, Map<String, String>> localizedValues = {
     'login_failed': 'Login failed',
     'phone_email_hint': 'Enter name, phone or email',
     'password_hint': 'Enter your password',
+    'guest_login': 'Continue as Guest',
+    'transit_slogan': 'Vientiane Rapid Transit System',
+    'or_divider': 'OR',
 
     // --- 2. Register ---
     'create_account_title': 'CREATE ACCOUNT',
@@ -430,6 +436,9 @@ Map<String, Map<String, String>> localizedValues = {
     'login_failed': '登录失败',
     'phone_email_hint': '输入姓名、电话或邮箱',
     'password_hint': '输入您的密码',
+    'guest_login': '访客快速体验 (Guest)',
+    'transit_slogan': '万象城市快速公交系统',
+    'or_divider': '或',
 
     // --- 2. 注册 ---
     'create_account_title': '创建新账号',
