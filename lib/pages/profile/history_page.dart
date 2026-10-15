@@ -7,6 +7,7 @@ import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/models/ticket_model.dart';
 import 'package:flutter_application_brt_bub/services/ticket_service.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -201,7 +202,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            backgroundColor: const Color(0xFFD97724),
+            backgroundColor: AppColors.primary,
             centerTitle: true,
             elevation: 0,
             leading: IconButton(
@@ -362,7 +363,7 @@ class _HistoryPageState extends State<HistoryPage> {
       ),
       bottomNavigationBar: Container(
         height: 60,
-        color: const Color(0xFFD97724),
+        color: AppColors.primary,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

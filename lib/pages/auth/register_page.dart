@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isObscureConfirm = true;
 
   // ກຳນົດສີສົ້ມຫຼັກ
-  static const Color orangePrimary = Color(0xFFD97724);
+  static const Color orangePrimary = AppColors.primary;
 
   @override
   void dispose() {

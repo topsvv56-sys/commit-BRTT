@@ -7,6 +7,7 @@ import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/services/payment_service.dart';
 import 'package:flutter_application_brt_bub/services/ticket_service.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class PaymentPage extends StatefulWidget {
   final int total;
@@ -175,7 +176,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            backgroundColor: const Color(0xFFD97724),
+            backgroundColor: AppColors.primary,
             centerTitle: true,
             elevation: 0,
             leading: IconButton(
@@ -368,7 +369,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     height: 46,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFD97724),
+                        backgroundColor: AppColors.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(23),
                         ),

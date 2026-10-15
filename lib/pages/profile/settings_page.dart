@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -24,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            backgroundColor: const Color(0xFFD34509),
+            backgroundColor: AppColors.primary,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.pop(context),
@@ -172,6 +173,9 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Text(tr('cancel')),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+            ),
             onPressed: () {
               if (newPassController.text != confirmPassController.text) {
                 ScaffoldMessenger.of(
@@ -184,7 +188,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 context,
               ).showSnackBar(SnackBar(content: Text(tr('pass_changed'))));
             },
-            child: Text(tr('save')),
+            child: Text(
+              tr('save'),
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

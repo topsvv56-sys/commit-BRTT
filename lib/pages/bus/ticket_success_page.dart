@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart'
     show ProfilePage;
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 import 'package:flutter_application_brt_bub/models/ticket_model.dart';
 import 'package:flutter_application_brt_bub/pages/profile/history_page.dart';
 import 'bus_page.dart' show BusPage;
@@ -55,7 +56,7 @@ class SuccessPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            backgroundColor: const Color(0xFFEE6C4D),
+            backgroundColor: AppColors.primary,
             centerTitle: true,
             elevation: 0,
           ),
@@ -115,7 +116,7 @@ class SuccessPage extends StatelessWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
-                                color: Color(0xFFEE6C4D),
+                                color: AppColors.primary,
                               ),
                             ),
                             const SizedBox(width: 4),

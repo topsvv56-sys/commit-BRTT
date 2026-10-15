@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class AddPaymentPage extends StatefulWidget {
   const AddPaymentPage({super.key});
@@ -11,7 +12,7 @@ class AddPaymentPage extends StatefulWidget {
 
 class _AddPaymentPageState extends State<AddPaymentPage> {
   // ກຳນົດສີສົ້ມຫຼັກຂອງແອັບ
-  static const Color orangePrimary = Color(0xFFD97724);
+  static const Color orangePrimary = AppColors.primary;
 
   final _formKey = GlobalKey<FormState>();
   final _accountNameController = TextEditingController();

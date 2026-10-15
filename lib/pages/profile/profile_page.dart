@@ -9,6 +9,7 @@ import 'package:flutter_application_brt_bub/pages/profile/settings_page.dart';
 import 'package:flutter_application_brt_bub/pages/profile/edit_profile_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,8 +23,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String _userEmail = 'toppy20003@brtlaos.com';
   File? _profileImage;
 
-  static const Color primaryOrange = Color(0xFFD46A12);
-  static const Color bgWarmCream = Color(0xFFF9F7F2);
+  static const Color primaryOrange = AppColors.primary;
+  static const Color bgWarmCream = AppColors.bgWarmCream;
 
   @override
   void initState() {
@@ -273,7 +274,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 OutlinedButton(
                   onPressed: _navigateToEditProfile,
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFFC06A1D), width: 1.5),
+                    side: const BorderSide(color: AppColors.primary, width: 1.5),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -285,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text(
                     tr('edit_profile'),
                     style: const TextStyle(
-                      color: Color(0xFFC06A1D),
+                      color: AppColors.primary,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),

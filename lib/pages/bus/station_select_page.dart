@@ -3,6 +3,7 @@ import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/payment_page.dart';
 import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class BRTpage extends StatefulWidget {
   final int total;
@@ -69,8 +70,8 @@ class _BRTpageState extends State<BRTpage> {
                     Icon(
                       Icons.directions_bus_rounded,
                       color: isOrigin
-                          ? const Color(0xFFD97724)
-                          : const Color(0xFFE24A2B),
+                          ? AppColors.primary
+                          : AppColors.primaryDark,
                     ),
                     const SizedBox(width: 10),
                     Text(
@@ -111,8 +112,8 @@ class _BRTpageState extends State<BRTpage> {
                       leading: CircleAvatar(
                         backgroundColor: isSelected
                             ? (isOrigin
-                                  ? const Color(0xFFD97724)
-                                  : const Color(0xFFE24A2B))
+                                  ? AppColors.primary
+                                  : AppColors.primaryDark)
                             : const Color(0xFFF1F5F9),
                         child: Icon(
                           Icons.location_on_rounded,
@@ -131,8 +132,8 @@ class _BRTpageState extends State<BRTpage> {
                               : FontWeight.w500,
                           color: isSelected
                               ? (isOrigin
-                                    ? const Color(0xFFD97724)
-                                    : const Color(0xFFE24A2B))
+                                    ? AppColors.primary
+                                    : AppColors.primaryDark)
                               : const Color(0xFF1E293B),
                         ),
                       ),
@@ -147,8 +148,8 @@ class _BRTpageState extends State<BRTpage> {
                           ? Icon(
                               Icons.check_circle_rounded,
                               color: isOrigin
-                                  ? const Color(0xFFD97724)
-                                  : const Color(0xFFE24A2B),
+                                  ? AppColors.primary
+                                  : AppColors.primaryDark,
                             )
                           : null,
                       onTap: () {
@@ -212,9 +213,9 @@ class _BRTpageState extends State<BRTpage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFDA812D),
+          backgroundColor: AppColors.primary,
           appBar: AppBar(
-            backgroundColor: const Color(0xFFDA812D),
+            backgroundColor: AppColors.primary,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
@@ -468,7 +469,7 @@ class _BRTpageState extends State<BRTpage> {
                             children: [
                               const Icon(
                                 Icons.directions_bus_filled,
-                                color: Color(0xFFD97724),
+                                color: AppColors.primary,
                                 size: 26,
                               ),
                               const SizedBox(width: 12),
@@ -535,7 +536,7 @@ class _BRTpageState extends State<BRTpage> {
                             children: [
                               const Icon(
                                 Icons.directions_bus_filled,
-                                color: Color(0xFFD33C1D),
+                                color: AppColors.primary,
                                 size: 26,
                               ),
                               const SizedBox(width: 12),
@@ -574,13 +575,11 @@ class _BRTpageState extends State<BRTpage> {
                         width: double.infinity,
                         height: 54,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD33C1D),
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(
-                                0xFFD33C1D,
-                              ).withValues(alpha: 0.35),
+                              color: AppColors.primary.withValues(alpha: 0.35),
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),
@@ -621,7 +620,7 @@ class _BRTpageState extends State<BRTpage> {
       bottomNavigationBar: Container(
         height: 64,
         decoration: const BoxDecoration(
-          color: Color(0xFFDA812D),
+          color: AppColors.primary,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -777,7 +776,7 @@ class _RealisticMapPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round;
 
     final routePaint = Paint()
-      ..color = const Color(0xFFD33C1D)
+      ..color = AppColors.primary
       ..strokeWidth = 4.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round

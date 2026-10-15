@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 
@@ -23,8 +24,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   File? _profileImage;
   bool _isLoading = false;
 
-  static const Color primaryOrange = Color(0xFFD46A12);
-  static const Color bgWarmCream = Color(0xFFF9F7F2);
+  static const Color primaryOrange = AppColors.primary;
+  static const Color bgWarmCream = AppColors.bgWarmCream;
 
   @override
   void initState() {
@@ -585,7 +586,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               child: ElevatedButton(
                                 onPressed: _handleSave,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFE05814),
+                                  backgroundColor: AppColors.primary,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25),
                                   ),

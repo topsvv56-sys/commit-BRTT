@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 import 'package:flutter_application_brt_bub/config/firebase_options.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
@@ -19,10 +20,21 @@ class MyApp extends StatelessWidget {
     return ValueListenableBuilder<String>(
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, child) {
-        return const MaterialApp(
+        return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'BRT App',
-          home: LoginPage(),
+          theme: ThemeData(
+            primaryColor: AppColors.primary,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: AppColors.primary,
+              primary: AppColors.primary,
+            ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+            ),
+          ),
+          home: const LoginPage(),
         );
       },
     );

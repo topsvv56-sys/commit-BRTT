@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 
 class BUS extends StatefulWidget {
@@ -141,7 +142,7 @@ class _BUSState extends State<BUS> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD97724),
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
@@ -170,7 +171,7 @@ class _BUSState extends State<BUS> {
         return Scaffold(
           backgroundColor: const Color(0xFFF8FAFC),
           appBar: AppBar(
-            backgroundColor: const Color(0xFFD97724),
+            backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
             elevation: 0,
             leading: IconButton(
@@ -243,7 +244,7 @@ class _BUSState extends State<BUS> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(
-                      color: Color(0xFFD97724),
+                      color: AppColors.primary,
                     ),
                   );
                 }
@@ -260,7 +261,7 @@ class _BUSState extends State<BUS> {
                 final List<dynamic> buses = snapshot.data!;
 
                 return RefreshIndicator(
-                  color: const Color(0xFFD97724),
+                  color: AppColors.primary,
                   onRefresh: () async => _refreshData(),
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -290,12 +291,12 @@ class _BUSState extends State<BUS> {
                             children: [
                               CircleAvatar(
                                 radius: 24,
-                                backgroundColor: const Color(0xFFD97724).withValues(alpha: 0.15),
+                                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
                                 child: Text(
                                   id,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFFD97724),
+                                    color: AppColors.primary,
                                     fontSize: 16,
                                   ),
                                 ),
@@ -337,7 +338,7 @@ class _BUSState extends State<BUS> {
                                         const Icon(
                                           Icons.alt_route,
                                           size: 15,
-                                          color: Color(0xFFD97724),
+                                          color: AppColors.primary,
                                         ),
                                         const SizedBox(width: 4),
                                         Expanded(
@@ -382,14 +383,14 @@ class _BUSState extends State<BUS> {
                                       vertical: 4,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFD97724).withValues(alpha: 0.1),
+                                      color: AppColors.primary.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
                                       '$price ກີບ',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFFD97724),
+                                        color: AppColors.primary,
                                         fontSize: 13,
                                       ),
                                     ),

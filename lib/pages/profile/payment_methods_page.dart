@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/pages/profile/add_payment_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class AccountPaymentPage extends StatelessWidget {
   const AccountPaymentPage({super.key});
@@ -16,7 +17,7 @@ class AccountPaymentPage extends StatelessWidget {
               tr('payment_title'),
               style: const TextStyle(color: Colors.white),
             ),
-            backgroundColor: const Color.fromARGB(255, 218, 129, 45),
+            backgroundColor: AppColors.primary,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.pop(context),
@@ -102,7 +103,7 @@ class AccountPaymentPage extends StatelessWidget {
                 OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Color(0xFF2E5F8A)),
+                    side: const BorderSide(color: AppColors.primary),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -113,12 +114,13 @@ class AccountPaymentPage extends StatelessWidget {
                       MaterialPageRoute(builder: (_) => const AddPaymentPage()),
                     );
                   },
-                  icon: const Icon(Icons.add, color: Color(0xFF2E5F8A)),
+                  icon: const Icon(Icons.add, color: AppColors.primary),
                   label: Text(
                     tr('add_account_btn'),
                     style: const TextStyle(
-                      color: Color(0xFF2E5F8A),
+                      color: AppColors.primary,
                       fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

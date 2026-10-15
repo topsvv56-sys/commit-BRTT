@@ -5,6 +5,7 @@ import 'package:flutter_application_brt_bub/pages/profile/profile_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_api_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 class BusPage extends StatefulWidget {
   final int total;
@@ -108,7 +109,7 @@ class _BusPageState extends State<BusPage> {
                 children: [
                   const Icon(
                     Icons.notifications_active,
-                    color: Color(0xFFD97724),
+                    color: AppColors.primary,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -124,7 +125,7 @@ class _BusPageState extends State<BusPage> {
               const ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Color(0xFFFEF3C7),
-                  child: Icon(Icons.directions_bus, color: Color(0xFFD97724)),
+                  child: Icon(Icons.directions_bus, color: AppColors.primary),
                 ),
                 title: Text('BRT ສາຍ 1 (ດົງໂດກ - ຕະຫຼາດເຊົ້າ)'),
                 subtitle: Text('ລົດອອກທຸກໆ 15 ນາທີ ຕັ້ງແຕ່ 06:00 - 18:30'),
@@ -158,7 +159,7 @@ class _BusPageState extends State<BusPage> {
           ),
           title: Row(
             children: [
-              const Icon(Icons.discount, color: Color(0xFFD97724)),
+              const Icon(Icons.discount, color: AppColors.primary),
               const SizedBox(width: 8),
               Text(tr('promo_code')),
             ],
@@ -189,7 +190,7 @@ class _BusPageState extends State<BusPage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD97724),
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
@@ -232,7 +233,7 @@ class _BusPageState extends State<BusPage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFD97724),
+          backgroundColor: AppColors.primary,
           body: SafeArea(
             bottom: false,
             child: Column(
@@ -304,7 +305,7 @@ class _BusPageState extends State<BusPage> {
                               color: Colors.yellowAccent.shade700,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: const Color(0xFFD97724),
+                                color: AppColors.primary,
                                 width: 1.5,
                               ),
                             ),
@@ -589,15 +590,13 @@ class _BusPageState extends State<BusPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14),
                           gradient: const LinearGradient(
-                            colors: [Color(0xFFE24A2B), Color(0xFFF97316)],
+                            colors: [AppColors.primary, AppColors.primaryLight],
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(
-                                0xFFE24A2B,
-                              ).withValues(alpha: 0.35),
+                              color: AppColors.primary.withValues(alpha: 0.35),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -743,7 +742,7 @@ class _BusPageState extends State<BusPage> {
                                     Container(
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFE24A2B),
+                                        color: AppColors.primary,
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: const Text(
@@ -766,7 +765,7 @@ class _BusPageState extends State<BusPage> {
                                           fontWeight: FontWeight.w700,
                                           color: appliedPromoCode.isEmpty
                                               ? const Color(0xFF1E293B)
-                                              : const Color(0xFFE24A2B),
+                                              : AppColors.primary,
                                         ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -794,7 +793,7 @@ class _BusPageState extends State<BusPage> {
       bottomNavigationBar: Container(
         height: 64,
         decoration: const BoxDecoration(
-          color: Color(0xFFD97724),
+          color: AppColors.primary,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -854,7 +853,7 @@ class _BusPageState extends State<BusPage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: const LinearGradient(
-          colors: [Color(0xFFE85D04), Color(0xFFF97316)],
+          colors: [AppColors.primary, AppColors.primaryLight],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -911,7 +910,7 @@ class _BusPageState extends State<BusPage> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFEA580C),
+                              color: AppColors.primary,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(

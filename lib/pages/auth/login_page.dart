@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_brt_bub/pages/auth/register_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
+import 'package:flutter_application_brt_bub/config/app_colors.dart';
 
 // --- หน้า ป່ຽນ/ກູ້ຄືນລະຫັດຜ່ານ (ForgotPasswordPage) ---
 class ForgotPasswordPage extends StatefulWidget {
@@ -77,7 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               tr('recover_password_title'),
               style: const TextStyle(color: Colors.white),
             ),
-            backgroundColor: const Color.fromARGB(255, 211, 69, 9),
+            backgroundColor: AppColors.primary,
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
@@ -101,7 +102,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 211, 69, 9),
+                    backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -204,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
         return Scaffold(
           appBar: AppBar(
             title: Text(tr('login_title'), style: const TextStyle(color: Colors.white)),
-            backgroundColor: const Color.fromARGB(255, 211, 69, 9),
+            backgroundColor: AppColors.primary,
             leading: Navigator.canPop(context)
                 ? IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -314,7 +315,7 @@ class _LoginPageState extends State<LoginPage> {
               // LOGIN BUTTON
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -374,7 +375,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       tr('register_btn'),
                       style: const TextStyle(
-                        color: Color.fromARGB(255, 211, 69, 9),
+                        color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
