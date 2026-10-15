@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// ค่าสีหลักที่เป็นมาตรฐานเดียวกันทั้งแอปพลิเคชัน
+
 class AppColors {
   // โทนสีส้มหลักตามธีมของแอป BRT (#D97724)
   static const Color primary = Color(0xFFD97724);
