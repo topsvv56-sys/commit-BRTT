@@ -57,7 +57,8 @@ class SuccessPage extends StatelessWidget {
               ),
             ),
             backgroundColor: AppColors.primary,
-            centerTitle: true,
+            centerTitle: false,
+            titleSpacing: 0,
             elevation: 0,
           ),
       body: SingleChildScrollView(

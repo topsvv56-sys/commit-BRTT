@@ -32,6 +32,8 @@ class MyApp extends StatelessWidget {
             appBarTheme: const AppBarTheme(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
+              centerTitle: false,
+              titleSpacing: 0,
             ),
           ),
           home: const LoginPage(),

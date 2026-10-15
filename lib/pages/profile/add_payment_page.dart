@@ -82,6 +82,8 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                 ),
               ),
               backgroundColor: orangePrimary,
+              centerTitle: false,
+              titleSpacing: 0,
               iconTheme: const IconThemeData(color: Colors.white),
               elevation: 0,
             ),

@@ -203,7 +203,8 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             ),
             backgroundColor: AppColors.primary,
-            centerTitle: true,
+            centerTitle: false,
+            titleSpacing: 0,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),

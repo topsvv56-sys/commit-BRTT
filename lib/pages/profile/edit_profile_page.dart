@@ -234,7 +234,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 fontSize: 20,
               ),
             ),
-            centerTitle: true,
+            centerTitle: false,
+            titleSpacing: 0,
             actions: [
               TextButton.icon(
                 onPressed: _isLoading ? null : _handleSave,

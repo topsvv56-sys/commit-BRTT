@@ -149,7 +149,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 20,
               ),
             ),
-            centerTitle: true,
+            centerTitle: false,
+            titleSpacing: 0,
             backgroundColor: primaryOrange,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),

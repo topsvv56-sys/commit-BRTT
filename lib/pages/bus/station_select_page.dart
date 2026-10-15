@@ -230,6 +230,7 @@ class _BRTpageState extends State<BRTpage> {
               ),
             ),
             centerTitle: false,
+            titleSpacing: 0,
           ),
       body: SafeArea(
         bottom: false,
