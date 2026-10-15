@@ -60,10 +60,7 @@ class _BusPageState extends State<BusPage> {
   @override
   void initState() {
     super.initState();
-    _bannerController = PageController(
-      initialPage: 0,
-      viewportFraction: 0.88,
-    );
+    _bannerController = PageController(initialPage: 0, viewportFraction: 0.88);
   }
 
   @override
@@ -79,9 +76,9 @@ class _BusPageState extends State<BusPage> {
 
   String _formatKip(int amount) {
     return amount.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
-        );
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
   }
 
   String _getUserDisplayName() {
@@ -109,7 +106,10 @@ class _BusPageState extends State<BusPage> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.notifications_active, color: Color(0xFFD97724)),
+                  const Icon(
+                    Icons.notifications_active,
+                    color: Color(0xFFD97724),
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     tr('sell_bus_ticket'),
@@ -135,7 +135,9 @@ class _BusPageState extends State<BusPage> {
                   child: Icon(Icons.local_offer, color: Colors.green),
                 ),
                 title: Text('ໂປຣໂມຊັ່ນ OnePay ສະແກນຈ່າຍ'),
-                subtitle: Text('ຮັບສ່ວນຫຼຸດພິເສດເມື່ອຊື້ປີ້ລົດຜ່ານລະບົບ QR Code'),
+                subtitle: Text(
+                  'ຮັບສ່ວນຫຼຸດພິເສດເມື່ອຊື້ປີ້ລົດຜ່ານລະບົບ QR Code',
+                ),
               ),
               const SizedBox(height: 12),
             ],
@@ -151,7 +153,9 @@ class _BusPageState extends State<BusPage> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: const Row(
             children: [
               Icon(Icons.discount, color: Color(0xFFD97724)),
@@ -196,7 +200,9 @@ class _BusPageState extends State<BusPage> {
                     appliedPromoCode = code;
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('ນຳໃຊ້ລະຫັດສ່ວນຫຼຸດສຳເລັດ! ຫຼຸດ 2,000 ກີບ'),
+                        content: Text(
+                          'ນຳໃຊ້ລະຫັດສ່ວນຫຼຸດສຳເລັດ! ຫຼຸດ 2,000 ກີບ',
+                        ),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -289,7 +295,10 @@ class _BusPageState extends State<BusPage> {
                             decoration: BoxDecoration(
                               color: Colors.yellowAccent.shade700,
                               shape: BoxShape.circle,
-                              border: Border.all(color: const Color(0xFFD97724), width: 1.5),
+                              border: Border.all(
+                                color: const Color(0xFFD97724),
+                                width: 1.5,
+                              ),
                             ),
                           ),
                         ),
@@ -495,7 +504,9 @@ class _BusPageState extends State<BusPage> {
                                   borderRadius: BorderRadius.circular(24),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.15),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.15,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -506,9 +517,10 @@ class _BusPageState extends State<BusPage> {
                                   children: [
                                     InkWell(
                                       onTap: add,
-                                      borderRadius: const BorderRadius.horizontal(
-                                        left: Radius.circular(24),
-                                      ),
+                                      borderRadius:
+                                          const BorderRadius.horizontal(
+                                            left: Radius.circular(24),
+                                          ),
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(
                                           horizontal: 12,
@@ -536,9 +548,10 @@ class _BusPageState extends State<BusPage> {
                                     ),
                                     InkWell(
                                       onTap: remove,
-                                      borderRadius: const BorderRadius.horizontal(
-                                        right: Radius.circular(24),
-                                      ),
+                                      borderRadius:
+                                          const BorderRadius.horizontal(
+                                            right: Radius.circular(24),
+                                          ),
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(
                                           horizontal: 12,
@@ -574,7 +587,9 @@ class _BusPageState extends State<BusPage> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFE24A2B).withValues(alpha: 0.35),
+                              color: const Color(
+                                0xFFE24A2B,
+                              ).withValues(alpha: 0.35),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -652,7 +667,9 @@ class _BusPageState extends State<BusPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.04),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.04,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -705,7 +722,9 @@ class _BusPageState extends State<BusPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.04),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.04,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -795,8 +814,7 @@ class _BusPageState extends State<BusPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) =>
-                        SuccessPage(total: totalAmount, qty: qty),
+                    builder: (_) => SuccessPage(total: totalAmount, qty: qty),
                   ),
                 );
               },
@@ -901,11 +919,12 @@ class _BusPageState extends State<BusPage> {
                             child: Image.asset(
                               'assets/images/bus_ticket.png',
                               fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                Icons.directions_bus_rounded,
-                                color: Colors.white,
-                                size: 36,
-                              ),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                    Icons.directions_bus_rounded,
+                                    color: Colors.white,
+                                    size: 36,
+                                  ),
                             ),
                           ),
                         ],
@@ -1059,14 +1078,18 @@ class _BusPageState extends State<BusPage> {
           children: [
             Icon(
               icon,
-              color: isActive ? Colors.white : Colors.white.withValues(alpha: 0.65),
+              color: isActive
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.65),
               size: 24,
             ),
             const SizedBox(height: 3),
             Text(
               label,
               style: TextStyle(
-                color: isActive ? Colors.white : Colors.white.withValues(alpha: 0.65),
+                color: isActive
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.65),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),
