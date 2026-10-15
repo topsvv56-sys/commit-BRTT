@@ -6,7 +6,6 @@ import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_api_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
-import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
 
 class BusPage extends StatefulWidget {
   final int total;
@@ -244,20 +243,6 @@ class _BusPageState extends State<BusPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: Row(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () {
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          } else {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (_) => const LoginPage()),
-                            );
-                          }
-                        },
-                      ),
-                      const SizedBox(width: 4),
                       Text(
                         tr('bus_ticket_title'),
                         style: const TextStyle(
