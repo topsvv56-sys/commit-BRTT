@@ -18,56 +18,20 @@ class _BRTpageState extends State<BRTpage> {
   String? endStation;
 
   // ລາຍການສະຖານີລົດເມ BRT
-  final List<Map<String, String>> stations = [
-    {
-      'key': 'station_talatxao',
-      'lao': 'ຕະຫຼາດເຊົ້າ (Morning Market)',
-      'desc': 'ຈຸດເຊື່ອມຕໍ່ຫຼັກໃຈກາງນະຄອນຫຼວງ',
-    },
-    {
-      'key': 'station_dongdok',
-      'lao': 'ດົງໂດກ (Dongdok / ม.ช.)',
-      'desc': 'ມະຫາວິທະຍາໄລແຫ່ງຊາດ',
-    },
-    {
-      'key': 'station_thatluang',
-      'lao': 'ທາດຫຼວງ (That Luang)',
-      'desc': 'ພຣະທາດຫຼວງ ແລະ ເດີ່ນງານບຸນ',
-    },
-    {
-      'key': 'station_southern',
-      'lao': 'ສະຖານີສາຍໃຕ້ (Southern Bus Station)',
-      'desc': 'ສະຖານີຂົນສົ່ງສາຍໃຕ້ (450 ປີ)',
-    },
-    {
-      'key': 'station_northern',
-      'lao': 'ສະຖານີສາຍເໜືອ (Northern Bus Station)',
-      'desc': 'ສະຖານີຂົນສົ່ງສາຍເໜືອ (ເກົ້າລ້ຽວ)',
-    },
-    {
-      'key': 'station_airport',
-      'lao': 'ສະໜາມບິນວັດໄຕ (Wattay Airport)',
-      'desc': 'ສະໜາມບິນສາກົນວັດໄຕ',
-    },
-    {
-      'key': 'station_itecc',
-      'lao': 'ໄອເຕັກ ມໍລ (ITECC Mall)',
-      'desc': 'ສູນການຄ້າ ແລະ ວາງສະແດງ',
-    },
-    {'key': 'station_sihom', 'lao': 'ສີຫອມ (Sihom)', 'desc': 'ຖະໜົນເສດຖາທິຣາດ'},
-    {
-      'key': 'station_sikeut',
-      'lao': 'ສີເກີດ (Sikeut)',
-      'desc': 'ສາມແຍກສີເກີດ - ທາງຫຼວງ 13 ເໜືອ',
-    },
+  final List<String> stations = [
+    'station_talatxao',
+    'station_dongdok',
+    'station_thatluang',
+    'station_southern',
+    'station_northern',
+    'station_airport',
+    'station_itecc',
+    'station_sihom',
+    'station_sikeut',
   ];
 
   String _getStationName(String key) {
-    final item = stations.firstWhere(
-      (s) => s['key'] == key,
-      orElse: () => {'lao': tr(key).isEmpty ? key : tr(key)},
-    );
-    return item['lao'] ?? key;
+    return tr(key);
   }
 
   void _showStationPicker({required bool isOrigin, required String title}) {
@@ -138,8 +102,7 @@ class _BRTpageState extends State<BRTpage> {
                     indent: 68,
                   ),
                   itemBuilder: (context, index) {
-                    final s = stations[index];
-                    final key = s['key']!;
+                    final key = stations[index];
                     final isSelected = isOrigin
                         ? startStation == key
                         : endStation == key;
@@ -160,7 +123,7 @@ class _BRTpageState extends State<BRTpage> {
                         ),
                       ),
                       title: Text(
-                        s['lao']!,
+                        tr(key),
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: isSelected
@@ -174,7 +137,7 @@ class _BRTpageState extends State<BRTpage> {
                         ),
                       ),
                       subtitle: Text(
-                        s['desc']!,
+                        tr('${key}_desc'),
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
@@ -258,7 +221,7 @@ class _BRTpageState extends State<BRTpage> {
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
-              tr('select_origin_title'),
+              tr('select_station_title'),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 22,
@@ -434,11 +397,11 @@ class _BRTpageState extends State<BRTpage> {
                                 startStation = 'station_talatxao';
                               });
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   content: Text(
-                                    'ເລືອກສະຖານີປັດຈຸບັນ: ຕະຫຼາດເຊົ້າ',
+                                    '${tr('current_station_selected')} ${tr('station_talatxao')}',
                                   ),
-                                  duration: Duration(seconds: 2),
+                                  duration: const Duration(seconds: 2),
                                 ),
                               );
                             },
@@ -473,9 +436,9 @@ class _BRTpageState extends State<BRTpage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // --- ສະຖານີຂຶ້ນລົດ ---
-                      const Text(
-                        'ສະຖານີຂຶ້ນລົດ',
-                        style: TextStyle(
+                      Text(
+                        tr('origin_station'),
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1E293B),
@@ -487,7 +450,7 @@ class _BRTpageState extends State<BRTpage> {
                       InkWell(
                         onTap: () => _showStationPicker(
                           isOrigin: true,
-                          title: 'ເລືອກສະຖານີຂຶ້ນລົດ',
+                          title: tr('select_origin_title'),
                         ),
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
@@ -513,7 +476,7 @@ class _BRTpageState extends State<BRTpage> {
                                 child: Text(
                                   startStation != null
                                       ? _getStationName(startStation!)
-                                      : 'ເລືອກສະຖານີຂຶ້ນ (e.g. ສະຖານີສາຍໃຕ້)',
+                                      : tr('select_origin_hint'),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: startStation != null
@@ -540,9 +503,9 @@ class _BRTpageState extends State<BRTpage> {
                       const SizedBox(height: 18),
 
                       // --- ສະຖານີລົງ ---
-                      const Text(
-                        'ສະຖານີລົງ',
-                        style: TextStyle(
+                      Text(
+                        tr('destination_station'),
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF1E293B),
@@ -554,7 +517,7 @@ class _BRTpageState extends State<BRTpage> {
                       InkWell(
                         onTap: () => _showStationPicker(
                           isOrigin: false,
-                          title: 'ເລືອກສະຖານີປາຍທາງ (ສະຖານີລົງ)',
+                          title: tr('select_dest_title'),
                         ),
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
@@ -580,7 +543,7 @@ class _BRTpageState extends State<BRTpage> {
                                 child: Text(
                                   endStation != null
                                       ? _getStationName(endStation!)
-                                      : 'ເລືອກສະຖານີລົງ',
+                                      : tr('select_dest_hint'),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: endStation != null
@@ -632,9 +595,9 @@ class _BRTpageState extends State<BRTpage> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          child: const Text(
-                            'ຢືນຢັນ',
-                            style: TextStyle(
+                          child: Text(
+                            tr('confirm'),
+                            style: const TextStyle(
                               fontSize: 18,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
