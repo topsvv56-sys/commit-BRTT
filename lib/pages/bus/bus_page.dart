@@ -242,6 +242,13 @@ class _BusPageState extends State<BusPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: Row(
                     children: [
+                      if (Navigator.canPop(context)) ...[
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        const SizedBox(width: 4),
+                      ],
                       Text(
                         tr('bus_ticket_title'),
                         style: const TextStyle(
@@ -254,7 +261,7 @@ class _BusPageState extends State<BusPage> {
                   const Spacer(),
                   // ປຸ່ມ Bus API Schedule
                   IconButton(
-                    tooltip: 'Bus API & Schedule',
+                    tooltip: tr('bus_api_title'),
                     icon: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
@@ -278,7 +285,7 @@ class _BusPageState extends State<BusPage> {
                   ),
                   // ປຸ່ມ Notification (ກະດິ່ງ)
                   IconButton(
-                    tooltip: 'Notifications',
+                    tooltip: tr('notifications_title'),
                     icon: Stack(
                       clipBehavior: Clip.none,
                       children: [

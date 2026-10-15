@@ -116,20 +116,27 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          tr('register_btn'),
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: Text(
+              tr('register_btn'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: orangePrimary,
+            iconTheme: const IconThemeData(color: Colors.white),
+            elevation: 0,
           ),
-        ),
-        backgroundColor: orangePrimary,
-        iconTheme: const IconThemeData(color: Colors.white),
-        elevation: 0,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -328,5 +335,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
-  }
+  },
+);
+}
 }

@@ -143,7 +143,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("ເບິ່ງຕົ໋ວເຕັມໜ້າຈໍ"),
+                      child: Text(tr('view_full_ticket')),
                     ),
                   ),
                   if (ticket.status == 'paid') ...[
@@ -162,15 +162,15 @@ class _HistoryPageState extends State<HistoryPage> {
                           _loadTickets();
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('ສະແກນໃຊ້ຕົ໋ວສຳເລັດແລ້ວ!'),
+                              SnackBar(
+                                content: Text(tr('ticket_used_success')),
                               ),
                             );
                           }
                         },
-                        child: const Text(
-                          "ຈຳລອງການໃຊ້ຕົ໋ວ",
-                          style: TextStyle(color: Colors.white),
+                        child: Text(
+                          tr('simulate_use_ticket'),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -187,67 +187,70 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFBF7F9),
-      appBar: AppBar(
-        title: Text(
-          tr('history_title'),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: const Color(0xFFD97724),
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: FutureBuilder<List<TicketModel>>(
-        future: _ticketsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(color: Color(0xFFD97724)),
-            );
-          }
-
-          final List<TicketModel> list = snapshot.data ?? [];
-
-          if (list.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.confirmation_number_outlined,
-                    size: 64,
-                    color: Colors.grey.shade400,
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    "ຍັງບໍ່ມີປະຫວັດການຊື້ຕົ໋ວ",
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                  const SizedBox(height: 8),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const BusPage(total: 7000),
-                        ),
-                      );
-                    },
-                    child: const Text("ໄປຊື້ຕົ໋ວລົດເມດຽວນີ້"),
-                  ),
-                ],
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFFBF7F9),
+          appBar: AppBar(
+            title: Text(
+              tr('history_title'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-            );
-          }
+            ),
+            backgroundColor: const Color(0xFFD97724),
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          body: FutureBuilder<List<TicketModel>>(
+            future: _ticketsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(color: Color(0xFFD97724)),
+                );
+              }
+
+              final List<TicketModel> list = snapshot.data ?? [];
+
+              if (list.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.confirmation_number_outlined,
+                        size: 64,
+                        color: Colors.grey.shade400,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        tr('no_tickets_history'),
+                        style: const TextStyle(color: Colors.grey, fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const BusPage(total: 7000),
+                            ),
+                          );
+                        },
+                        child: Text(tr('go_buy_tickets')),
+                      ),
+                    ],
+                  ),
+                );
+              }
 
           return RefreshIndicator(
             onRefresh: () async => _loadTickets(),
@@ -358,23 +361,27 @@ class _HistoryPageState extends State<HistoryPage> {
         },
       ),
       bottomNavigationBar: Container(
-        height: 56,
+        height: 60,
         color: const Color(0xFFD97724),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              icon: const Icon(Icons.home, color: Colors.white70),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.home,
+              label: tr('home_nav'),
+              isActive: false,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
                 );
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.add, color: Colors.white70),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.add_box,
+              label: tr('booking_nav'),
+              isActive: false,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -383,9 +390,11 @@ class _HistoryPageState extends State<HistoryPage> {
                 );
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.person, color: Colors.white),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.person,
+              label: tr('profile_nav'),
+              isActive: true,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const ProfilePage()),
@@ -396,5 +405,45 @@ class _HistoryPageState extends State<HistoryPage> {
         ),
       ),
     );
+      },
+    );
+  }
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required bool isActive,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isActive
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.65),
+              size: 24,
+            ),
+            const SizedBox(height: 3),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.65),
+                fontSize: 12,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
+

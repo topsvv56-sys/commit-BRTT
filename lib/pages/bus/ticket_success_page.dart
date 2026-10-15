@@ -26,22 +26,39 @@ class SuccessPage extends StatelessWidget {
     final String origin = ticket?.originStation ?? 'station_talatxao';
     final String destination = ticket?.destinationStation ?? 'station_dongdok';
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          tr('my_tickets_title'),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const BusPage(total: 7000),
+                    ),
+                  );
+                }
+              },
+            ),
+            title: Text(
+              tr('my_tickets_title'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: const Color(0xFFEE6C4D),
+            centerTitle: true,
+            elevation: 0,
           ),
-        ),
-        backgroundColor: const Color(0xFFEE6C4D),
-        centerTitle: true,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(
@@ -77,17 +94,17 @@ class SuccessPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "ລະຫັດຕົ໋ວ (Ticket ID):",
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      Text(
+                        tr('ticket_id_label'),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                       GestureDetector(
                         onTap: () {
                           Clipboard.setData(ClipboardData(text: ticketId));
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('ຄັດລອກລະຫັດຕົ໋ວແລ້ວ'),
-                              duration: Duration(seconds: 1),
+                            SnackBar(
+                              content: Text(tr('copied_ticket_id')),
+                              duration: const Duration(seconds: 1),
                             ),
                           );
                         },
@@ -118,9 +135,9 @@ class SuccessPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "ເສັ້ນທາງ (Route):",
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      Text(
+                        tr('route_label'),
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                       Text(
                         "${tr(origin)} ➔ ${tr(destination)}",
@@ -289,35 +306,33 @@ class SuccessPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 56,
+        height: 60,
         color: const Color(0xFFD97724),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              icon: const Icon(Icons.home, color: Colors.white70),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.home,
+              label: tr('home_nav'),
+              isActive: false,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => const BusPage(total: 2)),
+                  MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
                 );
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.add, color: Colors.white70),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        SuccessPage(total: displayTotal, qty: displayQty),
-                  ),
-                );
-              },
+            _buildNavItem(
+              icon: Icons.add_box,
+              label: tr('booking_nav'),
+              isActive: true,
+              onTap: () {},
             ),
-            IconButton(
-              icon: const Icon(Icons.person, color: Colors.white),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.person,
+              label: tr('profile_nav'),
+              isActive: false,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const ProfilePage()),
@@ -328,5 +343,45 @@ class SuccessPage extends StatelessWidget {
         ),
       ),
     );
+      },
+    );
+  }
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required bool isActive,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isActive
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.65),
+              size: 24,
+            ),
+            const SizedBox(height: 3),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.65),
+                fontSize: 12,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
+

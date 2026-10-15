@@ -245,25 +245,28 @@ class _BRTpageState extends State<BRTpage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFDA812D),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFDA812D),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'ເລືອກສະຖານີຂຶ້ນລົດ',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFDA812D),
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFDA812D),
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: Text(
+              tr('select_origin_title'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: false,
           ),
-        ),
-        centerTitle: false,
-      ),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -670,7 +673,7 @@ class _BRTpageState extends State<BRTpage> {
             // ໜ້າຫຼັກ (Home)
             _buildNavItem(
               icon: Icons.home,
-              label: 'ໜ້າຫຼັກ',
+              label: tr('home_nav'),
               isActive: false,
               onTap: () {
                 Navigator.pushReplacement(
@@ -682,14 +685,14 @@ class _BRTpageState extends State<BRTpage> {
             // ຈອງປີ້ (Book - Active)
             _buildNavItem(
               icon: Icons.add_box_rounded,
-              label: 'ຈອງປີ້',
+              label: tr('booking_nav'),
               isActive: true,
               onTap: () {},
             ),
             // ໂປຣໄຟລ໌ (Profile)
             _buildNavItem(
               icon: Icons.person,
-              label: 'ໂປຣໄຟລ໌',
+              label: tr('profile_nav'),
               isActive: false,
               onTap: () {
                 Navigator.pushReplacement(
@@ -701,6 +704,8 @@ class _BRTpageState extends State<BRTpage> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 

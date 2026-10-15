@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
+
 
 class BUS extends StatefulWidget {
   final int total;
@@ -77,7 +79,7 @@ class _BUSState extends State<BUS> {
 
         setState(() {
           _isUsingFallback = false;
-          _statusMessage = 'ເຊື່ອມຕໍ່ API ສຳເລັດ (Online)';
+          _statusMessage = tr('api_online');
         });
 
         if (data is Map && data.containsKey('user') && data['user'] is List) {
@@ -97,7 +99,7 @@ class _BUSState extends State<BUS> {
     // ຖ້າ API ເກີດຂໍ້ຜິດພາດ (ເຊັ່ນ ENOTFOUND / 404 / Offline) ໃຫ້ສະແດງຂໍ້ມູນ Mock ແທນ
     setState(() {
       _isUsingFallback = true;
-      _statusMessage = 'ກຳລັງສະແດງຂໍ້ມູນຈຳລອງ (API Offline / Mock Mode)';
+      _statusMessage = tr('api_offline');
     });
 
     return _mockBuses;
@@ -135,7 +137,7 @@ class _BUSState extends State<BUS> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('ຍົກເລີກ'),
+              child: Text(tr('cancel')),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -152,7 +154,7 @@ class _BUSState extends State<BUS> {
                   _refreshData();
                 }
               },
-              child: const Text('ບັນທຶກ ແລະ ໂຫຼດໃໝ່'),
+              child: Text(tr('save_and_reload')),
             ),
           ],
         );
@@ -162,32 +164,39 @@ class _BUSState extends State<BUS> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFD97724),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'BRT Bus Schedule & API',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-        ),
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8FAFC),
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFD97724),
+            foregroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: Text(
+              tr('bus_api_title'),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            tooltip: 'ຕັ້ງຄ່າ URL',
+            tooltip: tr('set_url_tooltip'),
             onPressed: _showChangeUrlDialog,
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: 'ໂຫຼດຂໍ້ມູນໃໝ່',
+            tooltip: tr('refresh_tooltip'),
             onPressed: _refreshData,
           ),
         ],
       ),
       body: Column(
         children: [
-          // แถบแจ้งเตือนสถานะการเชื่อมต่อ API
+          // ແຖບແຈ້ງເຕືອນສະຖານະການເຊື່ອມຕໍ່ API
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -203,7 +212,7 @@ class _BUSState extends State<BUS> {
                 Expanded(
                   child: Text(
                     _statusMessage.isEmpty
-                        ? 'ກຳລັງໂຫຼດຂໍ້ມູນ...'
+                        ? tr('loading_data')
                         : _statusMessage,
                     style: TextStyle(
                       fontSize: 12,
@@ -399,6 +408,8 @@ class _BUSState extends State<BUS> {
           ),
         ],
       ),
+    );
+      },
     );
   }
 }

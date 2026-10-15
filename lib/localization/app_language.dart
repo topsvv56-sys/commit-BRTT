@@ -9,6 +9,7 @@ ValueNotifier<String> appLanguageNotifier = ValueNotifier<String>('lao');
 Map<String, Map<String, String>> localizedValues = {
   'lao': {
     // --- 1. ໜ້າ Login ---
+    'login_title': 'ເຂົ້າສູ່ລະບົບ BRT',
     'welcome_brt': 'WELCOME TO BRT',
     'phone_email': 'ເບີໂທລະສັບ / ອີເມວ',
     'password': 'ລະຫັດຜ່ານ',
@@ -71,6 +72,22 @@ Map<String, Map<String, String>> localizedValues = {
     'station_thatluang': 'ທາດຫຼວງ',
     'station_sihom': 'ສີຫອມ',
     'station_sikeut': 'ສີເກີດ',
+    'station_southern': 'ສະຖານີສາຍໃຕ້',
+    'station_northern': 'ສະຖານີສາຍເໜືອ',
+    'station_airport': 'ສະໜາມບິນວັດໄຕ',
+    'no_tickets_history': 'ຍັງບໍ່ມີປະຫວັດການຊື້ຕົ໋ວ',
+    'go_buy_tickets': 'ໄປຊື້ຕົ໋ວລົດເມດຽວນີ້',
+    'bus_api_title': 'ຕາຕະລາງລົດເມ & API',
+    'driver': 'ຄົນຂັບ',
+    'time': 'ເວລາ',
+    'route': 'ສາຍທາງ',
+    'refresh': 'ໂຫຼດໃໝ່',
+    'set_url_tooltip': 'ຕັ້ງຄ່າ URL',
+    'refresh_tooltip': 'ໂຫຼດຂໍ້ມູນໃໝ່',
+    'loading_data': 'ກຳລັງໂຫຼດຂໍ້ມູນ...',
+    'save_and_reload': 'ບັນທຶກ ແລະ ໂຫຼດໃໝ່',
+    'api_online': 'ເຊື່ອມຕໍ່ API ສຳເລັດ (Online)',
+    'api_offline': 'ໂໝດສຳຮອງ / Offline',
 
     // --- 7. ໜ້າ ສະແກນ QR ເພື່ອຈ່າຍເງິນ ---
     'scan_qr_title': 'ສະແກນ QR ເພື່ອຈ່າຍເງິນ',
@@ -80,6 +97,9 @@ Map<String, Map<String, String>> localizedValues = {
     'confirm_and_receipt': 'ຮັບບິນຢ່າງຖືກຕ້ອງ',
     'qr_scanned_success': 'ສະແກນ QR ສຳເລັດ',
     'no_qr_found_image': 'ບໍ່ພົບ QR Code ໃນຮູບພາບນີ້',
+    'upload_slip_qr': 'ອັບໂຫລດຮູບ QR / ສະລິບຈາກເຄື່ອງ',
+    'simulate_webhook': 'ຈຳລອງການຊຳລະເງິນ (Webhook)',
+    'checking_webhook': 'ກຳລັງກວດສອບການໂອນເງິນຈາກທະນາຄານ (Webhook)...',
 
     // --- 8. ໜ້າ ປີ້ລົດສຳເລັດ (Tickets Success) ---
     'my_tickets_title': 'ປີ້ລົດຂອງທ່ານ',
@@ -93,6 +113,9 @@ Map<String, Map<String, String>> localizedValues = {
     'show_qr_to_officer': 'ສະແດງ QR ນີ້ຕໍ່ເຈົ້າໜ້າທີ່ເວລານັກຂຶ້ນລົດ',
     'scan_qr_hint': 'ສະແກນ QR ນີ້ຢູ່ທາງເຂົ້າ-ອອກ',
     'back_to_main_btn': 'ກັບຄືນໜ້າຫຼັກ',
+    'ticket_id_label': 'ລະຫັດຕົ໋ວ:',
+    'route_label': 'ເສັ້ນທາງ:',
+    'copied_ticket_id': 'ຄັດລອກລະຫັດຕົ໋ວແລ້ວ',
 
     // --- 9. ໜ້າ ຂໍ້ມູນສ່ວນຕົວ (Profile) ---
     'profile_title': 'ຂໍ້ມູນສ່ວນຕົວ',
@@ -122,6 +145,9 @@ Map<String, Map<String, String>> localizedValues = {
     'status_expired': 'ໝົດອາຍຸ',
     'date_label': 'ວັນທີ:',
     'price_label': 'ລາຄາ:',
+    'view_full_ticket': 'ເບິ່ງຕົ໋ວເຕັມໜ້າຈໍ',
+    'simulate_use_ticket': 'ຈຳລອງການໃຊ້ຕົ໋ວ',
+    'ticket_used_success': 'ສະແກນໃຊ້ຕົ໋ວສຳເລັດແລ້ວ!',
 
     // --- 11. ໜ້າ ບັນຊີ / ວິທີຈ່າຍເງິນ ---
     'payment_title': 'ບັນຊີ / ວິທີຈ່າຍເງິນ',
@@ -173,6 +199,7 @@ Map<String, Map<String, String>> localizedValues = {
   },
   'en': {
     // --- 1. Login ---
+    'login_title': 'BRT Login',
     'welcome_brt': 'WELCOME TO BRT',
     'phone_email': 'Phone Number / Email',
     'password': 'Password',
@@ -234,6 +261,22 @@ Map<String, Map<String, String>> localizedValues = {
     'station_thatluang': 'That Luang',
     'station_sihom': 'Sihom',
     'station_sikeut': 'Sikeut',
+    'station_southern': 'Southern Bus Station',
+    'station_northern': 'Northern Bus Station',
+    'station_airport': 'Wattay Airport',
+    'no_tickets_history': 'No ticket purchase history yet',
+    'go_buy_tickets': 'Buy bus tickets now',
+    'bus_api_title': 'BRT Bus Schedule & API',
+    'driver': 'Driver',
+    'time': 'Time',
+    'route': 'Route',
+    'refresh': 'Refresh',
+    'set_url_tooltip': 'Set URL',
+    'refresh_tooltip': 'Refresh Data',
+    'loading_data': 'Loading data...',
+    'save_and_reload': 'Save & Reload',
+    'api_online': 'Connected to API (Online)',
+    'api_offline': 'Backup / Offline Mode',
 
     // --- 7. Scan QR ---
     'scan_qr_title': 'Scan QR to Pay',
@@ -243,6 +286,9 @@ Map<String, Map<String, String>> localizedValues = {
     'confirm_and_receipt': 'Confirm & View Ticket',
     'qr_scanned_success': 'QR scan successful',
     'no_qr_found_image': 'No QR Code found in this image',
+    'upload_slip_qr': 'Upload QR / Payment Slip',
+    'simulate_webhook': 'Simulate Payment (Webhook)',
+    'checking_webhook': 'Verifying payment transfer (Webhook)...',
 
     // --- 8. Ticket Success ---
     'my_tickets_title': 'Your Bus Ticket',
@@ -256,6 +302,9 @@ Map<String, Map<String, String>> localizedValues = {
     'show_qr_to_officer': 'Show this QR code to the officer when boarding',
     'scan_qr_hint': 'Scan this QR code at entry/exit',
     'back_to_main_btn': 'Back to Main Page',
+    'ticket_id_label': 'Ticket ID:',
+    'route_label': 'Route:',
+    'copied_ticket_id': 'Ticket ID copied',
 
     // --- 9. Profile ---
     'profile_title': 'Personal Information',
@@ -285,6 +334,9 @@ Map<String, Map<String, String>> localizedValues = {
     'status_expired': 'Expired',
     'date_label': 'Date:',
     'price_label': 'Price:',
+    'view_full_ticket': 'View Full Ticket',
+    'simulate_use_ticket': 'Simulate Using Ticket',
+    'ticket_used_success': 'Ticket validated successfully!',
 
     // --- 11. Payment Method ---
     'payment_title': 'Account / Payment Method',
@@ -336,6 +388,7 @@ Map<String, Map<String, String>> localizedValues = {
   },
   'zh': {
     // --- 1. 登录 ---
+    'login_title': 'BRT 登录',
     'welcome_brt': '欢迎来到 BRT',
     'phone_email': '电话号码 / 电子邮箱',
     'password': '密码',
@@ -397,6 +450,22 @@ Map<String, Map<String, String>> localizedValues = {
     'station_thatluang': '塔銮 (That Luang)',
     'station_sihom': '西荷姆 (Sihom)',
     'station_sikeut': '西格 (Sikeut)',
+    'station_southern': '南部客运站',
+    'station_northern': '北部客运站',
+    'station_airport': '瓦岱机场',
+    'no_tickets_history': '暂无购票记录',
+    'go_buy_tickets': '立即前往购票',
+    'bus_api_title': '公交时刻表 & API',
+    'driver': '司机',
+    'time': '时间',
+    'route': '路线',
+    'refresh': '刷新',
+    'set_url_tooltip': '设置 URL',
+    'refresh_tooltip': '刷新数据',
+    'loading_data': '正在加载数据...',
+    'save_and_reload': '保存并重新加载',
+    'api_online': 'API 连接成功 (在线)',
+    'api_offline': '离线备用模式',
 
     // --- 7. 扫描二维码 ---
     'scan_qr_title': '扫码支付',
@@ -406,6 +475,9 @@ Map<String, Map<String, String>> localizedValues = {
     'confirm_and_receipt': '确认付款并获取凭证',
     'qr_scanned_success': '二维码扫描成功',
     'no_qr_found_image': '此图片中未找到二维码',
+    'upload_slip_qr': '上传二维码 / 支付凭证',
+    'simulate_webhook': '模拟支付 (Webhook)',
+    'checking_webhook': '正在验证银行转账 (Webhook)...',
 
     // --- 8. 购票成功 ---
     'my_tickets_title': '您的车票',
@@ -419,6 +491,9 @@ Map<String, Map<String, String>> localizedValues = {
     'show_qr_to_officer': '乘车时请向工作人员出示此二维码',
     'scan_qr_hint': '请在进出站时扫描此二维码',
     'back_to_main_btn': '返回主页',
+    'ticket_id_label': '车票编号：',
+    'route_label': '路线：',
+    'copied_ticket_id': '已复制车票编号',
 
     // --- 9. 个人信息 ---
     'profile_title': '个人信息',
@@ -448,6 +523,9 @@ Map<String, Map<String, String>> localizedValues = {
     'status_expired': '已过期',
     'date_label': '日期：',
     'price_label': '价格：',
+    'view_full_ticket': '查看完整车票',
+    'simulate_use_ticket': '模拟验票',
+    'ticket_used_success': '车票核销成功！',
 
     // --- 11. 支付方式 ---
     'payment_title': '账户 / 支付方式',

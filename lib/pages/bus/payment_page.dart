@@ -161,25 +161,28 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFBF7F9),
-      appBar: AppBar(
-        title: Text(
-          tr('scan_qr_title'),
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFFBF7F9),
+          appBar: AppBar(
+            title: Text(
+              tr('scan_qr_title'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: const Color(0xFFD97724),
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
           ),
-        ),
-        backgroundColor: const Color(0xFFD97724),
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
         child: Column(
@@ -317,15 +320,15 @@ class _PaymentPageState extends State<PaymentPage> {
             const SizedBox(height: 24),
 
             if (_isProcessing)
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    CircularProgressIndicator(color: Color(0xFFD97724)),
-                    SizedBox(height: 10),
+                    const CircularProgressIndicator(color: Color(0xFFD97724)),
+                    const SizedBox(height: 10),
                     Text(
-                      "ກຳລັງກວດສອບການໂອນເງິນຈາກທະນາຄານ (Webhook)...",
-                      style: TextStyle(color: Colors.grey, fontSize: 13),
+                      tr('checking_webhook'),
+                      style: const TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   ],
                 ),
@@ -347,9 +350,9 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       onPressed: _handleWebhookSimulation,
                       icon: const Icon(Icons.flash_on, color: Colors.white),
-                      label: const Text(
-                        "ຈຳລອງການຊຳລະເງິນ (Simulate Webhook)",
-                        style: TextStyle(
+                      label: Text(
+                        tr('simulate_webhook'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -396,9 +399,9 @@ class _PaymentPageState extends State<PaymentPage> {
                       size: 18,
                       color: Colors.blueGrey,
                     ),
-                    label: const Text(
-                      "ອັບໂຫລດຮູບ QR / ສະລິບຈາກເຄື່ອງ",
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 13),
+                    label: Text(
+                      tr('upload_slip_qr'),
+                      style: const TextStyle(color: Colors.blueGrey, fontSize: 13),
                     ),
                   ),
                 ],
@@ -406,6 +409,8 @@ class _PaymentPageState extends State<PaymentPage> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

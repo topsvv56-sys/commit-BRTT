@@ -69,6 +69,10 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
           child: Scaffold(
             backgroundColor: const Color(0xFFFAF8F5),
             appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
+              ),
               title: Text(
                 tr('add_payment_title'),
                 style: const TextStyle(

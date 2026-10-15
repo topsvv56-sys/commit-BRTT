@@ -64,60 +64,69 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          tr('recover_password_title'),
-          style: const TextStyle(color: Colors.white),
-        ),
-        backgroundColor: const Color.fromARGB(255, 211, 69, 9),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 10),
-
-            TextField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                hintText: tr('phone_email_hint'),
-                prefixIcon: const Icon(Icons.email_outlined),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
             ),
-            const SizedBox(height: 25),
+            title: Text(
+              tr('recover_password_title'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: const Color.fromARGB(255, 211, 69, 9),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 10),
 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 211, 69, 9),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: _isLoading ? null : _handleResetPassword,
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : Text(
-                      tr('send_recovery_link'),
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: tr('phone_email_hint'),
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 25),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 211, 69, 9),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: _isLoading ? null : _handleResetPassword,
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text(
+                          tr('send_recovery_link'),
+                          style: const TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -189,11 +198,43 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('BRT Login', style: TextStyle(color: Colors.white)),
-        backgroundColor: const Color.fromARGB(255, 211, 69, 9),
-      ),
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(tr('login_title'), style: const TextStyle(color: Colors.white)),
+            backgroundColor: const Color.fromARGB(255, 211, 69, 9),
+            leading: Navigator.canPop(context)
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  )
+                : null,
+            actions: [
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.language, color: Colors.white),
+                tooltip: tr('change_language'),
+                onSelected: (val) async {
+                  await changeAppLanguage(val);
+                },
+                itemBuilder: (ctx) => [
+                  PopupMenuItem(
+                    value: 'lao',
+                    child: Text(tr('lao_lang')),
+                  ),
+                  PopupMenuItem(
+                    value: 'en',
+                    child: Text(tr('eng_lang')),
+                  ),
+                  PopupMenuItem(
+                    value: 'zh',
+                    child: Text(tr('zh_lang')),
+                  ),
+                ],
+              ),
+            ],
+          ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -345,5 +386,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
+  },
+);
+}
 }
