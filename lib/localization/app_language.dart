@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ValueNotifier ເພື່ອແຈ້ງໃຫ້ທຸກໆໜ້າປ່ຽນພາສາທັນທີ
 ValueNotifier<String> appLanguageNotifier = ValueNotifier<String>('lao');
+
 
 // ຄັງເກັບຄຳແປທຸກໜ້າໃນແອັບ
 Map<String, Map<String, String>> localizedValues = {
@@ -153,6 +155,21 @@ Map<String, Map<String, String>> localizedValues = {
     'lao_lang': 'ພາສາລາວ',
     'eng_lang': 'English',
     'zh_lang': '中文 (Chinese)',
+    'pick_gallery': 'ເລືອກຈາກຄັງຮູບ (Gallery)',
+    'take_photo': 'ຖ່າຍຮູບ (Camera)',
+    'pass_changed': 'ປ່ຽນລະຫັດຜ່ານສຳເລັດແລ້ວ!',
+    'pass_not_match': 'ລະຫັດຜ່ານໃໝ່ບໍ່ກົງກັນ',
+    'remaining_seats': 'ບ່ອນນັ່ງວ່າງ: 14',
+    'vientiane_bus_station': 'ສະຖານີລົດເມ ວຽງຈັນ',
+    'promo_code': 'ລະຫັດສ່ວນຫຼຸດ',
+    'enter_promo_hint': 'ປ້ອນລະຫັດສ່ວນຫຼຸດ (ຕົວຢ່າງ: BRT2026 ຫຼື PROMO)',
+    'promo_success': 'ນຳໃຊ້ລະຫັດສ່ວນຫຼຸດສຳເລັດ! ຫຼຸດ 2,000 ກີບ',
+    'promo_invalid': 'ລະຫັດສ່ວນຫຼຸດບໍ່ຖືກຕ້ອງ',
+    'notifications_title': 'ການແຈ້ງເຕືອນ',
+    'route_1_dongdok': 'BRT ສາຍ 1 (ດົງໂດກ - ຕະຫຼາດເຊົ້າ)',
+    'route_1_subtitle': 'ລົດອອກທຸກໆ 15 ນາທີ ຕັ້ງແຕ່ 06:00 - 18:30',
+    'promo_notification_title': 'ໂປຣໂມຊັ່ນ OnePay ສະແກນຈ່າຍ',
+    'promo_notification_subtitle': 'ຮັບສ່ວນຫຼຸດພິເສດເມື່ອຊື້ປີ້ລົດຜ່ານລະບົບ QR Code',
   },
   'en': {
     // --- 1. Login ---
@@ -301,6 +318,21 @@ Map<String, Map<String, String>> localizedValues = {
     'lao_lang': 'Lao (ພາສາລາວ)',
     'eng_lang': 'English',
     'zh_lang': 'Chinese (中文)',
+    'pick_gallery': 'Choose from Gallery',
+    'take_photo': 'Take a Photo',
+    'pass_changed': 'Password changed successfully!',
+    'pass_not_match': 'New passwords do not match',
+    'remaining_seats': 'Remaining seats: 14',
+    'vientiane_bus_station': 'Vientiane Bus Station',
+    'promo_code': 'Promo Code',
+    'enter_promo_hint': 'Enter promo code (e.g. BRT2026 or PROMO)',
+    'promo_success': 'Promo code applied! 2,000 Kip discount',
+    'promo_invalid': 'Invalid promo code',
+    'notifications_title': 'Notifications',
+    'route_1_dongdok': 'BRT Line 1 (Dongdok - Morning Market)',
+    'route_1_subtitle': 'Departs every 15 mins from 06:00 - 18:30',
+    'promo_notification_title': 'OnePay Scan & Pay Promotion',
+    'promo_notification_subtitle': 'Get special discount when paying via QR Code',
   },
   'zh': {
     // --- 1. 登录 ---
@@ -449,11 +481,43 @@ Map<String, Map<String, String>> localizedValues = {
     'lao_lang': '老挝语 (ພາສາລາວ)',
     'eng_lang': '英语 (English)',
     'zh_lang': '中文 (Chinese)',
+    'pick_gallery': '从相册选择',
+    'take_photo': '拍照',
+    'pass_changed': '密码修改成功！',
+    'pass_not_match': '新密码不一致',
+    'remaining_seats': '剩余座位：14',
+    'vientiane_bus_station': '万象公交总站',
+    'promo_code': '优惠码',
+    'enter_promo_hint': '输入优惠码（例如：BRT2026 或 PROMO）',
+    'promo_success': '优惠码生效！立减 2,000 基普',
+    'promo_invalid': '优惠码无效',
+    'notifications_title': '通知中心',
+    'route_1_dongdok': 'BRT 1号线（东都 - 早市）',
+    'route_1_subtitle': '06:00 - 18:30 每15分钟一班',
+    'promo_notification_title': 'OnePay 扫码支付优惠',
+    'promo_notification_subtitle': '通过二维码支付享受专属折扣',
   },
 };
 
 // ຟັງຊັນສັ້ນໆດຶງຄຳແປ
 String tr(String key) {
   String langCode = appLanguageNotifier.value;
-  return localizedValues[langCode]?[key] ?? key;
+  return localizedValues[langCode]?[key] ?? localizedValues['lao']?[key] ?? key;
 }
+
+// ບັນທຶກພາສາລົງ SharedPreferences
+Future<void> changeAppLanguage(String langCode) async {
+  appLanguageNotifier.value = langCode;
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('app_selected_language', langCode);
+}
+
+// ໂຫຼດພາສາຕອນເປີດແອັບ
+Future<void> initAppLanguage() async {
+  final prefs = await SharedPreferences.getInstance();
+  final savedLang = prefs.getString('app_selected_language');
+  if (savedLang != null && localizedValues.containsKey(savedLang)) {
+    appLanguageNotifier.value = savedLang;
+  }
+}
+

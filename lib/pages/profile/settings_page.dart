@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
-import 'package:flutter_application_brt_bub/localization/app_language.dart'; // import ໄຟລ໌ພາສາທີ່ສ້າງໃໝ່
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -12,73 +12,78 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          tr('settings'), // ໃຊ້ tr() ເພື່ອແປພາສາ
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: const Color(0xFFD34509),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              tr('settings_title'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            elevation: 2,
-            child: Column(
-              children: [
-                // ---------------- 1. ປ່ຽນພາສາ ----------------
-                ListTile(
-                  leading: const Icon(Icons.language, color: Colors.orange),
-                  title: Text(tr('change_language')),
-                  trailing: Text(
-                    appLanguageNotifier.value == 'lao'
-                        ? 'ພາສາລາວ'
-                        : (appLanguageNotifier.value == 'zh'
-                              ? '中文'
-                              : 'English'),
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  onTap: _showLanguageBottomSheet,
+            backgroundColor: const Color(0xFFD34509),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const Divider(height: 1),
-
-                // ---------------- 2. ປ່ຽນລະຫັດຜ່ານ ----------------
-                ListTile(
-                  leading: const Icon(Icons.lock_outline, color: Colors.blue),
-                  title: Text(tr('change_password')),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: _showChangePasswordDialog,
-                ),
-                const Divider(height: 1),
-
-                // ---------------- 3. ອອກຈາກລະບົບ ----------------
-                ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.grey),
-                  title: Text(
-                    tr('logout'),
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
+                elevation: 2,
+                child: Column(
+                  children: [
+                    // ---------------- 1. ປ່ຽນພາສາ ----------------
+                    ListTile(
+                      leading: const Icon(Icons.language, color: Colors.orange),
+                      title: Text(tr('change_language')),
+                      trailing: Text(
+                        currentLang == 'lao'
+                            ? 'ພາສາລາວ'
+                            : (currentLang == 'zh'
+                                  ? '中文'
+                                  : 'English'),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      onTap: _showLanguageBottomSheet,
                     ),
-                  ),
-                  onTap: _showLogoutConfirmDialog,
+                    const Divider(height: 1),
+
+                    // ---------------- 2. ປ່ຽນລະຫັດຜ່ານ ----------------
+                    ListTile(
+                      leading: const Icon(Icons.lock_outline, color: Colors.blue),
+                      title: Text(tr('change_password')),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      onTap: _showChangePasswordDialog,
+                    ),
+                    const Divider(height: 1),
+
+                    // ---------------- 3. ອອກຈາກລະບົບ ----------------
+                    ListTile(
+                      leading: const Icon(Icons.logout, color: Colors.grey),
+                      title: Text(
+                        tr('logout'),
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: _showLogoutConfirmDialog,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -99,12 +104,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: appLanguageNotifier.value == 'lao'
                     ? const Icon(Icons.check, color: Colors.blue)
                     : null,
-                onTap: () {
-                  // ອັບເດດພາສາເປັນ ລາວ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
-                  setState(() {
-                    appLanguageNotifier.value = 'lao';
-                  });
-                  Navigator.pop(context);
+                onTap: () async {
+                  await changeAppLanguage('lao');
+                  if (context.mounted) Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -112,12 +114,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: appLanguageNotifier.value == 'en'
                     ? const Icon(Icons.check, color: Colors.blue)
                     : null,
-                onTap: () {
-                  // ອັບເດດພາສາເປັນ ອັງກິດ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂນມັດ)
-                  setState(() {
-                    appLanguageNotifier.value = 'en';
-                  });
-                  Navigator.pop(context);
+                onTap: () async {
+                  await changeAppLanguage('en');
+                  if (context.mounted) Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -125,12 +124,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: appLanguageNotifier.value == 'zh'
                     ? const Icon(Icons.check, color: Colors.blue)
                     : null,
-                onTap: () {
-                  // ອັບເດດພາສາເປັນ ຈີນ (ທຸກໜ້າຈະປ່ຽນຕາມອັດໂຕໂนມັດ)
-                  setState(() {
-                    appLanguageNotifier.value = 'zh';
-                  });
-                  Navigator.pop(context);
+                onTap: () async {
+                  await changeAppLanguage('zh');
+                  if (context.mounted) Navigator.pop(context);
                 },
               ),
             ],

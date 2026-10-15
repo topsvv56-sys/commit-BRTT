@@ -156,19 +156,19 @@ class _BusPageState extends State<BusPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Row(
+          title: Row(
             children: [
-              Icon(Icons.discount, color: Color(0xFFD97724)),
-              SizedBox(width: 8),
-              Text('Promo Code / ລະຫັດສ່ວນຫຼຸດ'),
+              const Icon(Icons.discount, color: Color(0xFFD97724)),
+              const SizedBox(width: 8),
+              Text(tr('promo_code')),
             ],
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'ປ້ອນລະຫັດສ່ວນຫຼຸດ (ຕົວຢ່າງ: BRT2026 ຫຼື PROMO)',
-                style: TextStyle(fontSize: 13, color: Colors.black54),
+              Text(
+                tr('enter_promo_hint'),
+                style: const TextStyle(fontSize: 13, color: Colors.black54),
               ),
               const SizedBox(height: 12),
               TextField(
@@ -185,7 +185,7 @@ class _BusPageState extends State<BusPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('ຍົກເລີກ'),
+              child: Text(tr('cancel')),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -199,10 +199,8 @@ class _BusPageState extends State<BusPage> {
                     discount = 2000;
                     appliedPromoCode = code;
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'ນຳໃຊ້ລະຫັດສ່ວນຫຼຸດສຳເລັດ! ຫຼຸດ 2,000 ກີບ',
-                        ),
+                      SnackBar(
+                        content: Text(tr('promo_success')),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -211,8 +209,8 @@ class _BusPageState extends State<BusPage> {
                     appliedPromoCode = '';
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('ລະຫັດສ່ວນຫຼຸດບໍ່ຖືກຕ້ອງ'),
+                      SnackBar(
+                        content: Text(tr('promo_invalid')),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -220,7 +218,7 @@ class _BusPageState extends State<BusPage> {
                 });
                 Navigator.pop(ctx);
               },
-              child: const Text('ນຳໃຊ້'),
+              child: Text(tr('confirm')),
             ),
           ],
         );
@@ -230,26 +228,29 @@ class _BusPageState extends State<BusPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFD97724),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            // ================= 1. TOP APP BAR =================
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              child: Row(
-                children: [
-                  const Text(
-                    'Bus Tickets',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, currentLang, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFD97724),
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                // ================= 1. TOP APP BAR =================
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        tr('bus_ticket_title'),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
                   const Spacer(),
                   // ປຸ່ມ Bus API Schedule
                   IconButton(
@@ -451,9 +452,9 @@ class _BusPageState extends State<BusPage> {
                                       ),
                                     ),
                                     const SizedBox(width: 6),
-                                    const Text(
-                                      'Remaining seats: 14',
-                                      style: TextStyle(
+                                    Text(
+                                      tr('remaining_seats'),
+                                      style: const TextStyle(
                                         fontSize: 13,
                                         color: Color(0xFF1E293B),
                                         fontWeight: FontWeight.w600,
@@ -675,18 +676,18 @@ class _BusPageState extends State<BusPage> {
                                     ),
                                   ],
                                 ),
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.directions_bus_filled,
                                       color: Color(0xFF1E293B),
                                       size: 24,
                                     ),
-                                    SizedBox(width: 8),
+                                    const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
-                                        'Vientiane Bus Station',
-                                        style: TextStyle(
+                                        tr('vientiane_bus_station'),
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
                                           color: Color(0xFF1E293B),
@@ -751,7 +752,7 @@ class _BusPageState extends State<BusPage> {
                                     Expanded(
                                       child: Text(
                                         appliedPromoCode.isEmpty
-                                            ? '(Promo Code)'
+                                            ? '(${tr('promo_code')})'
                                             : appliedPromoCode,
                                         style: TextStyle(
                                           fontSize: 12,
@@ -801,14 +802,14 @@ class _BusPageState extends State<BusPage> {
             // Home (Active)
             _buildNavItem(
               icon: Icons.home,
-              label: 'Home',
+              label: tr('home_nav'),
               isActive: true,
               onTap: () {},
             ),
             // Book (+)
             _buildNavItem(
               icon: Icons.add,
-              label: 'Book',
+              label: tr('booking_nav'),
               isActive: false,
               onTap: () {
                 Navigator.push(
@@ -822,7 +823,7 @@ class _BusPageState extends State<BusPage> {
             // Profile
             _buildNavItem(
               icon: Icons.person,
-              label: 'Profile',
+              label: tr('profile_nav'),
               isActive: false,
               onTap: () {
                 Navigator.push(
@@ -834,6 +835,8 @@ class _BusPageState extends State<BusPage> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 

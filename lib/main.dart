@@ -7,6 +7,7 @@ import 'package:flutter_application_brt_bub/pages/auth/login_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initAppLanguage();
   runApp(const MyApp());
 }
 
