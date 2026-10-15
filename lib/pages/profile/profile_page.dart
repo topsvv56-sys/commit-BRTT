@@ -1,63 +1,336 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/pages/profile/payment_methods_page.dart';
 import 'package:flutter_application_brt_bub/pages/profile/history_page.dart';
 import 'package:flutter_application_brt_bub/pages/profile/settings_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/edit_profile_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String _userName = 'Hannalong Savayvanh';
+  String _userEmail = 'toppy20003@brtlaos.com';
+  File? _profileImage;
+
+  static const Color primaryOrange = Color(0xFFD46A12);
+  static const Color bgWarmCream = Color(0xFFF9F7F2);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  /// ໂຫຼດຂໍ້ມູນຜູ້ໃຊ້
+  Future<void> _loadProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final authUser = FirebaseAuth.instance.currentUser;
+
+    final savedName = prefs.getString('user_profile_name') ??
+        authUser?.displayName ??
+        'Hannalong Savayvanh';
+    final savedEmail = prefs.getString('user_profile_email') ??
+        authUser?.email ??
+        'toppy20003@brtlaos.com';
+    final savedImagePath = prefs.getString('user_profile_image_path');
+
+    setState(() {
+      _userName = savedName;
+      _userEmail = savedEmail;
+      if (savedImagePath != null && File(savedImagePath).existsSync()) {
+        _profileImage = File(savedImagePath);
+      } else {
+        _profileImage = null;
+      }
+    });
+  }
+
+  /// ໄປໜ້າແກ້ໄຂໂປຣໄຟລ໌
+  Future<void> _navigateToEditProfile() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const EditProfilePage()),
+    );
+    if (result == true) {
+      _loadProfileData();
+    }
+  }
+
+  /// Dialog ປ່ຽນລະຫັດຜ່ານ
+  void _showChangePasswordDialog() {
+    final oldPassController = TextEditingController();
+    final newPassController = TextEditingController();
+    final confirmPassController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(tr('change_password')),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: oldPassController,
+              obscureText: true,
+              decoration: InputDecoration(labelText: tr('old_pass')),
+            ),
+            TextField(
+              controller: newPassController,
+              obscureText: true,
+              decoration: InputDecoration(labelText: tr('new_pass')),
+            ),
+            TextField(
+              controller: confirmPassController,
+              obscureText: true,
+              decoration: InputDecoration(labelText: tr('confirm_pass')),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(tr('cancel')),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryOrange,
+            ),
+            onPressed: () {
+              if (newPassController.text != confirmPassController.text) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(tr('passwords_not_match'))),
+                );
+                return;
+              }
+              Navigator.pop(dialogContext);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('ປ່ຽນລະຫັດຜ່ານສຳເລັດແລ້ວ!'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            },
+            child: Text(
+              tr('confirm'),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: bgWarmCream,
       appBar: AppBar(
         title: Text(
           tr('profile_title'),
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
-        backgroundColor: const Color.fromARGB(255, 218, 129, 45),
-        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: primaryOrange,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
+              );
+            }
+          },
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: InkWell(
+              onTap: _navigateToEditProfile,
+              borderRadius: BorderRadius.circular(8),
+              child: Row(
+                children: [
+                  Text(
+                    tr('edit'),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.edit, color: Colors.white, size: 20),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            // ຮູບ Profile Placeholder
-            const Center(
-              child: CircleAvatar(
-                radius: 60,
-                backgroundColor: Color(0xFF2E5F8A),
-                child: Icon(Icons.person, size: 70, color: Colors.white),
+            const SizedBox(height: 24),
+
+            // --- ຮູບ Profile + ປຸ່ມກ້ອງ Camera Badge ---
+            Center(
+              child: Stack(
+                children: [
+                  GestureDetector(
+                    onTap: _navigateToEditProfile,
+                    child: CircleAvatar(
+                      radius: 56,
+                      backgroundColor: const Color(0xFF2E5F8A),
+                      backgroundImage: _profileImage != null
+                          ? FileImage(_profileImage!)
+                          : null,
+                      child: _profileImage == null
+                          ? const Icon(
+                              Icons.person,
+                              size: 64,
+                              color: Colors.white,
+                            )
+                          : null,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 4,
+                    child: GestureDetector(
+                      onTap: _navigateToEditProfile,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.15),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.camera_alt,
+                          color: Colors.black87,
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 15),
-            const Text(
-              "Hannalong Savayvanh",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+
+            const SizedBox(height: 14),
+
+            // ຊື່ຜູ້ໃຊ້
+            Text(
+              _userName,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
-            const Text(
-              "toppy20003@brtlaos.com",
-              style: TextStyle(color: Colors.grey),
+            const SizedBox(height: 4),
+
+            // ອີເມລ
+            Text(
+              _userEmail,
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.grey.shade600,
+              ),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 14),
 
-            // ເມນູຕ່າງໆ
+            // ປຸ່ມ Outline: "ແກ້ໄຂໂປຣໄຟລ໌"
+            OutlinedButton(
+              onPressed: _navigateToEditProfile,
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Color(0xFFC06A1D), width: 1.5),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 6,
+                ),
+              ),
+              child: Text(
+                tr('edit_profile'),
+                style: const TextStyle(
+                  color: Color(0xFFC06A1D),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // --- Card ເມນູຕ່າງໆ ---
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
+                    // 1. ປະຫວັດການຊື້ປີ້
                     ListTile(
-                      leading: const Icon(Icons.history, color: Colors.blue),
-                      title: Text(tr('purchase_history')),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.withValues(alpha: 0.12),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.history,
+                          color: Colors.blue,
+                          size: 22,
+                        ),
+                      ),
+                      title: Text(
+                        tr('purchase_history'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -67,11 +340,35 @@ class ProfilePage extends StatelessWidget {
                         );
                       },
                     ),
-                    const Divider(height: 1),
+                    const Divider(height: 1, indent: 60),
+
+                    // 2. ບັນຊີ / ວິທີຈ່າຍເງິນ
                     ListTile(
-                      leading: const Icon(Icons.payment, color: Colors.green),
-                      title: Text(tr('payment_method')),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withValues(alpha: 0.12),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.credit_card,
+                          color: Colors.green,
+                          size: 22,
+                        ),
+                      ),
+                      title: Text(
+                        tr('payment_method'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -81,11 +378,35 @@ class ProfilePage extends StatelessWidget {
                         );
                       },
                     ),
-                    const Divider(height: 1),
+                    const Divider(height: 1, indent: 60),
+
+                    // 3. ຕັ້ງຄ່າລະບົບ
                     ListTile(
-                      leading: const Icon(Icons.settings, color: Colors.grey),
-                      title: Text(tr('system_settings')),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.settings,
+                          color: Colors.grey.shade700,
+                          size: 22,
+                        ),
+                      ),
+                      title: Text(
+                        tr('system_settings'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -95,10 +416,43 @@ class ProfilePage extends StatelessWidget {
                         );
                       },
                     ),
+                    const Divider(height: 1, indent: 60),
+
+                    // 4. ປ່ຽນລະຫັດຜ່ານ
+                    ListTile(
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.amber.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.lock,
+                          color: Color(0xFFE5A100),
+                          size: 22,
+                        ),
+                      ),
+                      title: Text(
+                        tr('change_password'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
+                      onTap: _showChangePasswordDialog,
+                    ),
                   ],
                 ),
               ),
             ),
+
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -106,22 +460,26 @@ class ProfilePage extends StatelessWidget {
       // Bottom Navigation Bar
       bottomNavigationBar: Container(
         height: 60,
-        color: const Color.fromARGB(255, 218, 129, 45),
+        color: primaryOrange,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              icon: const Icon(Icons.home, color: Colors.white70),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.home,
+              label: tr('home_nav'),
+              isActive: false,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
                 );
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.add, color: Colors.white70),
-              onPressed: () {
+            _buildNavItem(
+              icon: Icons.add_box,
+              label: tr('booking_nav'),
+              isActive: false,
+              onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -130,9 +488,48 @@ class ProfilePage extends StatelessWidget {
                 );
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.person, color: Colors.white),
-              onPressed: () {},
+            _buildNavItem(
+              icon: Icons.person,
+              label: tr('profile_nav'),
+              isActive: true,
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required bool isActive,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isActive
+                  ? Colors.white
+                  : Colors.white.withValues(alpha: 0.65),
+              size: 24,
+            ),
+            const SizedBox(height: 3),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.65),
+                fontSize: 12,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              ),
             ),
           ],
         ),
