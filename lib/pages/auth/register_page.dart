@@ -314,7 +314,7 @@ class _RegisterPageState extends State<RegisterPage> {
               // 2. Main Scrollable Content
               SafeArea(
                 child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 22),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -126,6 +126,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           body: SafeArea(
             child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -604,7 +605,7 @@ class _LoginPageState extends State<LoginPage> {
               // 2. Main Content
               SafeArea(
                 child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 22),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
