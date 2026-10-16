@@ -39,12 +39,12 @@ class _BRTpageState extends State<BRTpage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (ctx) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.65,
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
@@ -55,7 +55,7 @@ class _BRTpageState extends State<BRTpage> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: AppColors.border,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -79,7 +79,7 @@ class _BRTpageState extends State<BRTpage> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1E293B),
+                        color: AppColors.textDark,
                       ),
                     ),
                     const Spacer(),
@@ -97,9 +97,9 @@ class _BRTpageState extends State<BRTpage> {
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   itemCount: stations.length,
-                  separatorBuilder: (context, index) => Divider(
+                  separatorBuilder: (context, index) => const Divider(
                     height: 1,
-                    color: Colors.grey.shade100,
+                    color: AppColors.borderLight,
                     indent: 68,
                   ),
                   itemBuilder: (context, index) {
@@ -114,13 +114,13 @@ class _BRTpageState extends State<BRTpage> {
                             ? (isOrigin
                                   ? AppColors.primary
                                   : AppColors.primaryDark)
-                            : const Color(0xFFF1F5F9),
+                            : AppColors.surfaceLight,
                         child: Icon(
                           Icons.location_on_rounded,
                           size: 20,
                           color: isSelected
-                              ? Colors.white
-                              : Colors.grey.shade600,
+                              ? AppColors.white
+                              : AppColors.textSecondary,
                         ),
                       ),
                       title: Text(
@@ -134,14 +134,14 @@ class _BRTpageState extends State<BRTpage> {
                               ? (isOrigin
                                     ? AppColors.primary
                                     : AppColors.primaryDark)
-                              : const Color(0xFF1E293B),
+                              : AppColors.textDark,
                         ),
                       ),
                       subtitle: Text(
                         tr('${key}_desc'),
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: AppColors.textSecondary,
                         ),
                       ),
                       trailing: isSelected
@@ -178,7 +178,7 @@ class _BRTpageState extends State<BRTpage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(tr('please_select_all_stations')),
-          backgroundColor: Colors.red.shade700,
+          backgroundColor: AppColors.error,
         ),
       );
       return;
@@ -188,7 +188,7 @@ class _BRTpageState extends State<BRTpage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(tr('same_station_error')),
-          backgroundColor: Colors.red.shade700,
+          backgroundColor: AppColors.error,
         ),
       );
       return;
@@ -218,13 +218,13 @@ class _BRTpageState extends State<BRTpage> {
             backgroundColor: AppColors.primary,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 26),
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
               tr('select_station_title'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
@@ -246,7 +246,7 @@ class _BRTpageState extends State<BRTpage> {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.15),
+                      color: AppColors.black.withValues(alpha: 0.15),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -271,7 +271,7 @@ class _BRTpageState extends State<BRTpage> {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.85),
+                            color: AppColors.white.withValues(alpha: 0.85),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Row(
@@ -282,7 +282,7 @@ class _BRTpageState extends State<BRTpage> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4285F4),
+                                  color: AppColors.googleBlue,
                                 ),
                               ),
                               Text(
@@ -290,7 +290,7 @@ class _BRTpageState extends State<BRTpage> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFFEA4335),
+                                  color: AppColors.googleRed,
                                 ),
                               ),
                               Text(
@@ -298,7 +298,7 @@ class _BRTpageState extends State<BRTpage> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFFFBBC05),
+                                  color: AppColors.googleYellow,
                                 ),
                               ),
                               Text(
@@ -306,7 +306,7 @@ class _BRTpageState extends State<BRTpage> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4285F4),
+                                  color: AppColors.googleBlue,
                                 ),
                               ),
                               Text(
@@ -314,7 +314,7 @@ class _BRTpageState extends State<BRTpage> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF34A853),
+                                  color: AppColors.googleGreen,
                                 ),
                               ),
                               Text(
@@ -322,7 +322,7 @@ class _BRTpageState extends State<BRTpage> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFFEA4335),
+                                  color: AppColors.googleRed,
                                 ),
                               ),
                             ],
@@ -338,11 +338,11 @@ class _BRTpageState extends State<BRTpage> {
                           width: 38,
                           height: 38,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.surfaceWhite,
                             borderRadius: BorderRadius.circular(8),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.12),
+                                color: AppColors.black.withValues(alpha: 0.12),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -353,7 +353,7 @@ class _BRTpageState extends State<BRTpage> {
                             icon: const Icon(
                               Icons.fullscreen,
                               size: 22,
-                              color: Color(0xFF475569),
+                              color: AppColors.textSlate,
                             ),
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -377,11 +377,11 @@ class _BRTpageState extends State<BRTpage> {
                           width: 38,
                           height: 38,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.surfaceWhite,
                             borderRadius: BorderRadius.circular(8),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.12),
+                                color: AppColors.black.withValues(alpha: 0.12),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -392,7 +392,7 @@ class _BRTpageState extends State<BRTpage> {
                             icon: const Icon(
                               Icons.my_location,
                               size: 20,
-                              color: Color(0xFF475569),
+                              color: AppColors.textSlate,
                             ),
                             onPressed: () {
                               setState(() {
@@ -421,11 +421,11 @@ class _BRTpageState extends State<BRTpage> {
               child: Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.surfaceWhite,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: AppColors.black12,
                       blurRadius: 8,
                       offset: Offset(0, -3),
                     ),
@@ -443,7 +443,7 @@ class _BRTpageState extends State<BRTpage> {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E293B),
+                          color: AppColors.textDark,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -459,10 +459,10 @@ class _BRTpageState extends State<BRTpage> {
                           height: 56,
                           padding: const EdgeInsets.symmetric(horizontal: 14),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF7E6D7),
+                            color: AppColors.primarySoft,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: const Color(0xFFC8691A),
+                              color: AppColors.primary,
                               width: 1.5,
                             ),
                           ),
@@ -485,8 +485,8 @@ class _BRTpageState extends State<BRTpage> {
                                         ? FontWeight.bold
                                         : FontWeight.w500,
                                     color: startStation != null
-                                        ? const Color(0xFF1E293B)
-                                        : Colors.black87,
+                                        ? AppColors.textDark
+                                        : AppColors.black87,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -494,7 +494,7 @@ class _BRTpageState extends State<BRTpage> {
                               ),
                               const Icon(
                                 Icons.arrow_drop_down,
-                                color: Color(0xFF78350F),
+                                color: AppColors.primaryDark,
                                 size: 28,
                               ),
                             ],
@@ -510,7 +510,7 @@ class _BRTpageState extends State<BRTpage> {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF1E293B),
+                          color: AppColors.textDark,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -526,10 +526,10 @@ class _BRTpageState extends State<BRTpage> {
                           height: 56,
                           padding: const EdgeInsets.symmetric(horizontal: 14),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF7E6D7),
+                            color: AppColors.primarySoft,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: const Color(0xFFC8691A),
+                              color: AppColors.primary,
                               width: 1.5,
                             ),
                           ),
@@ -552,8 +552,8 @@ class _BRTpageState extends State<BRTpage> {
                                         ? FontWeight.bold
                                         : FontWeight.w500,
                                     color: endStation != null
-                                        ? const Color(0xFF1E293B)
-                                        : Colors.black87,
+                                        ? AppColors.textDark
+                                        : AppColors.black87,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -561,7 +561,7 @@ class _BRTpageState extends State<BRTpage> {
                               ),
                               const Icon(
                                 Icons.arrow_drop_down,
-                                color: Color(0xFF78350F),
+                                color: AppColors.primaryDark,
                                 size: 28,
                               ),
                             ],
@@ -589,8 +589,8 @@ class _BRTpageState extends State<BRTpage> {
                         child: ElevatedButton(
                           onPressed: _handleConfirm,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
+                            backgroundColor: AppColors.transparent,
+                            shadowColor: AppColors.transparent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -599,7 +599,7 @@ class _BRTpageState extends State<BRTpage> {
                             tr('confirm'),
                             style: const TextStyle(
                               fontSize: 18,
-                              color: Colors.white,
+                              color: AppColors.white,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.5,
                             ),
@@ -620,13 +620,13 @@ class _BRTpageState extends State<BRTpage> {
       // ================= 3. BOTTOM NAVIGATION BAR =================
       bottomNavigationBar: Container(
         height: 64,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.primary,
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: AppColors.black12,
               blurRadius: 6,
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
             ),
           ],
         ),
@@ -688,8 +688,8 @@ class _BRTpageState extends State<BRTpage> {
             Icon(
               icon,
               color: isActive
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.7),
+                  ? AppColors.white
+                  : AppColors.white.withValues(alpha: 0.7),
               size: 24,
             ),
             const SizedBox(height: 3),
@@ -697,8 +697,8 @@ class _BRTpageState extends State<BRTpage> {
               label,
               style: TextStyle(
                 color: isActive
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.7),
+                    ? AppColors.white
+                    : AppColors.white.withValues(alpha: 0.7),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
               ),
@@ -715,11 +715,11 @@ class _RealisticMapPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // 1. Map Base Background
-    final bgPaint = Paint()..color = const Color(0xFFF1F3F4);
+    final bgPaint = Paint()..color = AppColors.mapBackground;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
 
     // 2. City Blocks
-    final blockPaint = Paint()..color = const Color(0xFFE8EAED);
+    final blockPaint = Paint()..color = AppColors.mapBlock;
     canvas.drawRect(Rect.fromLTWH(10, 10, 80, 60), blockPaint);
     canvas.drawRect(Rect.fromLTWH(110, 15, 120, 50), blockPaint);
     canvas.drawRect(Rect.fromLTWH(250, 10, 90, 70), blockPaint);
@@ -729,7 +729,7 @@ class _RealisticMapPainter extends CustomPainter {
 
     // 3. Minor Road Network (Light Grey)
     final minorRoadPaint = Paint()
-      ..color = Colors.white
+      ..color = AppColors.white
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
 
@@ -750,12 +750,12 @@ class _RealisticMapPainter extends CustomPainter {
 
     // 4. Main Avenue (Thick White Road with subtle border)
     final mainRoadBorder = Paint()
-      ..color = const Color(0xFFCBD5E1)
+      ..color = AppColors.mapRiver
       ..strokeWidth = 14
       ..style = PaintingStyle.stroke;
 
     final mainRoadPaint = Paint()
-      ..color = Colors.white
+      ..color = AppColors.white
       ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 
@@ -770,7 +770,7 @@ class _RealisticMapPainter extends CustomPainter {
 
     // 5. BRT Route Line (Vibrant Orange-Red Line in Screenshot)
     final routeBorderPaint = Paint()
-      ..color = const Color(0xFF7C2D12).withValues(alpha: 0.3)
+      ..color = AppColors.primaryDark.withValues(alpha: 0.3)
       ..strokeWidth = 7
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
@@ -796,61 +796,61 @@ class _RealisticMapPainter extends CustomPainter {
     _drawBusCirclePin(
       canvas,
       Offset(size.width * 0.17, size.height * 0.33),
-      const Color(0xFFD97724),
+      AppColors.stationPin,
     );
 
     // --- Station 2: Bus Icon Teardrop ---
     _drawBusPin(
       canvas,
       Offset(size.width * 0.25, size.height * 0.36),
-      const Color(0xFFD97724),
+      AppColors.stationPin,
     );
 
     // --- Station 3: Orange Marker Pin ---
     _drawMarkerPin(
       canvas,
       Offset(size.width * 0.35, size.height * 0.40),
-      const Color(0xFFD97724),
+      AppColors.stationPin,
     );
 
     // --- Station 4: Orange Marker Pin ---
     _drawMarkerPin(
       canvas,
       Offset(size.width * 0.44, size.height * 0.44),
-      const Color(0xFFD97724),
+      AppColors.stationPin,
     );
 
     // --- Station 5: Orange Marker Pin (Midpoint) ---
     _drawMarkerPin(
       canvas,
       Offset(size.width * 0.49, size.height * 0.48),
-      const Color(0xFFEA580C),
+      AppColors.stationPinExpress,
     );
 
     // --- Station 6: Red Marker Pin (Destination) ---
     _drawMarkerPin(
       canvas,
       Offset(size.width * 0.66, size.height * 0.65),
-      const Color(0xFFDC2626),
+      AppColors.stationPinTerminal,
     );
 
     // --- Station 7: Red Marker Pin (Terminal) ---
     _drawMarkerPin(
       canvas,
       Offset(size.width * 0.77, size.height * 0.73),
-      const Color(0xFFDC2626),
+      AppColors.stationPinTerminal,
     );
   }
 
   // Draw Bus Station Circle
   void _drawBusCirclePin(Canvas canvas, Offset pos, Color color) {
-    final shadowPaint = Paint()..color = Colors.black26;
+    final shadowPaint = Paint()..color = AppColors.black26;
     canvas.drawCircle(pos.translate(0, 2), 12, shadowPaint);
 
     final bgPaint = Paint()..color = color;
     canvas.drawCircle(pos, 12, bgPaint);
 
-    final innerPaint = Paint()..color = Colors.white;
+    final innerPaint = Paint()..color = AppColors.white;
     canvas.drawCircle(pos, 9, innerPaint);
 
     // Bus icon body
@@ -869,7 +869,7 @@ class _RealisticMapPainter extends CustomPainter {
 
   // Draw Teardrop Pin Marker
   void _drawMarkerPin(Canvas canvas, Offset pos, Color color) {
-    final shadowPaint = Paint()..color = Colors.black.withValues(alpha: 0.25);
+    final shadowPaint = Paint()..color = AppColors.black.withValues(alpha: 0.25);
     canvas.drawOval(
       Rect.fromCenter(
         center: Offset(pos.dx, pos.dy + 12),
@@ -901,7 +901,7 @@ class _RealisticMapPainter extends CustomPainter {
     final fillPaint = Paint()..color = color;
     canvas.drawPath(path, fillPaint);
 
-    final innerCircle = Paint()..color = Colors.white;
+    final innerCircle = Paint()..color = AppColors.white;
     canvas.drawCircle(Offset(pos.dx, pos.dy - 4), 4, innerCircle);
   }
 

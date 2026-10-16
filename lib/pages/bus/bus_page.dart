@@ -124,7 +124,7 @@ class _BusPageState extends State<BusPage> {
               const Divider(height: 24),
               const ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Color(0xFFFEF3C7),
+                  backgroundColor: AppColors.warningLight,
                   child: Icon(Icons.directions_bus, color: AppColors.primary),
                 ),
                 title: Text('BRT ສາຍ 1 (ດົງໂດກ - ຕະຫຼາດເຊົ້າ)'),
@@ -132,8 +132,8 @@ class _BusPageState extends State<BusPage> {
               ),
               const ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Color(0xFFDCFCE7),
-                  child: Icon(Icons.local_offer, color: Colors.green),
+                  backgroundColor: AppColors.successLight,
+                  child: Icon(Icons.local_offer, color: AppColors.success),
                 ),
                 title: Text('ໂປຣໂມຊັ່ນ OnePay ສະແກນຈ່າຍ'),
                 subtitle: Text(
@@ -169,7 +169,7 @@ class _BusPageState extends State<BusPage> {
             children: [
               Text(
                 tr('enter_promo_hint'),
-                style: const TextStyle(fontSize: 13, color: Colors.black54),
+                style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 12),
               TextField(
@@ -191,7 +191,7 @@ class _BusPageState extends State<BusPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
               ),
               onPressed: () {
                 final code = controller.text.trim().toUpperCase();
@@ -202,7 +202,7 @@ class _BusPageState extends State<BusPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(tr('promo_success')),
-                        backgroundColor: Colors.green,
+                        backgroundColor: AppColors.success,
                       ),
                     );
                   } else if (code.isEmpty) {
@@ -212,7 +212,7 @@ class _BusPageState extends State<BusPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(tr('promo_invalid')),
-                        backgroundColor: Colors.red,
+                        backgroundColor: AppColors.error,
                       ),
                     );
                   }
@@ -246,7 +246,7 @@ class _BusPageState extends State<BusPage> {
                       Text(
                         tr('bus_ticket_title'),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,
@@ -259,12 +259,12 @@ class _BusPageState extends State<BusPage> {
                     icon: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: AppColors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         Icons.directions_bus_filled_rounded,
-                        color: Colors.white,
+                        color: AppColors.white,
                         size: 20,
                       ),
                     ),
@@ -285,7 +285,7 @@ class _BusPageState extends State<BusPage> {
                       children: [
                         const Icon(
                           Icons.notifications,
-                          color: Colors.white,
+                          color: AppColors.white,
                           size: 26,
                         ),
                         Positioned(
@@ -295,7 +295,7 @@ class _BusPageState extends State<BusPage> {
                             width: 10,
                             height: 10,
                             decoration: BoxDecoration(
-                              color: Colors.yellowAccent.shade700,
+                              color: AppColors.warningBadge,
                               shape: BoxShape.circle,
                               border: Border.all(
                                 color: AppColors.primary,
@@ -383,8 +383,8 @@ class _BusPageState extends State<BusPage> {
                     height: 7,
                     decoration: BoxDecoration(
                       color: isActive
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.45),
+                          ? AppColors.white
+                          : AppColors.white.withValues(alpha: 0.45),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   );
@@ -397,11 +397,11 @@ class _BusPageState extends State<BusPage> {
               child: Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFFBFBFB),
+                  color: AppColors.cardBgSubtle,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black12,
+                      color: AppColors.black12,
                       blurRadius: 10,
                       offset: Offset(0, -3),
                     ),
@@ -427,7 +427,7 @@ class _BusPageState extends State<BusPage> {
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF1E293B),
+                                    color: AppColors.textDark,
                                   ),
                                 ),
                                 const SizedBox(height: 2),
@@ -435,7 +435,7 @@ class _BusPageState extends State<BusPage> {
                                   "7,000 ${tr('kip_per_person')}",
                                   style: const TextStyle(
                                     fontSize: 14,
-                                    color: Color(0xFF64748B),
+                                    color: AppColors.textSecondary,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -448,7 +448,7 @@ class _BusPageState extends State<BusPage> {
                                       width: 8,
                                       height: 8,
                                       decoration: const BoxDecoration(
-                                        color: Color(0xFF10B981),
+                                        color: AppColors.successAccent,
                                         shape: BoxShape.circle,
                                       ),
                                     ),
@@ -457,7 +457,7 @@ class _BusPageState extends State<BusPage> {
                                       tr('remaining_seats'),
                                       style: const TextStyle(
                                         fontSize: 13,
-                                        color: Color(0xFF1E293B),
+                                        color: AppColors.textDark,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
@@ -479,10 +479,10 @@ class _BusPageState extends State<BusPage> {
                                   horizontal: 12,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFF7E6D7),
+                                  color: AppColors.primarySoft,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: const Color(0xFFE5C3AB),
+                                    color: AppColors.primaryBorder,
                                     width: 1.2,
                                   ),
                                 ),
@@ -492,7 +492,7 @@ class _BusPageState extends State<BusPage> {
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF78350F),
+                                      color: AppColors.primaryDarkText,
                                     ),
                                   ),
                                 ),
@@ -502,11 +502,11 @@ class _BusPageState extends State<BusPage> {
                               // ປຸ່ມບວກລົບ ຈຳນວນ (Dark Pill: + 1 -)
                               Container(
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF5E6D7E),
+                                  color: AppColors.textSlate,
                                   borderRadius: BorderRadius.circular(24),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(
+                                      color: AppColors.black.withValues(
                                         alpha: 0.15,
                                       ),
                                       blurRadius: 4,
@@ -530,7 +530,7 @@ class _BusPageState extends State<BusPage> {
                                         ),
                                         child: Icon(
                                           Icons.add,
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                           size: 18,
                                         ),
                                       ),
@@ -543,7 +543,7 @@ class _BusPageState extends State<BusPage> {
                                         "$qty",
                                         style: const TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -561,7 +561,7 @@ class _BusPageState extends State<BusPage> {
                                         ),
                                         child: Icon(
                                           Icons.remove,
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                           size: 18,
                                         ),
                                       ),
@@ -606,8 +606,8 @@ class _BusPageState extends State<BusPage> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
+                            backgroundColor: AppColors.transparent,
+                            shadowColor: AppColors.transparent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -619,7 +619,7 @@ class _BusPageState extends State<BusPage> {
                                 tr('select_station_btn'),
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 0.3,
                                 ),
@@ -627,7 +627,7 @@ class _BusPageState extends State<BusPage> {
                               const SizedBox(width: 8),
                               const Icon(
                                 Icons.arrow_forward_rounded,
-                                color: Colors.white,
+                                color: AppColors.white,
                                 size: 19,
                               ),
                             ],
@@ -659,17 +659,15 @@ class _BusPageState extends State<BusPage> {
                                   vertical: 12,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: AppColors.surfaceWhite,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: Colors.grey.shade300,
+                                    color: AppColors.border,
                                     width: 1,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.04,
-                                      ),
+                                      color: AppColors.shadowLight,
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -679,7 +677,7 @@ class _BusPageState extends State<BusPage> {
                                   children: [
                                     const Icon(
                                       Icons.directions_bus_filled,
-                                      color: Color(0xFF1E293B),
+                                      color: AppColors.textDark,
                                       size: 24,
                                     ),
                                     const SizedBox(width: 8),
@@ -689,7 +687,7 @@ class _BusPageState extends State<BusPage> {
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFF1E293B),
+                                          color: AppColors.textDark,
                                         ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -714,17 +712,15 @@ class _BusPageState extends State<BusPage> {
                                   vertical: 12,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFF7E6D7),
+                                  color: AppColors.primarySoft,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: const Color(0xFFE5C3AB),
+                                    color: AppColors.primaryBorder,
                                     width: 1.2,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.04,
-                                      ),
+                                      color: AppColors.shadowLight,
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -741,7 +737,7 @@ class _BusPageState extends State<BusPage> {
                                       child: const Text(
                                         '%',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -757,7 +753,7 @@ class _BusPageState extends State<BusPage> {
                                           fontSize: 12,
                                           fontWeight: FontWeight.w700,
                                           color: appliedPromoCode.isEmpty
-                                              ? const Color(0xFF1E293B)
+                                              ? AppColors.textDark
                                               : AppColors.primary,
                                         ),
                                         maxLines: 1,
@@ -785,13 +781,13 @@ class _BusPageState extends State<BusPage> {
       // ================= 6. BOTTOM NAVIGATION BAR =================
       bottomNavigationBar: Container(
         height: 64,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.primary,
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: AppColors.black.withValues(alpha: 0.12),
               blurRadius: 6,
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
             ),
           ],
         ),
@@ -852,7 +848,7 @@ class _BusPageState extends State<BusPage> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.18),
+            color: AppColors.black.withValues(alpha: 0.18),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -871,7 +867,7 @@ class _BusPageState extends State<BusPage> {
                 height: 110,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08),
+                  color: AppColors.white.withValues(alpha: 0.08),
                 ),
               ),
             ),
@@ -887,9 +883,9 @@ class _BusPageState extends State<BusPage> {
                     height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
-                      color: Colors.white.withValues(alpha: 0.18),
+                      color: AppColors.white.withValues(alpha: 0.18),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.3),
+                        color: AppColors.white.withValues(alpha: 0.3),
                       ),
                     ),
                     child: ClipRRect(
@@ -910,7 +906,7 @@ class _BusPageState extends State<BusPage> {
                               banner['routeBadge'] ?? '',
                               style: const TextStyle(
                                 fontSize: 8,
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.center,
@@ -924,7 +920,7 @@ class _BusPageState extends State<BusPage> {
                               errorBuilder: (context, error, stackTrace) =>
                                   const Icon(
                                     Icons.directions_bus_rounded,
-                                    color: Colors.white,
+                                    color: AppColors.white,
                                     size: 36,
                                   ),
                             ),
@@ -947,11 +943,11 @@ class _BusPageState extends State<BusPage> {
                           style: const TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: AppColors.white,
                             letterSpacing: 1.5,
                             shadows: [
                               Shadow(
-                                color: Colors.black26,
+                                color: AppColors.shadowDark,
                                 blurRadius: 4,
                                 offset: Offset(0, 2),
                               ),
@@ -964,7 +960,7 @@ class _BusPageState extends State<BusPage> {
                             fontSize: 18,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: AppColors.white.withValues(alpha: 0.9),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -974,7 +970,7 @@ class _BusPageState extends State<BusPage> {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.2),
+                            color: AppColors.black.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -982,7 +978,7 @@ class _BusPageState extends State<BusPage> {
                             style: const TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: AppColors.white,
                               letterSpacing: 0.5,
                             ),
                             maxLines: 1,
@@ -999,9 +995,9 @@ class _BusPageState extends State<BusPage> {
                     height: 105,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.white.withValues(alpha: 0.15),
+                      color: AppColors.white.withValues(alpha: 0.15),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.25),
+                        color: AppColors.white.withValues(alpha: 0.25),
                       ),
                     ),
                     child: ClipRRect(
@@ -1013,7 +1009,7 @@ class _BusPageState extends State<BusPage> {
                             banner['tag'] ?? 'ລົດເມ BRT',
                             style: const TextStyle(
                               fontSize: 9,
-                              color: Colors.white,
+                              color: AppColors.white,
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
@@ -1021,7 +1017,7 @@ class _BusPageState extends State<BusPage> {
                           const SizedBox(height: 4),
                           const Icon(
                             Icons.directions_bus,
-                            color: Colors.white,
+                            color: AppColors.white,
                             size: 30,
                           ),
                           const SizedBox(height: 2),
@@ -1029,7 +1025,7 @@ class _BusPageState extends State<BusPage> {
                             banner['info'] ?? '',
                             style: TextStyle(
                               fontSize: 8,
-                              color: Colors.white.withValues(alpha: 0.8),
+                              color: AppColors.white.withValues(alpha: 0.8),
                             ),
                           ),
                         ],
@@ -1056,10 +1052,10 @@ class _BusPageState extends State<BusPage> {
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.25),
+          color: AppColors.black.withValues(alpha: 0.25),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: Colors.white, size: 22),
+        child: Icon(icon, color: AppColors.white, size: 22),
       ),
     );
   }
@@ -1081,8 +1077,8 @@ class _BusPageState extends State<BusPage> {
             Icon(
               icon,
               color: isActive
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.65),
+                  ? AppColors.white
+                  : AppColors.white.withValues(alpha: 0.65),
               size: 24,
             ),
             const SizedBox(height: 3),
@@ -1090,8 +1086,8 @@ class _BusPageState extends State<BusPage> {
               label,
               style: TextStyle(
                 color: isActive
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.65),
+                    ? AppColors.white
+                    : AppColors.white.withValues(alpha: 0.65),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),

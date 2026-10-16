@@ -15,13 +15,13 @@ class AccountPaymentPage extends StatelessWidget {
           appBar: AppBar(
             title: Text(
               tr('payment_title'),
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.white),
             ),
             backgroundColor: AppColors.primary,
             centerTitle: false,
             titleSpacing: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -41,7 +41,7 @@ class AccountPaymentPage extends StatelessWidget {
 
                 // ກາດສະແດງບັນຊີ BCEL One ທີ່ຜູກໄວ້
                 Card(
-                  color: Colors.blue.shade800,
+                  color: AppColors.infoDark,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -56,14 +56,14 @@ class AccountPaymentPage extends StatelessWidget {
                             const Text(
                               "BCEL One / OnePay",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             const Icon(
                               Icons.account_balance,
-                              color: Colors.white,
+                              color: AppColors.white,
                               size: 30,
                             ),
                           ],
@@ -72,7 +72,7 @@ class AccountPaymentPage extends StatelessWidget {
                         const Text(
                           "•••• •••• •••• 4567",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 22,
                             letterSpacing: 2,
                           ),
@@ -83,12 +83,12 @@ class AccountPaymentPage extends StatelessWidget {
                           children: [
                             const Text(
                               "ສົມສັກ ພັນທະວົງ",
-                              style: TextStyle(color: Colors.white70),
+                              style: TextStyle(color: AppColors.textWhite70),
                             ),
                             Text(
                               tr('status_linked'),
                               style: const TextStyle(
-                                color: Colors.greenAccent,
+                                color: AppColors.successAccent,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

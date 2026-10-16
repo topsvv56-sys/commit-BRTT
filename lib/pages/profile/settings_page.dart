@@ -21,7 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text(
               tr('settings_title'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -29,7 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
             centerTitle: false,
             titleSpacing: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -45,7 +45,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     // ---------------- 1. ປ່ຽນພາສາ ----------------
                     ListTile(
-                      leading: const Icon(Icons.language, color: Colors.orange),
+                      leading: const Icon(Icons.language, color: AppColors.primary),
                       title: Text(tr('change_language')),
                       trailing: Text(
                         currentLang == 'lao'
@@ -53,7 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             : (currentLang == 'zh'
                                   ? '中文'
                                   : 'English'),
-                        style: const TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: AppColors.textMuted),
                       ),
                       onTap: _showLanguageBottomSheet,
                     ),
@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                     // ---------------- 2. ປ່ຽນລະຫັດຜ່ານ ----------------
                     ListTile(
-                      leading: const Icon(Icons.lock_outline, color: Colors.blue),
+                      leading: const Icon(Icons.lock_outline, color: AppColors.info),
                       title: Text(tr('change_password')),
                       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                       onTap: _showChangePasswordDialog,
@@ -70,11 +70,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
                     // ---------------- 3. ອອກຈາກລະບົບ ----------------
                     ListTile(
-                      leading: const Icon(Icons.logout, color: Colors.grey),
+                      leading: const Icon(Icons.logout, color: AppColors.textMuted),
                       title: Text(
                         tr('logout'),
                         style: const TextStyle(
-                          color: Colors.red,
+                          color: AppColors.error,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -105,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 title: Text(tr('lao_lang')),
                 trailing: appLanguageNotifier.value == 'lao'
-                    ? const Icon(Icons.check, color: Colors.blue)
+                    ? const Icon(Icons.check, color: AppColors.info)
                     : null,
                 onTap: () async {
                   await changeAppLanguage('lao');
@@ -115,7 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 title: Text(tr('eng_lang')),
                 trailing: appLanguageNotifier.value == 'en'
-                    ? const Icon(Icons.check, color: Colors.blue)
+                    ? const Icon(Icons.check, color: AppColors.info)
                     : null,
                 onTap: () async {
                   await changeAppLanguage('en');
@@ -125,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 title: Text(tr('zh_lang')),
                 trailing: appLanguageNotifier.value == 'zh'
-                    ? const Icon(Icons.check, color: Colors.blue)
+                    ? const Icon(Icons.check, color: AppColors.info)
                     : null,
                 onTap: () async {
                   await changeAppLanguage('zh');
@@ -192,7 +192,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             child: Text(
               tr('save'),
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.white),
             ),
           ),
         ],
@@ -213,7 +213,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Text(tr('cancel')),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () {
               Navigator.pop(dialogContext);
               Navigator.of(context).pushAndRemoveUntil(
@@ -223,7 +223,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             child: Text(
               tr('confirm'),
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.white),
             ),
           ),
         ],

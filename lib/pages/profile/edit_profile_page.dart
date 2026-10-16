@@ -24,9 +24,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   File? _profileImage;
   bool _isLoading = false;
 
-  static const Color primaryOrange = AppColors.primary;
-  static const Color bgWarmCream = AppColors.bgWarmCream;
-
   @override
   void initState() {
     super.initState();
@@ -104,7 +101,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: Wrap(
           children: [
             ListTile(
-              leading: const Icon(Icons.photo_library, color: primaryOrange),
+              leading: const Icon(Icons.photo_library, color: AppColors.primary),
               title: Text(tr('pick_gallery')),
               onTap: () {
                 Navigator.pop(ctx);
@@ -112,7 +109,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.camera_alt, color: primaryOrange),
+              leading: const Icon(Icons.camera_alt, color: AppColors.primary),
               title: Text(tr('take_photo')),
               onTap: () {
                 Navigator.pop(ctx);
@@ -136,9 +133,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: primaryOrange,
-              onPrimary: Colors.white,
-              onSurface: Colors.black87,
+              primary: AppColors.primary,
+              onPrimary: AppColors.white,
+              onSurface: AppColors.textDark,
             ),
           ),
           child: child!,
@@ -162,7 +159,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(tr('please_fill_all')),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.error,
         ),
       );
       return;
@@ -191,7 +188,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(tr('save_success')),
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.success,
           ),
         );
         Navigator.pop(context, true);
@@ -201,7 +198,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.error,
           ),
         );
       }
@@ -219,17 +216,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
             '${_selectedDob.day.toString().padLeft(2, '0')}/${_selectedDob.month.toString().padLeft(2, '0')}/${_selectedDob.year}';
 
         return Scaffold(
-          backgroundColor: bgWarmCream,
+          backgroundColor: AppColors.bgWarmCream,
           appBar: AppBar(
-            backgroundColor: primaryOrange,
+            backgroundColor: AppColors.primary,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
               tr('edit_profile'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -239,11 +236,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
             actions: [
               TextButton.icon(
                 onPressed: _isLoading ? null : _handleSave,
-                icon: const Icon(Icons.check, color: Colors.white, size: 20),
+                icon: const Icon(Icons.check, color: AppColors.white, size: 20),
                 label: Text(
                   tr('save'),
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -253,7 +250,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
           body: _isLoading
               ? const Center(
-                  child: CircularProgressIndicator(color: primaryOrange),
+                  child: CircularProgressIndicator(color: AppColors.primary),
                 )
               : SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(
@@ -272,7 +269,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   onTap: _showImageSourceDialog,
                                   child: CircleAvatar(
                                     radius: 56,
-                                    backgroundColor: const Color(0xFF2E5F8A),
+                                    backgroundColor: AppColors.infoNavy,
                                     backgroundImage: _profileImage != null
                                         ? FileImage(_profileImage!)
                                         : null,
@@ -280,7 +277,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         ? const Icon(
                                             Icons.person,
                                             size: 64,
-                                            color: Colors.white,
+                                            color: AppColors.white,
                                           )
                                         : null,
                                   ),
@@ -293,11 +290,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     child: Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: AppColors.white,
                                         shape: BoxShape.circle,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withValues(
+                                            color: AppColors.black.withValues(
                                               alpha: 0.15,
                                             ),
                                             blurRadius: 4,
@@ -307,7 +304,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       ),
                                       child: const Icon(
                                         Icons.camera_alt,
-                                        color: Colors.black87,
+                                        color: AppColors.textDark,
                                         size: 18,
                                       ),
                                     ),
@@ -322,7 +319,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 tr('change_photo'),
                                 style: const TextStyle(
                                   fontSize: 15,
-                                  color: Colors.black87,
+                                  color: AppColors.textDark,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -337,11 +334,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       Container(
                         padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.surfaceWhite,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.05),
+                              color: AppColors.black.withValues(alpha: 0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 3),
                             ),
@@ -356,7 +353,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                                color: AppColors.textDark,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -365,7 +362,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.person,
-                                  color: Colors.grey,
+                                  color: AppColors.textMuted,
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 14,
@@ -373,20 +370,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
+                                  borderSide: const BorderSide(
+                                    color: AppColors.borderMedium,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
+                                  borderSide: const BorderSide(
+                                    color: AppColors.borderMedium,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                    color: primaryOrange,
+                                    color: AppColors.primary,
                                     width: 1.5,
                                   ),
                                 ),
@@ -401,7 +398,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                                color: AppColors.textDark,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -411,7 +408,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.email,
-                                  color: Colors.grey,
+                                  color: AppColors.textMuted,
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 14,
@@ -419,20 +416,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
+                                  borderSide: const BorderSide(
+                                    color: AppColors.borderMedium,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
+                                  borderSide: const BorderSide(
+                                    color: AppColors.borderMedium,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                    color: primaryOrange,
+                                    color: AppColors.primary,
                                     width: 1.5,
                                   ),
                                 ),
@@ -457,7 +454,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
+                                          color: AppColors.textDark,
                                         ),
                                       ),
                                       const SizedBox(height: 8),
@@ -472,15 +469,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            borderSide: BorderSide(
-                                              color: Colors.grey.shade400,
+                                            borderSide: const BorderSide(
+                                              color: AppColors.borderMedium,
                                             ),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            borderSide: BorderSide(
-                                              color: Colors.grey.shade400,
+                                            borderSide: const BorderSide(
+                                              color: AppColors.borderMedium,
                                             ),
                                           ),
                                           focusedBorder:
@@ -488,7 +485,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             borderSide: const BorderSide(
-                                              color: primaryOrange,
+                                              color: AppColors.primary,
                                               width: 1.5,
                                             ),
                                           ),
@@ -532,7 +529,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
+                                          color: AppColors.textDark,
                                         ),
                                       ),
                                       const SizedBox(height: 8),
@@ -546,7 +543,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           ),
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                              color: Colors.grey.shade400,
+                                              color: AppColors.borderMedium,
                                             ),
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -556,7 +553,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               const Icon(
                                                 Icons.calendar_today,
                                                 size: 18,
-                                                color: Colors.grey,
+                                                color: AppColors.textMuted,
                                               ),
                                               const SizedBox(width: 8),
                                               Expanded(
@@ -564,7 +561,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                                   dobFormatted,
                                                   style: const TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.black87,
+                                                    color: AppColors.textDark,
                                                   ),
                                                 ),
                                               ),
@@ -596,7 +593,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 child: Text(
                                   tr('save_data'),
                                   style: const TextStyle(
-                                    color: Colors.white,
+                                    color: AppColors.white,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -613,7 +610,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           // Bottom Navigation Bar
           bottomNavigationBar: Container(
             height: 60,
-            color: primaryOrange,
+            color: AppColors.primary,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -673,8 +670,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Icon(
               icon,
               color: isActive
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.65),
+                  ? AppColors.white
+                  : AppColors.white.withValues(alpha: 0.65),
               size: 24,
             ),
             const SizedBox(height: 3),
@@ -682,8 +679,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               label,
               style: TextStyle(
                 color: isActive
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.65),
+                    ? AppColors.white
+                    : AppColors.white.withValues(alpha: 0.65),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),

@@ -11,9 +11,6 @@ class AddPaymentPage extends StatefulWidget {
 }
 
 class _AddPaymentPageState extends State<AddPaymentPage> {
-  // ກຳນົດສີສົ້ມຫຼັກຂອງແອັບ
-  static const Color orangePrimary = AppColors.primary;
-
   final _formKey = GlobalKey<FormState>();
   final _accountNameController = TextEditingController();
   final _accountNumberController = TextEditingController();
@@ -47,7 +44,7 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(tr('add_account_success')),
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.success,
           ),
         );
         // ກັບໄປໜ້າກ່ອນໜ້ານີ້ ພ້ອມສົ່ງຂໍ້ມູນບັນຊີກັບຄືນ
@@ -68,23 +65,23 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
-            backgroundColor: const Color(0xFFFAF8F5),
+            backgroundColor: AppColors.modalBg,
             appBar: AppBar(
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.arrow_back, color: AppColors.white),
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
                 tr('add_payment_title'),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              backgroundColor: orangePrimary,
+              backgroundColor: AppColors.primary,
               centerTitle: false,
               titleSpacing: 0,
-              iconTheme: const IconThemeData(color: Colors.white),
+              iconTheme: const IconThemeData(color: AppColors.white),
               elevation: 0,
             ),
             body: SingleChildScrollView(
@@ -108,19 +105,19 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(
                           Icons.account_balance,
-                          color: orangePrimary,
+                          color: AppColors.primary,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
-                            color: orangePrimary,
+                            color: AppColors.primary,
                             width: 2,
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        fillColor: Colors.white,
+                        fillColor: AppColors.surfaceWhite,
                         filled: true,
                       ),
                       items: _providers.map((String provider) {
@@ -155,19 +152,19 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                         hintText: tr('account_name_hint'),
                         prefixIcon: const Icon(
                           Icons.person_outline,
-                          color: orangePrimary,
+                          color: AppColors.primary,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
-                            color: orangePrimary,
+                            color: AppColors.primary,
                             width: 2,
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        fillColor: Colors.white,
+                        fillColor: AppColors.surfaceWhite,
                         filled: true,
                       ),
                       validator: (value) {
@@ -197,19 +194,19 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                         hintText: tr('account_number_hint'),
                         prefixIcon: const Icon(
                           Icons.credit_card,
-                          color: orangePrimary,
+                          color: AppColors.primary,
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
-                            color: orangePrimary,
+                            color: AppColors.primary,
                             width: 2,
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        fillColor: Colors.white,
+                        fillColor: AppColors.surfaceWhite,
                         filled: true,
                       ),
                       validator: (value) {
@@ -227,7 +224,7 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: orangePrimary,
+                          backgroundColor: AppColors.primary,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -240,7 +237,7 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   strokeWidth: 2,
                                 ),
                               )
@@ -248,7 +245,7 @@ class _AddPaymentPageState extends State<AddPaymentPage> {
                                 tr('confirm_add_account'),
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

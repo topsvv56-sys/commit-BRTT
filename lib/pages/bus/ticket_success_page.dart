@@ -31,10 +31,10 @@ class SuccessPage extends StatelessWidget {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.white,
           appBar: AppBar(
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () {
                 if (Navigator.canPop(context)) {
                   Navigator.pop(context);
@@ -51,7 +51,7 @@ class SuccessPage extends StatelessWidget {
             title: Text(
               tr('my_tickets_title'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -68,8 +68,8 @@ class SuccessPage extends StatelessWidget {
             const SizedBox(height: 8),
             const CircleAvatar(
               radius: 22,
-              backgroundColor: Color(0xFF4CAF50),
-              child: Icon(Icons.check, color: Colors.white, size: 28),
+              backgroundColor: AppColors.successBadge,
+              child: Icon(Icons.check, color: AppColors.white, size: 28),
             ),
             const SizedBox(height: 8),
             Text(
@@ -77,7 +77,7 @@ class SuccessPage extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF4CAF50),
+                color: AppColors.successBadge,
               ),
             ),
             const SizedBox(height: 16),
@@ -86,9 +86,9 @@ class SuccessPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF7F2),
+                color: AppColors.primarySurface,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.orange.shade200),
+                border: Border.all(color: AppColors.primaryBorder),
               ),
               child: Column(
                 children: [
@@ -98,7 +98,7 @@ class SuccessPage extends StatelessWidget {
                     children: [
                       Text(
                         tr('ticket_id_label'),
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -124,7 +124,7 @@ class SuccessPage extends StatelessWidget {
                             const Icon(
                               Icons.copy,
                               size: 14,
-                              color: Colors.grey,
+                              color: AppColors.textMuted,
                             ),
                           ],
                         ),
@@ -139,14 +139,14 @@ class SuccessPage extends StatelessWidget {
                     children: [
                       Text(
                         tr('route_label'),
-                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
                       ),
                       Text(
                         "${tr(origin)} ➔ ${tr(destination)}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: Colors.black87,
+                          color: AppColors.textDark,
                         ),
                       ),
                     ],
@@ -160,7 +160,7 @@ class SuccessPage extends StatelessWidget {
                       Text(
                         tr('payment_status_label'),
                         style: const TextStyle(
-                          color: Colors.grey,
+                          color: AppColors.textMuted,
                           fontSize: 12,
                         ),
                       ),
@@ -170,13 +170,13 @@ class SuccessPage extends StatelessWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE8F5E9),
+                          color: AppColors.successBg,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           tr('paid_status'),
                           style: const TextStyle(
-                            color: Color(0xFF4CAF50),
+                            color: AppColors.successBadge,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),
@@ -193,14 +193,14 @@ class SuccessPage extends StatelessWidget {
                       Text(
                         tr('tickets_received_label'),
                         style: const TextStyle(
-                          color: Colors.grey,
+                          color: AppColors.textMuted,
                           fontSize: 12,
                         ),
                       ),
                       Text(
                         "$displayQty ${tr('tickets_unit')} ($displayTotal ${tr('kip')})",
                         style: const TextStyle(
-                          color: Color(0xFF2F80ED),
+                          color: AppColors.infoBlue,
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -214,7 +214,7 @@ class SuccessPage extends StatelessWidget {
 
             Text(
               tr('show_qr_to_officer'),
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
+              style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
             ),
             const SizedBox(height: 12),
 
@@ -222,12 +222,12 @@ class SuccessPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.surfaceWhite,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(color: AppColors.borderMedium),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: AppColors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -239,20 +239,20 @@ class SuccessPage extends StatelessWidget {
                     data: qrData,
                     version: QrVersions.auto,
                     size: 160.0,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                     eyeStyle: const QrEyeStyle(
                       eyeShape: QrEyeShape.square,
-                      color: Color(0xFFD97724),
+                      color: AppColors.primary,
                     ),
                     dataModuleStyle: const QrDataModuleStyle(
                       dataModuleShape: QrDataModuleShape.square,
-                      color: Color(0xFF2B3A4A),
+                      color: AppColors.textNavy,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     tr('scan_qr_hint'),
-                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                    style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
                   ),
                 ],
               ),
@@ -265,7 +265,7 @@ class SuccessPage extends StatelessWidget {
               height: 44,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFD97724),
+                  backgroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(22),
                   ),
@@ -277,7 +277,7 @@ class SuccessPage extends StatelessWidget {
                 child: Text(
                   tr('back_to_main_btn'),
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
@@ -297,11 +297,11 @@ class SuccessPage extends StatelessWidget {
               icon: const Icon(
                 Icons.history,
                 size: 18,
-                color: Color(0xFFD97724),
+                color: AppColors.primary,
               ),
               label: Text(
                 tr('purchase_history'),
-                style: const TextStyle(color: Color(0xFFD97724), fontSize: 13),
+                style: const TextStyle(color: AppColors.primary, fontSize: 13),
               ),
             ),
           ],
@@ -309,7 +309,7 @@ class SuccessPage extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         height: 60,
-        color: const Color(0xFFD97724),
+        color: AppColors.primary,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -365,8 +365,8 @@ class SuccessPage extends StatelessWidget {
             Icon(
               icon,
               color: isActive
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.65),
+                  ? AppColors.white
+                  : AppColors.white.withValues(alpha: 0.65),
               size: 24,
             ),
             const SizedBox(height: 3),
@@ -374,8 +374,8 @@ class SuccessPage extends StatelessWidget {
               label,
               style: TextStyle(
                 color: isActive
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.65),
+                    ? AppColors.white
+                    : AppColors.white.withValues(alpha: 0.65),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),

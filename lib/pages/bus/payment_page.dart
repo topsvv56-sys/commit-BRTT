@@ -72,7 +72,7 @@ class _PaymentPageState extends State<PaymentPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(result.message),
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.success,
           ),
         );
 
@@ -89,7 +89,7 @@ class _PaymentPageState extends State<PaymentPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Payment Error: $e'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.error,
         ),
       );
     }
@@ -119,7 +119,7 @@ class _PaymentPageState extends State<PaymentPage> {
       if (!mounted) return;
       setState(() => _isProcessing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.error),
       );
     }
   }
@@ -166,12 +166,12 @@ class _PaymentPageState extends State<PaymentPage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFFBF7F9),
+          backgroundColor: AppColors.tabBarBg,
           appBar: AppBar(
             title: Text(
               tr('scan_qr_title'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -181,7 +181,7 @@ class _PaymentPageState extends State<PaymentPage> {
             titleSpacing: 0,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -201,13 +201,13 @@ class _PaymentPageState extends State<PaymentPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade50,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primarySurface,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         Icons.directions_bus,
-                        color: Color(0xFFD97724),
+                        color: AppColors.primary,
                         size: 24,
                       ),
                     ),
@@ -227,7 +227,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           Text(
                             "${tr('tickets_received_label')} ${widget.qty} ${tr('tickets_unit')}",
                             style: const TextStyle(
-                              color: Colors.grey,
+                              color: AppColors.textMuted,
                               fontSize: 12,
                             ),
                           ),
@@ -239,7 +239,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2F80ED),
+                        color: AppColors.infoBlue,
                       ),
                     ),
                   ],
@@ -252,11 +252,11 @@ class _PaymentPageState extends State<PaymentPage> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.surfaceWhite,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
+                    color: AppColors.black.withValues(alpha: 0.06),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -273,13 +273,13 @@ class _PaymentPageState extends State<PaymentPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD97724),
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Text(
                           "LAO QR / OnePay",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
@@ -294,27 +294,27 @@ class _PaymentPageState extends State<PaymentPage> {
                     data: _paymentQrData,
                     version: QrVersions.auto,
                     size: 190.0,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                     eyeStyle: const QrEyeStyle(
                       eyeShape: QrEyeShape.square,
-                      color: Color(0xFFD97724),
+                      color: AppColors.primary,
                     ),
                     dataModuleStyle: const QrDataModuleStyle(
                       dataModuleShape: QrDataModuleShape.square,
-                      color: Color(0xFF2B3A4A),
+                      color: AppColors.textNavy,
                     ),
                   ),
                   const SizedBox(height: 10),
 
                   Text(
                     "Ref: $_orderRef",
-                    style: const TextStyle(color: Colors.grey, fontSize: 11),
+                    style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     tr('qr_hint'),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.grey, fontSize: 11),
+                    style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                   ),
                 ],
               ),
@@ -326,11 +326,11 @@ class _PaymentPageState extends State<PaymentPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    const CircularProgressIndicator(color: Color(0xFFD97724)),
+                    const CircularProgressIndicator(color: AppColors.primary),
                     const SizedBox(height: 10),
                     Text(
                       tr('checking_webhook'),
-                      style: const TextStyle(color: Colors.grey, fontSize: 13),
+                      style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
                     ),
                   ],
                 ),
@@ -344,18 +344,18 @@ class _PaymentPageState extends State<PaymentPage> {
                     height: 46,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF2E7D32),
+                        backgroundColor: AppColors.successDark,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(23),
                         ),
                         elevation: 2,
                       ),
                       onPressed: _handleWebhookSimulation,
-                      icon: const Icon(Icons.flash_on, color: Colors.white),
+                      icon: const Icon(Icons.flash_on, color: AppColors.white),
                       label: Text(
                         tr('simulate_webhook'),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -379,12 +379,12 @@ class _PaymentPageState extends State<PaymentPage> {
                       onPressed: _handleConfirmPayment,
                       icon: const Icon(
                         Icons.check_circle_outline,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                       label: Text(
                         tr('confirm_and_receipt'),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -399,11 +399,11 @@ class _PaymentPageState extends State<PaymentPage> {
                     icon: const Icon(
                       Icons.photo_library,
                       size: 18,
-                      color: Colors.blueGrey,
+                      color: AppColors.textSecondary,
                     ),
                     label: Text(
                       tr('upload_slip_qr'),
-                      style: const TextStyle(color: Colors.blueGrey, fontSize: 13),
+                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
                     ),
                   ),
                 ],

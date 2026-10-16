@@ -41,12 +41,12 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Color getStatusColor(String status) {
     if (status == 'paid' || status == 'ຈ່າຍແລ້ວ') {
-      return const Color(0xFF2E7D32);
+      return AppColors.successDark;
     }
     if (status == 'used' || status == 'ໃຊ້ແລ້ວ') {
-      return Colors.blueGrey;
+      return AppColors.textSecondary;
     }
-    return const Color(0xFFE53935);
+    return AppColors.errorBadge;
   }
 
   void _showTicketDetailModal(TicketModel ticket) {
@@ -66,7 +66,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: AppColors.borderMedium,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -76,13 +76,13 @@ class _HistoryPageState extends State<HistoryPage> {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2B3A4A),
+                  color: AppColors.textNavy,
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 "ID: ${ticket.id}",
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
               ),
               const SizedBox(height: 16),
 
@@ -90,12 +90,12 @@ class _HistoryPageState extends State<HistoryPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.surfaceWhite,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: AppColors.border),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColors.black.withValues(alpha: 0.05),
                       blurRadius: 8,
                     ),
                   ],
@@ -106,7 +106,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   size: 150.0,
                   eyeStyle: const QrEyeStyle(
                     eyeShape: QrEyeShape.square,
-                    color: Color(0xFFD97724),
+                    color: AppColors.primary,
                   ),
                 ),
               ),
@@ -122,7 +122,7 @@ class _HistoryPageState extends State<HistoryPage> {
               const SizedBox(height: 4),
               Text(
                 "${tr('date_label')} ${DateFormat('dd/MM/yyyy HH:mm').format(ticket.createdAt)}",
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
               ),
               const SizedBox(height: 20),
 
@@ -152,7 +152,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFD97724),
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -171,7 +171,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         },
                         child: Text(
                           tr('simulate_use_ticket'),
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: AppColors.white),
                         ),
                       ),
                     ),
@@ -192,12 +192,12 @@ class _HistoryPageState extends State<HistoryPage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFFBF7F9),
+          backgroundColor: AppColors.tabBarBg,
           appBar: AppBar(
             title: Text(
               tr('history_title'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -207,7 +207,7 @@ class _HistoryPageState extends State<HistoryPage> {
             titleSpacing: 0,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -216,7 +216,7 @@ class _HistoryPageState extends State<HistoryPage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: CircularProgressIndicator(color: Color(0xFFD97724)),
+                  child: CircularProgressIndicator(color: AppColors.primary),
                 );
               }
 
@@ -227,15 +227,15 @@ class _HistoryPageState extends State<HistoryPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.confirmation_number_outlined,
                         size: 64,
-                        color: Colors.grey.shade400,
+                        color: AppColors.textMuted,
                       ),
                       const SizedBox(height: 12),
                       Text(
                         tr('no_tickets_history'),
-                        style: const TextStyle(color: Colors.grey, fontSize: 16),
+                        style: const TextStyle(color: AppColors.textMuted, fontSize: 16),
                       ),
                       const SizedBox(height: 8),
                       TextButton(
@@ -256,7 +256,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
           return RefreshIndicator(
             onRefresh: () async => _loadTickets(),
-            color: const Color(0xFFD97724),
+            color: AppColors.primary,
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: list.length,
@@ -273,7 +273,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF5EBF0),
+                      color: AppColors.tabActiveBg,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Row(
@@ -283,7 +283,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           width: 38,
                           height: 38,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.surfaceWhite,
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: getStatusColor(
@@ -310,21 +310,21 @@ class _HistoryPageState extends State<HistoryPage> {
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13,
-                                  color: Colors.black87,
+                                  color: AppColors.textDark,
                                 ),
                               ),
                               const SizedBox(height: 3),
                               Text(
                                 "${tr('date_label')} $dateStr",
                                 style: const TextStyle(
-                                  color: Colors.grey,
+                                  color: AppColors.textMuted,
                                   fontSize: 11,
                                 ),
                               ),
                               Text(
                                 "${tr('price_label')} ${item.totalAmount} ${tr('kip')} (${item.quantity} ${tr('tickets_unit')})",
                                 style: const TextStyle(
-                                  color: Colors.grey,
+                                  color: AppColors.textMuted,
                                   fontSize: 11,
                                 ),
                               ),
@@ -427,8 +427,8 @@ class _HistoryPageState extends State<HistoryPage> {
             Icon(
               icon,
               color: isActive
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.65),
+                  ? AppColors.white
+                  : AppColors.white.withValues(alpha: 0.65),
               size: 24,
             ),
             const SizedBox(height: 3),
@@ -436,8 +436,8 @@ class _HistoryPageState extends State<HistoryPage> {
               label,
               style: TextStyle(
                 color: isActive
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.65),
+                    ? AppColors.white
+                    : AppColors.white.withValues(alpha: 0.65),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),

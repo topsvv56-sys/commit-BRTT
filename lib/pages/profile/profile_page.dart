@@ -23,9 +23,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String _userEmail = 'toppy20003@brtlaos.com';
   File? _profileImage;
 
-  static const Color primaryOrange = AppColors.primary;
-  static const Color bgWarmCream = AppColors.bgWarmCream;
-
   @override
   void initState() {
     super.initState();
@@ -106,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: primaryOrange,
+              backgroundColor: AppColors.primary,
             ),
             onPressed: () {
               if (newPassController.text != confirmPassController.text) {
@@ -119,13 +116,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(tr('pass_changed')),
-                  backgroundColor: Colors.green,
+                  backgroundColor: AppColors.success,
                 ),
               );
             },
             child: Text(
               tr('confirm'),
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: AppColors.white),
             ),
           ),
         ],
@@ -139,21 +136,21 @@ class _ProfilePageState extends State<ProfilePage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: bgWarmCream,
+          backgroundColor: AppColors.bgWarmCream,
           appBar: AppBar(
             title: Text(
               tr('profile_title'),
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
             centerTitle: false,
             titleSpacing: 0,
-            backgroundColor: primaryOrange,
+            backgroundColor: AppColors.primary,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () {
                 if (Navigator.canPop(context)) {
                   Navigator.pop(context);
@@ -171,20 +168,18 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.only(right: 14),
                 child: InkWell(
-                  onTap: _navigateToEditProfile,
-                  borderRadius: BorderRadius.circular(8),
-                  child: Row(
+                                   child: Row(
                     children: [
                       Text(
                         tr('edit'),
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Icon(Icons.edit, color: Colors.white, size: 20),
+                      const Icon(Icons.edit, color: AppColors.white, size: 20),
                     ],
                   ),
                 ),
@@ -204,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: _navigateToEditProfile,
                         child: CircleAvatar(
                           radius: 56,
-                          backgroundColor: const Color(0xFF2E5F8A),
+                          backgroundColor: AppColors.infoNavy,
                           backgroundImage: _profileImage != null
                               ? FileImage(_profileImage!)
                               : null,
@@ -212,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ? const Icon(
                                   Icons.person,
                                   size: 64,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                 )
                               : null,
                         ),
@@ -225,11 +220,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppColors.white,
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.15),
+                                  color: AppColors.black.withValues(alpha: 0.15),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -237,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             child: const Icon(
                               Icons.camera_alt,
-                              color: Colors.black87,
+                              color: AppColors.textDark,
                               size: 18,
                             ),
                           ),
@@ -255,7 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: AppColors.textDark,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -263,9 +258,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ອີເມລ
                 Text(
                   _userEmail,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
-                    color: Colors.grey.shade600,
+                    color: AppColors.textSecondary,
                   ),
                 ),
 
@@ -301,11 +296,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surfaceWhite,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
+                          color: AppColors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -318,12 +313,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           leading: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.blue.withValues(alpha: 0.12),
+                              color: AppColors.info.withValues(alpha: 0.12),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
                               Icons.history,
-                              color: Colors.blue,
+                              color: AppColors.info,
                               size: 22,
                             ),
                           ),
@@ -332,13 +327,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black87,
+                              color: AppColors.textDark,
                             ),
                           ),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             size: 16,
-                            color: Colors.grey,
+                            color: AppColors.textMuted,
                           ),
                           onTap: () {
                             Navigator.push(
@@ -356,12 +351,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           leading: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.green.withValues(alpha: 0.12),
+                              color: AppColors.success.withValues(alpha: 0.12),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
                               Icons.credit_card,
-                              color: Colors.green,
+                              color: AppColors.success,
                               size: 22,
                             ),
                           ),
@@ -370,13 +365,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black87,
+                              color: AppColors.textDark,
                             ),
                           ),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             size: 16,
-                            color: Colors.grey,
+                            color: AppColors.textMuted,
                           ),
                           onTap: () {
                             Navigator.push(
@@ -394,12 +389,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           leading: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.grey.withValues(alpha: 0.15),
+                              color: AppColors.grey.withValues(alpha: 0.15),
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.settings,
-                              color: Colors.grey.shade700,
+                              color: AppColors.textSecondary,
                               size: 22,
                             ),
                           ),
@@ -408,13 +403,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black87,
+                              color: AppColors.textDark,
                             ),
                           ),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             size: 16,
-                            color: Colors.grey,
+                            color: AppColors.textMuted,
                           ),
                           onTap: () {
                             Navigator.push(
@@ -432,12 +427,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           leading: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.amber.withValues(alpha: 0.15),
+                              color: AppColors.warning.withValues(alpha: 0.15),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
                               Icons.lock,
-                              color: Color(0xFFE5A100),
+                              color: AppColors.warningGold,
                               size: 22,
                             ),
                           ),
@@ -446,13 +441,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black87,
+                              color: AppColors.textDark,
                             ),
                           ),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             size: 16,
-                            color: Colors.grey,
+                            color: AppColors.textMuted,
                           ),
                           onTap: _showChangePasswordDialog,
                         ),
@@ -469,7 +464,7 @@ class _ProfilePageState extends State<ProfilePage> {
           // Bottom Navigation Bar
           bottomNavigationBar: Container(
             height: 60,
-            color: primaryOrange,
+            color: AppColors.primary,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -529,8 +524,8 @@ class _ProfilePageState extends State<ProfilePage> {
             Icon(
               icon,
               color: isActive
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.65),
+                  ? AppColors.white
+                  : AppColors.white.withValues(alpha: 0.65),
               size: 24,
             ),
             const SizedBox(height: 3),
@@ -538,8 +533,8 @@ class _ProfilePageState extends State<ProfilePage> {
               label,
               style: TextStyle(
                 color: isActive
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.65),
+                    ? AppColors.white
+                    : AppColors.white.withValues(alpha: 0.65),
                 fontSize: 12,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),

@@ -122,7 +122,7 @@ class _BUSState extends State<BUS> {
             children: [
               const Text(
                 'ປ້ອນ URL ຂອງ Server API ທີ່ຕ້ອງການທົດສອບ:',
-                style: TextStyle(fontSize: 13, color: Colors.black87),
+                style: TextStyle(fontSize: 13, color: AppColors.textDark),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -143,7 +143,7 @@ class _BUSState extends State<BUS> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
               ),
               onPressed: () {
                 final newUrl = controller.text.trim();
@@ -169,13 +169,13 @@ class _BUSState extends State<BUS> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF8FAFC),
+          backgroundColor: AppColors.scaffoldBg,
           appBar: AppBar(
             backgroundColor: AppColors.primary,
-            foregroundColor: Colors.white,
+            foregroundColor: AppColors.white,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: AppColors.white),
               onPressed: () => Navigator.pop(context),
             ),
             title: Text(
@@ -201,13 +201,13 @@ class _BUSState extends State<BUS> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: _isUsingFallback ? Colors.amber.shade100 : Colors.green.shade100,
+            color: _isUsingFallback ? AppColors.warningLight : AppColors.successLight,
             child: Row(
               children: [
                 Icon(
                   _isUsingFallback ? Icons.info_outline : Icons.check_circle_outline,
                   size: 18,
-                  color: _isUsingFallback ? Colors.amber.shade900 : Colors.green.shade800,
+                  color: _isUsingFallback ? AppColors.warningDark : AppColors.successDark,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -219,8 +219,8 @@ class _BUSState extends State<BUS> {
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       color: _isUsingFallback
-                          ? Colors.amber.shade900
-                          : Colors.green.shade800,
+                          ? AppColors.warningDark
+                          : AppColors.successDark,
                     ),
                   ),
                 ),
@@ -253,7 +253,7 @@ class _BUSState extends State<BUS> {
                   return const Center(
                     child: Text(
                       'ບໍ່ພົບຂໍ້ມູນລົດເມ',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                      style: TextStyle(fontSize: 16, color: AppColors.textMuted),
                     ),
                   );
                 }
@@ -311,7 +311,7 @@ class _BUSState extends State<BUS> {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xFF1E293B),
+                                        color: AppColors.textDark,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -320,14 +320,14 @@ class _BUSState extends State<BUS> {
                                         const Icon(
                                           Icons.person_pin,
                                           size: 15,
-                                          color: Colors.grey,
+                                          color: AppColors.textMuted,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           'ຄົນຂັບ: $driver',
                                           style: const TextStyle(
                                             fontSize: 13,
-                                            color: Colors.black87,
+                                            color: AppColors.textDark,
                                           ),
                                         ),
                                       ],
@@ -346,7 +346,7 @@ class _BUSState extends State<BUS> {
                                             route,
                                             style: const TextStyle(
                                               fontSize: 13,
-                                              color: Colors.black87,
+                                              color: AppColors.textDark,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -359,14 +359,14 @@ class _BUSState extends State<BUS> {
                                         const Icon(
                                           Icons.access_time,
                                           size: 15,
-                                          color: Colors.grey,
+                                          color: AppColors.textMuted,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           time,
                                           style: const TextStyle(
                                             fontSize: 12,
-                                            color: Colors.grey,
+                                            color: AppColors.textMuted,
                                           ),
                                         ),
                                       ],

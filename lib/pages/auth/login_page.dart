@@ -33,7 +33,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(tr('please_fill_all')),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppColors.errorAccent,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -50,12 +50,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.check_circle, color: Colors.white),
+                const Icon(Icons.check_circle, color: AppColors.white),
                 const SizedBox(width: 8),
                 Expanded(child: Text(tr('recovery_link_sent'))),
               ],
             ),
-            backgroundColor: const Color(0xFF16A34A),
+            backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -66,7 +66,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${tr('login_failed')}: ${e.message}'),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: AppColors.errorAccent,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -82,9 +82,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF9F8F5),
+          backgroundColor: AppColors.scaffoldBg,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppColors.transparent,
             elevation: 0,
             leading: Padding(
               padding: const EdgeInsets.only(left: 12),
@@ -95,11 +95,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surfaceWhite,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.06),
+                          color: AppColors.black.withValues(alpha: 0.06),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -107,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                     child: const Icon(
                       Icons.arrow_back_ios_new_rounded,
-                      color: Color(0xFF1E293B),
+                      color: AppColors.textDark,
                       size: 18,
                     ),
                   ),
@@ -117,7 +117,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             title: Text(
               tr('recover_password_title'),
               style: const TextStyle(
-                color: Color(0xFF0F172A),
+                color: AppColors.textDark,
                 fontWeight: FontWeight.w800,
                 fontSize: 18,
               ),
@@ -169,7 +169,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFF0F172A),
+                        color: AppColors.textDark,
                       ),
                     ),
                   ),
@@ -181,7 +181,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Color(0xFF64748B),
+                        color: AppColors.textSecondary,
                         height: 1.4,
                       ),
                     ),
@@ -192,11 +192,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   Container(
                     padding: const EdgeInsets.all(22),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.surfaceWhite,
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.04),
+                          color: AppColors.black.withValues(alpha: 0.04),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -210,7 +210,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF334155),
+                            color: AppColors.textSlate,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -220,11 +220,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           decoration: InputDecoration(
                             hintText: tr('phone_email_hint'),
                             hintStyle: const TextStyle(
-                              color: Color(0xFF94A3B8),
+                              color: AppColors.textMuted,
                               fontSize: 14,
                             ),
                             filled: true,
-                            fillColor: const Color(0xFFF8FAFC),
+                            fillColor: AppColors.surfaceLight,
                             prefixIcon: Container(
                               margin: const EdgeInsets.all(10),
                               padding: const EdgeInsets.all(8),
@@ -245,7 +245,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
                               borderSide: const BorderSide(
-                                color: Color(0xFFE2E8F0),
+                                color: AppColors.border,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -265,9 +265,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [
-                                Color(0xFFEA8C3D),
+                                AppColors.primaryLight,
                                 AppColors.primary,
-                                Color(0xFFC06718),
+                                AppColors.primaryDark,
                               ],
                             ),
                             borderRadius: BorderRadius.circular(14),
@@ -281,8 +281,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
+                              backgroundColor: AppColors.transparent,
+                              shadowColor: AppColors.transparent,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
                               ),
@@ -293,7 +293,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     height: 22,
                                     width: 22,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                      color: AppColors.white,
                                       strokeWidth: 2.5,
                                     ),
                                   )
@@ -303,7 +303,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       Text(
                                         tr('send_recovery_link'),
                                         style: const TextStyle(
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w700,
                                         ),
@@ -311,7 +311,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       const SizedBox(width: 8),
                                       const Icon(
                                         Icons.send_rounded,
-                                        color: Colors.white,
+                                        color: AppColors.white,
                                         size: 18,
                                       ),
                                     ],
@@ -385,12 +385,12 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.info_outline, color: Colors.white),
+              const Icon(Icons.info_outline, color: AppColors.white),
               const SizedBox(width: 8),
               Expanded(child: Text(tr('please_fill_all'))),
             ],
           ),
-          backgroundColor: Colors.orange.shade800,
+          backgroundColor: AppColors.primaryDark,
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -429,12 +429,12 @@ class _LoginPageState extends State<LoginPage> {
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.error_outline, color: Colors.white),
+                const Icon(Icons.error_outline, color: AppColors.white),
                 const SizedBox(width: 8),
                 Expanded(child: Text('${tr('login_failed')}: ${e.message}')),
               ],
             ),
-            backgroundColor: Colors.redAccent,
+            backgroundColor: AppColors.errorAccent,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -448,11 +448,11 @@ class _LoginPageState extends State<LoginPage> {
   void _showLanguageSelector(BuildContext context, String currentLang) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (ctx) {
         return Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: AppColors.surfaceWhite,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -464,7 +464,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
+                    color: AppColors.border,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -474,7 +474,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF0F172A),
+                    color: AppColors.textDark,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -524,10 +524,10 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.primary.withValues(alpha: 0.08)
-              : const Color(0xFFF8FAFC),
+              : AppColors.surfaceLight,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isSelected ? AppColors.primary : const Color(0xFFE2E8F0),
+            color: isSelected ? AppColors.primary : AppColors.border,
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -541,7 +541,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? AppColors.primary : const Color(0xFF334155),
+                  color: isSelected ? AppColors.primary : AppColors.textSlate,
                 ),
               ),
             ),
@@ -563,7 +563,7 @@ class _LoginPageState extends State<LoginPage> {
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF9F8F5),
+          backgroundColor: AppColors.scaffoldBg,
           body: Stack(
             children: [
               // 1. Decorative Ambient Background Glow
@@ -594,8 +594,8 @@ class _LoginPageState extends State<LoginPage> {
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        const Color(0xFFFBBF24).withValues(alpha: 0.12),
-                        Colors.transparent,
+                        AppColors.warningBadge.withValues(alpha: 0.12),
+                        AppColors.transparent,
                       ],
                     ),
                   ),
@@ -623,11 +623,11 @@ class _LoginPageState extends State<LoginPage> {
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: AppColors.surfaceWhite,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.05),
+                                      color: AppColors.black.withValues(alpha: 0.05),
                                       blurRadius: 8,
                                     ),
                                   ],
@@ -635,7 +635,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Icon(
                                   Icons.arrow_back_ios_new_rounded,
                                   size: 16,
-                                  color: Color(0xFF1E293B),
+                                  color: AppColors.textDark,
                                 ),
                               ),
                             )
@@ -652,15 +652,15 @@ class _LoginPageState extends State<LoginPage> {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: AppColors.surfaceWhite,
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: const Color(0xFFE2E8F0),
+                                  color: AppColors.border,
                                   width: 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.04),
+                                    color: AppColors.black.withValues(alpha: 0.04),
                                     blurRadius: 6,
                                     offset: const Offset(0, 2),
                                   ),
@@ -685,14 +685,14 @@ class _LoginPageState extends State<LoginPage> {
                                     style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
-                                      color: Color(0xFF334155),
+                                      color: AppColors.textSlate,
                                     ),
                                   ),
                                   const SizedBox(width: 4),
                                   const Icon(
                                     Icons.keyboard_arrow_down_rounded,
                                     size: 16,
-                                    color: Color(0xFF64748B),
+                                    color: AppColors.textSecondary,
                                   ),
                                 ],
                               ),
@@ -794,7 +794,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 26,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 0.2,
-                                color: Color(0xFF0F172A),
+                                color: AppColors.textDark,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -806,7 +806,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF64748B),
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],
@@ -822,11 +822,11 @@ class _LoginPageState extends State<LoginPage> {
                           vertical: 24,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.surfaceWhite,
                           borderRadius: BorderRadius.circular(28),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.04),
+                              color: AppColors.black.withValues(alpha: 0.04),
                               blurRadius: 28,
                               offset: const Offset(0, 10),
                             ),
@@ -846,7 +846,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xFF1E293B),
+                                color: AppColors.textDark,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -855,17 +855,17 @@ class _LoginPageState extends State<LoginPage> {
                               keyboardType: TextInputType.emailAddress,
                               style: const TextStyle(
                                 fontSize: 15,
-                                color: Color(0xFF0F172A),
+                                color: AppColors.textDark,
                                 fontWeight: FontWeight.w500,
                               ),
                               decoration: InputDecoration(
                                 hintText: tr('phone_email_hint'),
                                 hintStyle: const TextStyle(
-                                  color: Color(0xFF94A3B8),
+                                  color: AppColors.textMuted,
                                   fontSize: 13.5,
                                 ),
                                 filled: true,
-                                fillColor: const Color(0xFFF8FAFC),
+                                fillColor: AppColors.surfaceLight,
                                 prefixIcon: Container(
                                   margin: const EdgeInsets.all(10),
                                   padding: const EdgeInsets.all(8),
@@ -886,7 +886,7 @@ class _LoginPageState extends State<LoginPage> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                     width: 1.2,
                                   ),
                                 ),
@@ -908,7 +908,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color: Color(0xFF1E293B),
+                                color: AppColors.textDark,
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -917,17 +917,17 @@ class _LoginPageState extends State<LoginPage> {
                               obscureText: _isObscure,
                               style: const TextStyle(
                                 fontSize: 15,
-                                color: Color(0xFF0F172A),
+                                color: AppColors.textDark,
                                 fontWeight: FontWeight.w500,
                               ),
                               decoration: InputDecoration(
                                 hintText: tr('password_hint'),
                                 hintStyle: const TextStyle(
-                                  color: Color(0xFF94A3B8),
+                                  color: AppColors.textMuted,
                                   fontSize: 13.5,
                                 ),
                                 filled: true,
-                                fillColor: const Color(0xFFF8FAFC),
+                                fillColor: AppColors.surfaceLight,
                                 prefixIcon: Container(
                                   margin: const EdgeInsets.all(10),
                                   padding: const EdgeInsets.all(8),
@@ -946,7 +946,7 @@ class _LoginPageState extends State<LoginPage> {
                                     _isObscure
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
-                                    color: const Color(0xFF64748B),
+                                    color: AppColors.textSecondary,
                                     size: 20,
                                   ),
                                   onPressed: () {
@@ -960,7 +960,7 @@ class _LoginPageState extends State<LoginPage> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                     width: 1.2,
                                   ),
                                 ),
@@ -1003,7 +1003,7 @@ class _LoginPageState extends State<LoginPage> {
                                       style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFF475569),
+                                        color: AppColors.textSlate,
                                       ),
                                     ),
                                   ],
@@ -1043,9 +1043,9 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
-                                    Color(0xFFEA8C3D),
+                                    AppColors.primaryLight,
                                     AppColors.primary,
-                                    Color(0xFFC06718),
+                                    AppColors.primaryDark,
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(16),
@@ -1059,8 +1059,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
+                                  backgroundColor: AppColors.transparent,
+                                  shadowColor: AppColors.transparent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
@@ -1071,7 +1071,7 @@ class _LoginPageState extends State<LoginPage> {
                                         height: 22,
                                         width: 22,
                                         child: CircularProgressIndicator(
-                                          color: Colors.white,
+                                          color: AppColors.white,
                                           strokeWidth: 2.5,
                                         ),
                                       )
@@ -1083,14 +1083,14 @@ class _LoginPageState extends State<LoginPage> {
                                             style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w800,
-                                              color: Colors.white,
+                                              color: AppColors.white,
                                               letterSpacing: 0.5,
                                             ),
                                           ),
                                           const SizedBox(width: 8),
                                           const Icon(
                                             Icons.arrow_forward_rounded,
-                                            color: Colors.white,
+                                            color: AppColors.white,
                                             size: 20,
                                           ),
                                         ],
@@ -1105,7 +1105,7 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 const Expanded(
                                   child: Divider(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                     thickness: 1,
                                   ),
                                 ),
@@ -1116,13 +1116,13 @@ class _LoginPageState extends State<LoginPage> {
                                     style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: Color(0xFF94A3B8),
+                                      color: AppColors.textMuted,
                                     ),
                                   ),
                                 ),
                                 const Expanded(
                                   child: Divider(
-                                    color: Color(0xFFE2E8F0),
+                                    color: AppColors.border,
                                     thickness: 1,
                                   ),
                                 ),
@@ -1136,13 +1136,13 @@ class _LoginPageState extends State<LoginPage> {
                               style: OutlinedButton.styleFrom(
                                 minimumSize: const Size.fromHeight(48),
                                 side: const BorderSide(
-                                  color: Color(0xFFE2E8F0),
+                                  color: AppColors.border,
                                   width: 1.2,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
-                                backgroundColor: const Color(0xFFFAFAF9),
+                                backgroundColor: AppColors.surfaceLight,
                               ),
                               onPressed: () {
                                 Navigator.pushReplacement(
@@ -1155,14 +1155,14 @@ class _LoginPageState extends State<LoginPage> {
                               icon: const Icon(
                                 Icons.explore_outlined,
                                 size: 18,
-                                color: Color(0xFF475569),
+                                color: AppColors.textSlate,
                               ),
                               label: Text(
                                 tr('guest_login'),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF334155),
+                                  color: AppColors.textSlate,
                                 ),
                               ),
                             ),
@@ -1180,7 +1180,7 @@ class _LoginPageState extends State<LoginPage> {
                             tr('no_account_q'),
                             style: const TextStyle(
                               fontSize: 14,
-                              color: Color(0xFF64748B),
+                              color: AppColors.textSecondary,
                             ),
                           ),
                           const SizedBox(width: 4),
@@ -1215,7 +1215,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 10,
                             letterSpacing: 1.2,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade400,
+                            color: AppColors.grey400,
                           ),
                         ),
                       ),

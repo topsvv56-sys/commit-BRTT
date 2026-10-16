@@ -25,13 +25,14 @@ class MyApp extends StatelessWidget {
           title: 'BRT App',
           theme: ThemeData(
             primaryColor: AppColors.primary,
+            scaffoldBackgroundColor: AppColors.scaffoldBg,
             colorScheme: ColorScheme.fromSeed(
               seedColor: AppColors.primary,
               primary: AppColors.primary,
             ),
             appBarTheme: const AppBarTheme(
               backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.white,
               centerTitle: false,
               titleSpacing: 0,
             ),
