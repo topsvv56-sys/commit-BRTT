@@ -66,69 +66,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  /// Dialog ປ່ຽນລະຫັດຜ່ານ
-  void _showChangePasswordDialog() {
-    final oldPassController = TextEditingController();
-    final newPassController = TextEditingController();
-    final confirmPassController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(tr('change_password')),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: oldPassController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: tr('old_pass')),
-            ),
-            TextField(
-              controller: newPassController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: tr('new_pass')),
-            ),
-            TextField(
-              controller: confirmPassController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: tr('confirm_pass')),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(tr('cancel')),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-            ),
-            onPressed: () {
-              if (newPassController.text != confirmPassController.text) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(tr('pass_not_match'))),
-                );
-                return;
-              }
-              Navigator.pop(dialogContext);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(tr('pass_changed')),
-                  backgroundColor: AppColors.success,
-                ),
-              );
-            },
-            child: Text(
-              tr('confirm'),
-              style: const TextStyle(color: AppColors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,27 +101,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               },
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 14),
-                child: InkWell(
-                                   child: Row(
-                    children: [
-                      Text(
-                        tr('edit'),
-                        style: const TextStyle(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.edit, color: AppColors.white, size: 20),
-                    ],
-                  ),
-                ),
-              ),
-            ],
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -419,37 +335,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             );
                           },
-                        ),
-                        const Divider(height: 1, indent: 60),
-
-                        // 4. ປ່ຽນລະຫັດຜ່ານ
-                        ListTile(
-                          leading: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppColors.warning.withValues(alpha: 0.15),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.lock,
-                              color: AppColors.warningGold,
-                              size: 22,
-                            ),
-                          ),
-                          title: Text(
-                            tr('change_password'),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textDark,
-                            ),
-                          ),
-                          trailing: const Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: AppColors.textMuted,
-                          ),
-                          onTap: _showChangePasswordDialog,
                         ),
                       ],
                     ),

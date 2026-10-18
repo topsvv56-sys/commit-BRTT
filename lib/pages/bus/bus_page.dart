@@ -268,23 +268,6 @@ class _BusPageState extends State<BusPage> {
                         ),
                       ),
                   const Spacer(),
-                  // ປຸ່ມ Bus API Schedule
-                  IconButton(
-                    tooltip: tr('bus_api_title'),
-                    icon: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: AppColors.white.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.directions_bus_filled_rounded,
-                        color: AppColors.white,
-                        size: 20,
-                      ),
-                    ),
-                    onPressed: () => _navigateToPage(BUS(total: totalAmount)),
-                  ),
                   // ປຸ່ມ Notification (ກະດິ່ງ)
                   IconButton(
                     tooltip: tr('notifications_title'),
