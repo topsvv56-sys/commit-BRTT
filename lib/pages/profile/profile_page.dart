@@ -473,12 +473,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   label: tr('home_nav'),
                   isActive: false,
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const BusPage(total: 7000),
-                      ),
-                    );
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const BusPage(total: 7000),
+                        ),
+                      );
+                    }
                   },
                 ),
                 _buildNavItem(

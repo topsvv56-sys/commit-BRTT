@@ -26,6 +26,21 @@ class _BusPageState extends State<BusPage> {
     return raw > 0 ? raw : 0;
   }
 
+  bool _isNavigating = false;
+
+  void _navigateToPage(Widget page) {
+    if (_isNavigating) return;
+    _isNavigating = true;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => page),
+    ).then((_) {
+      if (mounted) {
+        setState(() => _isNavigating = false);
+      }
+    });
+  }
+
   // PageView Controller สำหรับ Banner Carousel
   late final PageController _bannerController;
   int _currentBannerIndex = 0;
@@ -268,14 +283,7 @@ class _BusPageState extends State<BusPage> {
                         size: 20,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BUS(total: totalAmount),
-                        ),
-                      );
-                    },
+                    onPressed: () => _navigateToPage(BUS(total: totalAmount)),
                   ),
                   // ປຸ່ມ Notification (ກະດິ່ງ)
                   IconButton(
@@ -596,15 +604,9 @@ class _BusPageState extends State<BusPage> {
                           ],
                         ),
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    BRTpage(total: totalAmount, qty: qty),
-                              ),
-                            );
-                          },
+                          onPressed: () => _navigateToPage(
+                            BRTpage(total: totalAmount, qty: qty),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.transparent,
                             shadowColor: AppColors.transparent,
@@ -643,15 +645,9 @@ class _BusPageState extends State<BusPage> {
                           // ກ່ອງທີ 1: Vientiane Bus Station
                           Expanded(
                             child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        BRTpage(total: totalAmount, qty: qty),
-                                  ),
-                                );
-                              },
+                              onTap: () => _navigateToPage(
+                                BUS(total: totalAmount),
+                              ),
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -806,26 +802,16 @@ class _BusPageState extends State<BusPage> {
               icon: Icons.add,
               label: tr('booking_nav'),
               isActive: false,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => SuccessPage(total: totalAmount, qty: qty),
-                  ),
-                );
-              },
+              onTap: () => _navigateToPage(
+                SuccessPage(total: totalAmount, qty: qty),
+              ),
             ),
             // Profile
             _buildNavItem(
               icon: Icons.person,
               label: tr('profile_nav'),
               isActive: false,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfilePage()),
-                );
-              },
+              onTap: () => _navigateToPage(const ProfilePage()),
             ),
           ],
         ),

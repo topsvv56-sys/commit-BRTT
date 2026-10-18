@@ -318,9 +318,10 @@ class SuccessPage extends StatelessWidget {
               label: tr('home_nav'),
               isActive: false,
               onTap: () {
-                Navigator.pushReplacement(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
+                  (route) => false,
                 );
               },
             ),

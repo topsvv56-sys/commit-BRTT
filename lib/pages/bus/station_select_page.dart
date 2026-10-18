@@ -173,7 +173,11 @@ class _BRTpageState extends State<BRTpage> {
     );
   }
 
+  bool _isNavigating = false;
+
   void _handleConfirm() {
+    if (_isNavigating) return;
+
     if (startStation == null || endStation == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -194,6 +198,7 @@ class _BRTpageState extends State<BRTpage> {
       return;
     }
 
+    _isNavigating = true;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -204,7 +209,11 @@ class _BRTpageState extends State<BRTpage> {
           destinationStation: endStation!,
         ),
       ),
-    );
+    ).then((_) {
+      if (mounted) {
+        setState(() => _isNavigating = false);
+      }
+    });
   }
 
   @override
@@ -639,10 +648,16 @@ class _BRTpageState extends State<BRTpage> {
               label: tr('home_nav'),
               isActive: false,
               onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const BusPage(total: 7000)),
-                );
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const BusPage(total: 7000),
+                    ),
+                  );
+                }
               },
             ),
             // ຈອງປີ້ (Book - Active)
