@@ -72,7 +72,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Future<void> _handleRealWebhookPolling() async {
     setState(() {
       _isProcessing = true;
-      _processingMessage = 'ກຳລັງລໍຖ້າ Webhook ຢືນຢັນຈາກທະນາຄານ...';
+      _processingMessage = tr('waiting_bank_webhook');
     });
 
     try {
@@ -85,7 +85,7 @@ class _PaymentPageState extends State<PaymentPage> {
         onTick: (sec) {
           if (mounted) {
             setState(() {
-              _processingMessage = 'ກຳລັງລໍຖ້າທະນາຄານຢືນຢັນ (${sec}s)...';
+              _processingMessage = '${tr('waiting_bank_seconds')} (${sec}s)...';
             });
           }
         },
@@ -132,7 +132,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Future<void> _handleWebhookSimulation() async {
     setState(() {
       _isProcessing = true;
-      _processingMessage = 'ກຳລັງທົດສອບ Webhook Sandbox...';
+      _processingMessage = tr('testing_sandbox');
     });
 
     try {
@@ -412,10 +412,10 @@ class _PaymentPageState extends State<PaymentPage> {
                       style: const TextStyle(color: AppColors.textNavy, fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      'ກະລຸນາເປີດແອັບ BCEL One / Mobile Banking ເພື່ອສະແກນ QR Code',
+                    Text(
+                      tr('bcel_app_hint'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.textMuted, fontSize: 11),
+                      style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                     ),
                   ],
                 ),
@@ -437,9 +437,9 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       onPressed: _handleRealWebhookPolling,
                       icon: const Icon(Icons.sync, color: AppColors.white),
-                      label: const Text(
-                        'ກວດສອບ Webhook ທະນາຄານ (Real Check)',
-                        style: TextStyle(
+                      label: Text(
+                        tr('check_webhook_real_btn'),
+                        style: const TextStyle(
                           color: AppColors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,

@@ -354,9 +354,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 22,
                             ),
                           ),
-                          title: const Text(
-                            'ລະບົບກວດສອບຕົ໋ວ (Gate Scanner)',
-                            style: TextStyle(
+                          title: Text(
+                            tr('gate_scanner_title'),
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textDark,
@@ -392,9 +392,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               size: 22,
                             ),
                           ),
-                          title: const Text(
-                            'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy Policy)',
-                            style: TextStyle(
+                          title: Text(
+                            tr('privacy_policy_title'),
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textDark,

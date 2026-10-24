@@ -7,7 +7,6 @@ import 'package:flutter_application_brt_bub/models/bus_live_location.dart';
 import 'package:flutter_application_brt_bub/services/bus_tracking_service.dart';
 import 'package:flutter_application_brt_bub/widgets/live_bus_tracker_card.dart';
 
-
 class BUS extends StatefulWidget {
   final int total;
   const BUS({super.key, required this.total});
@@ -119,13 +118,13 @@ class _BUSState extends State<BUS> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text('ຕັ້ງຄ່າ API URL'),
+          title: Text(tr('set_api_url_title')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'ປ້ອນ URL ຂອງ Server API ທີ່ຕ້ອງການທົດສອບ:',
-                style: TextStyle(fontSize: 13, color: AppColors.textDark),
+              Text(
+                tr('enter_api_url_hint'),
+                style: const TextStyle(fontSize: 13, color: AppColors.textDark),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -187,14 +186,14 @@ class _BUSState extends State<BUS> {
                 tr('bus_api_title'),
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-              bottom: const TabBar(
+              bottom: TabBar(
                 indicatorColor: AppColors.white,
                 indicatorWeight: 3,
                 labelColor: AppColors.white,
                 unselectedLabelColor: Colors.white70,
                 tabs: [
-                  Tab(icon: Icon(Icons.list_alt, size: 20), text: 'ຕາຕະລາງລົດ'),
-                  Tab(icon: Icon(Icons.gps_fixed, size: 20), text: 'GPS ສົດ & ETA'),
+                  Tab(icon: const Icon(Icons.list_alt, size: 20), text: tr('bus_schedules_tab')),
+                  Tab(icon: const Icon(Icons.gps_fixed, size: 20), text: tr('bus_live_gps_tab')),
                 ],
               ),
               actions: [
@@ -213,277 +212,277 @@ class _BUSState extends State<BUS> {
             body: TabBarView(
               children: [
                 Column(
-        children: [
-          // ແຖບແຈ້ງເຕືອນສະຖານະການເຊື່ອມຕໍ່ API
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: _isUsingFallback ? AppColors.warningLight : AppColors.successLight,
-            child: Row(
-              children: [
-                Icon(
-                  _isUsingFallback ? Icons.info_outline : Icons.check_circle_outline,
-                  size: 18,
-                  color: _isUsingFallback ? AppColors.warningDark : AppColors.successDark,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    _statusMessage.isEmpty
-                        ? tr('loading_data')
-                        : _statusMessage,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: _isUsingFallback
-                          ? AppColors.warningDark
-                          : AppColors.successDark,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size(50, 24),
-                  ),
-                  onPressed: _showChangeUrlDialog,
-                  child: const Text('ປ່ຽນ URL', style: TextStyle(fontSize: 12)),
-                ),
-              ],
-            ),
-          ),
-
-          // รายการรถบัส
-          Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: _busFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.primary,
-                    ),
-                  );
-                }
-
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'ບໍ່ພົບຂໍ້ມູນລົດເມ',
-                      style: TextStyle(fontSize: 16, color: AppColors.textMuted),
-                    ),
-                  );
-                }
-
-                final List<dynamic> buses = snapshot.data!;
-
-                return RefreshIndicator(
-                  color: AppColors.primary,
-                  onRefresh: () async => _refreshData(),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    itemCount: buses.length,
-                    itemBuilder: (context, index) {
-                      final item = buses[index];
-                      final id = item['id']?.toString() ?? '${index + 1}';
-                      final name = item['bus_name'] ?? item['busname'] ?? 'BRT Bus';
-                      final driver = item['driver'] ?? 'ບໍ່ມີຊື່ຄົນຂັບ';
-                      final route = item['route'] ?? 'ສາຍທາງທົ່ວໄປ';
-                      final time = item['time'] ?? '06:00 - 18:00';
-                      final price = item['price']?.toString() ?? '7,000';
-
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 6,
-                        ),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 24,
-                                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-                                child: Text(
-                                  id,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
-                                    fontSize: 16,
-                                  ),
-                                ),
+                  children: [
+                    // ແຖບແຈ້ງເຕືອນສະຖານະການເຊື່ອມຕໍ່ API
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      color: _isUsingFallback ? AppColors.warningLight : AppColors.successLight,
+                      child: Row(
+                        children: [
+                          Icon(
+                            _isUsingFallback ? Icons.info_outline : Icons.check_circle_outline,
+                            size: 18,
+                            color: _isUsingFallback ? AppColors.warningDark : AppColors.successDark,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _statusMessage.isEmpty
+                                  ? tr('loading_data')
+                                  : _statusMessage,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: _isUsingFallback
+                                    ? AppColors.warningDark
+                                    : AppColors.successDark,
                               ),
-                              const SizedBox(width: 14),
+                            ),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: const Size(50, 24),
+                            ),
+                            onPressed: _showChangeUrlDialog,
+                            child: Text(tr('change_url_btn'), style: const TextStyle(fontSize: 12)),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // รายการรถบัส
+                    Expanded(
+                      child: FutureBuilder<List<dynamic>>(
+                        future: _busFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primary,
+                              ),
+                            );
+                          }
+
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return Center(
+                              child: Text(
+                                tr('no_buses_found'),
+                                style: const TextStyle(fontSize: 16, color: AppColors.textMuted),
+                              ),
+                            );
+                          }
+
+                          final List<dynamic> buses = snapshot.data!;
+
+                          return RefreshIndicator(
+                            color: AppColors.primary,
+                            onRefresh: () async => _refreshData(),
+                            child: ListView.builder(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              itemCount: buses.length,
+                              itemBuilder: (context, index) {
+                                final item = buses[index];
+                                final id = item['id']?.toString() ?? '${index + 1}';
+                                final name = item['bus_name'] ?? item['busname'] ?? 'BRT Bus';
+                                final driver = item['driver'] ?? tr('no_driver_name');
+                                final route = item['route'] ?? tr('general_route');
+                                final time = item['time'] ?? '06:00 - 18:00';
+                                final price = item['price']?.toString() ?? '7,000';
+
+                                return Card(
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 6,
+                                  ),
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 24,
+                                          backgroundColor: AppColors.primary.withValues(alpha: 0.15),
+                                          child: Text(
+                                            id,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.primary,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 14),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                name,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.textDark,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.person_pin,
+                                                    size: 15,
+                                                    color: AppColors.textMuted,
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Text(
+                                                    '${tr('driver_prefix')} $driver',
+                                                    style: const TextStyle(
+                                                      fontSize: 13,
+                                                      color: AppColors.textDark,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.alt_route,
+                                                    size: 15,
+                                                    color: AppColors.primary,
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Expanded(
+                                                    child: Text(
+                                                      route,
+                                                      style: const TextStyle(
+                                                        fontSize: 13,
+                                                        color: AppColors.textDark,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.access_time,
+                                                    size: 15,
+                                                    color: AppColors.textMuted,
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Text(
+                                                    time,
+                                                    style: const TextStyle(
+                                                      fontSize: 12,
+                                                      color: AppColors.textMuted,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: AppColors.primary.withValues(alpha: 0.1),
+                                                borderRadius: BorderRadius.circular(8),
+                                              ),
+                                              child: Text(
+                                                '$price ${tr('kip')}',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.primary,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Tab 2: ຕິດຕາມພິກັດ GPS ສົດ & ຄຳນວນ ETA ແບບ Real-time
+                StreamBuilder<List<BusLiveLocation>>(
+                  stream: BusTrackingService().streamLiveBuses(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: CircularProgressIndicator(color: AppColors.primary),
+                      );
+                    }
+
+                    final liveBuses = snapshot.data!;
+                    return ListView(
+                      padding: const EdgeInsets.all(16),
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppColors.primarySurface,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppColors.primaryBorder),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.satellite_alt, color: AppColors.primary),
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      name,
+                                      tr('live_gps_system_title'),
                                       style: const TextStyle(
-                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.textDark,
+                                        fontSize: 13,
+                                        color: AppColors.primary,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.person_pin,
-                                          size: 15,
-                                          color: AppColors.textMuted,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          'ຄົນຂັບ: $driver',
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            color: AppColors.textDark,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.alt_route,
-                                          size: 15,
-                                          color: AppColors.primary,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Expanded(
-                                          child: Text(
-                                            route,
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              color: AppColors.textDark,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.access_time,
-                                          size: 15,
-                                          color: AppColors.textMuted,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          time,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: AppColors.textMuted,
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      tr('live_gps_system_subtitle'),
+                                      style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
                                     ),
                                   ],
                                 ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary.withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      '$price ກີບ',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.primary,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         ),
-                      );
-                    },
-                  ),
-                );
-              },
+                        const SizedBox(height: 12),
+                        ...liveBuses.map((b) => LiveBusTrackerCard(bus: b)),
+                      ],
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ],
-      ),
-
-      // Tab 2: ຕິດຕາມພິກັດ GPS ສົດ & ຄຳນວນ ETA ແບບ Real-time
-      StreamBuilder<List<BusLiveLocation>>(
-        stream: BusTrackingService().streamLiveBuses(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
-            );
-          }
-
-          final liveBuses = snapshot.data!;
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppColors.primarySurface,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.primaryBorder),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.satellite_alt, color: AppColors.primary),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'ລະບົບຕິດຕາມລົດເມ Real-time GPS',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                          Text(
-                            'ອັບເດດສົດທຸກໆ 3 ວິນາທີ ພ້ອມຄຳນວນ ETA ຮອດສະຖານີ',
-                            style: TextStyle(fontSize: 11, color: AppColors.textMuted),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              ...liveBuses.map((b) => LiveBusTrackerCard(bus: b)),
-            ],
-          );
-        },
-      ),
-    ],
-  ),
-),
-);
+        );
       },
     );
   }

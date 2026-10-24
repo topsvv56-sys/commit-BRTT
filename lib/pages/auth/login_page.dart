@@ -1230,9 +1230,9 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                          child: const Text(
-                            'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy & PDPA)',
-                            style: TextStyle(
+                          child: Text(
+                            tr('privacy_policy_title'),
+                            style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.textSecondary,
                               decoration: TextDecoration.underline,

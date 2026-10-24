@@ -213,6 +213,65 @@ Map<String, Map<String, String>> localizedValues = {
     'route_1_subtitle': 'ລົດອອກທຸກໆ 15 ນາທີ ຕັ້ງແຕ່ 06:00 - 18:30',
     'promo_notification_title': 'ໂປຣໂມຊັ່ນ OnePay ສະແກນຈ່າຍ',
     'promo_notification_subtitle': 'ຮັບສ່ວນຫຼຸດພິເສດເມື່ອຊື້ປີ້ລົດຜ່ານລະບົບ QR Code',
+
+    // --- 14. ລະບົບກວດສອບຕົ໋ວ (Gate Scanner) ---
+    'gate_scanner_title': 'ລະບົບກວດສອບຕົ໋ວ (Gate Scanner)',
+    'gate_scanner_app_bar': 'ລະບົບກວດສອບຕົ໋ວ / Gate Scanner',
+    'gate_entry': 'ຂາເຂົ້າ',
+    'gate_exit': 'ຂາອອກ',
+    'scan_ticket_here': 'ສ່ອງ QR Code ຕົ໋ວໂດຍສານທີ່ນີ້',
+    'verifying_ticket_db': 'ກຳລັງກວດສອບຕົ໋ວກັບຖານຂໍ້ມູນ...',
+    'gate_pass_valid': 'ຜ່ານປະຕູໄດ້ (VALID)',
+    'gate_pass_rejected': 'ບໍ່ສາມາດຜ່ານໄດ້ (REJECTED)',
+    'recent_scan_history': 'ປະຫວັດການສະແກນຫຼ້າສຸດ',
+    'no_scan_history': 'ຍັງບໍ່ມີປະຫວັດການສະແກນ',
+    'scan_items_unit': 'ລາຍການ',
+    'scan_next_btn': 'ຕົກລົງ / Scan Next',
+    'ticket_ref_label': 'ລະຫັດອ້າງອີງຕົ໋ວ:',
+
+    // --- 15. ຕິດຕາມລົດເມ GPS ສົດ (Live Bus Tracking & ETA) ---
+    'bus_schedules_tab': 'ຕາຕະລາງລົດ',
+    'bus_live_gps_tab': 'GPS ສົດ & ETA',
+    'live_gps_system_title': 'ລະບົບຕິດຕາມລົດເມ Real-time GPS',
+    'live_gps_system_subtitle': 'ອັບເດດສົດທຸກໆ 3 ວິນາທີ ພ້ອມຄຳນວນ ETA ຮອດສະຖານີ',
+    'driver_prefix': 'ຄົນຂັບ:',
+    'eta_approx_label': 'ເວລາປະມານທີ່ຈະຮອດ (ETA):',
+    'eta_minutes_format': 'ອີກປະມານ',
+    'minutes_unit': 'ນາທີ',
+    'no_buses_found': 'ບໍ່ພົບຂໍ້ມູນລົດເມ',
+    'no_driver_name': 'ບໍ່ມີຊື່ຄົນຂັບ',
+    'general_route': 'ສາຍທາງທົ່ວໄປ',
+    'change_url_btn': 'ປ່ຽນ URL',
+    'set_api_url_title': 'ຕັ້ງຄ່າ API URL',
+    'enter_api_url_hint': 'ປ້ອນ URL ຂອງ Server API ທີ່ຕ້ອງການທົດສອບ:',
+
+    // --- 16. Dynamic QR & ຄວາມປອດໄພ ---
+    'live_qr_badge': 'LIVE QR',
+    'dynamic_token_refresh': 'ລະຫັດປ່ຽນໃໝ່ອັດຕະໂນມັດທຸກ 30 ວິ',
+    'ticket_status_valid': 'VALID / ພ້ອມໃຊ້ງານ',
+    'ticket_status_used': 'USED / ໃຊ້ງານແລ້ວ',
+    'ticket_status_expired': 'EXPIRED / ໝົດອາຍຸ',
+    'ticket_already_scanned': 'ຕົ໋ວຖືກສະແກນແລ້ວ',
+    'ticket_expired_notice': 'ຕົ໋ວໝົດອາຍຸ',
+
+    // --- 17. Payment & Webhook ---
+    'check_webhook_real_btn': 'ກວດສອບ Webhook ທະນາຄານ (Real Check)',
+    'bcel_app_hint': 'ກະລຸນາເປີດແອັບ BCEL One / Mobile Banking ເພື່ອສະແກນ QR Code',
+    'waiting_bank_webhook': 'ກຳລັງລໍຖ້າ Webhook ຢືນຢັນຈາກທະນາຄານ...',
+    'waiting_bank_seconds': 'ກຳລັງລໍຖ້າທະນາຄານຢືນຢັນ',
+    'testing_sandbox': 'ກຳລັງທົດສອບ Webhook Sandbox...',
+
+    // --- 18. ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy & PDPA) ---
+    'privacy_policy_title': 'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy & PDPA)',
+    'privacy_section_1_title': '1. ການເກັບກຳຂໍ້ມູນສ່ວນບຸກຄົນ (Data Collection)',
+    'privacy_section_1_desc': 'ແອັບພລິເຄຊັນ BRT Vientiane Bus Rapid Transit ເກັບກຳຂໍ້ມູນທີ່ຈຳເປັນຕໍ່ການໃຫ້ບໍລິການຂົນສົ່ງ ປະກອບດ້ວຍ:\n• ເບີໂທລະສັບ ແລະ ຊື່-ນາມສະກຸນ ສຳລັບການຢືນຢັນຕົວຕົນ\n• ຂໍ້ມູນການຊື້ຕົ໋ວ ແລະ ປະຫວັດການເດີນທາງ\n• ພິກັດສະຖານທີ່ (GPS) ສຳລັບການຄົ້ນຫາສະຖານີໃກ້ຄຽງ ແລະ ຄຳນວນເວລາລົດເມ (ETA)',
+    'privacy_section_2_title': '2. ຄວາມປອດໄພຂອງການຊຳລະເງິນ (Payment Security)',
+    'privacy_section_2_desc': 'ລະບົບຊຳລະເງິນຜ່ານ Lao QR ແລະ BCEL OnePay ດຳເນີນການຜ່ານມາດຕະຖານຄວາມປອດໄພລະດັບສາກົນ (EMVCo).\nແອັບພລິເຄຊັນຈະບໍ່ເກັບຮັກສາລະຫັດຜ່ານບັນຊີທະນາຄານ ຫຼື ຂໍ້ມູນບັດເຄຣດິດຂອງທ່ານໄວ້ໃນເຄື່ອງ.',
+    'privacy_section_3_title': '3. ສິດທິຂອງເຈົ້າຂອງຂໍ້ມູນ (User Rights & PDPA)',
+    'privacy_section_3_desc': 'ທ່ານມີສິດຮ້ອງຂໍກວດສອບ, ແກ້ໄຂ, ຫຼື ຮ້ອງຂໍລຶບບັນຊີ ແລະ ປະຫວັດການເດີນທາງຂອງທ່ານອອກຈາກລະບົບໄດ້ທຸກເວລາ ຜ່ານເມນູການຕັ້ງຄ່າໃນແອັບ ຫຼື ຕິດຕໍ່ສູນບໍລິການລູກຄ້າ BRT.',
+    'privacy_section_4_title': '4. ຊ່ອງທາງການຕິດຕໍ່ (Contact Support)',
+    'privacy_section_4_desc': 'ສູນບໍລິການລົດເມດ່ວນ ນະຄອນຫຼວງວຽງຈັນ (BRT Vientiane)\n• ເບີໂທຕິດຕໍ່: 021-123456\n• ອີເມວ: support@brtlaos.com\n• ທີ່ຢູ່: ສະຖານີລົດເມຕະຫຼາດເຊົ້າ, ນະຄອນຫຼວງວຽງຈັນ',
+    'app_version_label': 'ເວີຊັນ 1.0.0 (Build 2026.10)',
   },
   'en': {
     // --- 1. Login ---
@@ -419,6 +478,65 @@ Map<String, Map<String, String>> localizedValues = {
     'route_1_subtitle': 'Departs every 15 mins from 06:00 - 18:30',
     'promo_notification_title': 'OnePay Scan & Pay Promotion',
     'promo_notification_subtitle': 'Get special discount when paying via QR Code',
+
+    // --- 14. Gate Scanner ---
+    'gate_scanner_title': 'Ticket Inspection (Gate Scanner)',
+    'gate_scanner_app_bar': 'Gate Scanner & Inspector',
+    'gate_entry': 'Entry',
+    'gate_exit': 'Exit',
+    'scan_ticket_here': 'Scan passenger QR ticket here',
+    'verifying_ticket_db': 'Verifying ticket in database...',
+    'gate_pass_valid': 'Access Granted (VALID)',
+    'gate_pass_rejected': 'Access Denied (REJECTED)',
+    'recent_scan_history': 'Recent Scan History',
+    'no_scan_history': 'No scan history yet',
+    'scan_items_unit': 'items',
+    'scan_next_btn': 'OK / Scan Next',
+    'ticket_ref_label': 'Ticket Ref:',
+
+    // --- 15. Live Bus Tracking & ETA ---
+    'bus_schedules_tab': 'Schedules',
+    'bus_live_gps_tab': 'Live GPS & ETA',
+    'live_gps_system_title': 'Real-time GPS Bus Tracking',
+    'live_gps_system_subtitle': 'Live updates every 3s with real-time ETA calculation',
+    'driver_prefix': 'Driver:',
+    'eta_approx_label': 'Estimated Arrival Time (ETA):',
+    'eta_minutes_format': 'About',
+    'minutes_unit': 'mins',
+    'no_buses_found': 'No buses found',
+    'no_driver_name': 'No driver assigned',
+    'general_route': 'Standard Line',
+    'change_url_btn': 'Change URL',
+    'set_api_url_title': 'Configure API URL',
+    'enter_api_url_hint': 'Enter backend server API URL to test:',
+
+    // --- 16. Dynamic QR & Anti-Fraud ---
+    'live_qr_badge': 'LIVE QR',
+    'dynamic_token_refresh': 'Auto-refreshing dynamic token every 30s',
+    'ticket_status_valid': 'VALID / Active',
+    'ticket_status_used': 'USED / Checked-in',
+    'ticket_status_expired': 'EXPIRED',
+    'ticket_already_scanned': 'Ticket already scanned',
+    'ticket_expired_notice': 'Ticket expired',
+
+    // --- 17. Payment & Webhook ---
+    'check_webhook_real_btn': 'Check Bank Webhook (Real Check)',
+    'bcel_app_hint': 'Please open BCEL One / Mobile Banking to scan QR code',
+    'waiting_bank_webhook': 'Waiting for bank webhook confirmation...',
+    'waiting_bank_seconds': 'Waiting for bank confirmation',
+    'testing_sandbox': 'Testing sandbox webhook...',
+
+    // --- 18. Privacy Policy & PDPA ---
+    'privacy_policy_title': 'Privacy Policy & PDPA',
+    'privacy_section_1_title': '1. Personal Data Collection',
+    'privacy_section_1_desc': 'The BRT Vientiane Bus Rapid Transit application collects data necessary for transit services including:\n• Phone number and name for identity verification\n• Ticket purchases and trip history\n• Location data (GPS) for nearby station discovery and bus ETA calculations',
+    'privacy_section_2_title': '2. Payment Security',
+    'privacy_section_2_desc': 'Payments via Lao QR and BCEL OnePay follow international security standards (EMVCo).\nThe application does not store your bank account passwords or credit card data on your device.',
+    'privacy_section_3_title': '3. User Rights & Data Protection (PDPA)',
+    'privacy_section_3_desc': 'You have the right to request access, correction, or deletion of your account and travel history at any time through the app settings or by contacting BRT customer support.',
+    'privacy_section_4_title': '4. Contact & Support',
+    'privacy_section_4_desc': 'Vientiane Rapid Transit Service Center (BRT Vientiane)\n• Telephone: 021-123456\n• Email: support@brtlaos.com\n• Address: Morning Market Bus Station, Vientiane, Laos',
+    'app_version_label': 'Version 1.0.0 (Build 2026.10)',
   },
   'zh': {
     // --- 1. 登录 ---
@@ -625,6 +743,65 @@ Map<String, Map<String, String>> localizedValues = {
     'route_1_subtitle': '06:00 - 18:30 每15分钟一班',
     'promo_notification_title': 'OnePay 扫码支付优惠',
     'promo_notification_subtitle': '通过二维码支付享受专属折扣',
+
+    // --- 14. 闸机检票系统 ---
+    'gate_scanner_title': '检票系统 (闸机扫描)',
+    'gate_scanner_app_bar': '检票系统 / 闸机扫描',
+    'gate_entry': '进站',
+    'gate_exit': '出站',
+    'scan_ticket_here': '请在此扫描乘客车票二维码',
+    'verifying_ticket_db': '正在向数据库验证车票...',
+    'gate_pass_valid': '准予通行 (有效车票)',
+    'gate_pass_rejected': '拒绝通行 (无效或已使用)',
+    'recent_scan_history': '最近扫描记录',
+    'no_scan_history': '暂无扫描记录',
+    'scan_items_unit': '项',
+    'scan_next_btn': '确定 / 扫描下一个',
+    'ticket_ref_label': '车票凭证号：',
+
+    // --- 15. 实时GPS与预计到达 (Live Bus Tracking & ETA) ---
+    'bus_schedules_tab': '时刻表',
+    'bus_live_gps_tab': '实时GPS与到达',
+    'live_gps_system_title': '实时公交GPS定位跟踪系统',
+    'live_gps_system_subtitle': '每3秒自动更新，精确计算到达各站预估时间',
+    'driver_prefix': '司机：',
+    'eta_approx_label': '预计到达时间 (ETA)：',
+    'eta_minutes_format': '约',
+    'minutes_unit': '分钟',
+    'no_buses_found': '未找到公交车信息',
+    'no_driver_name': '未分配司机',
+    'general_route': '常规线路',
+    'change_url_btn': '修改 URL',
+    'set_api_url_title': '设置 API URL',
+    'enter_api_url_hint': '输入要测试的后端服务器 API 地址：',
+
+    // --- 16. 动态二维码与防伪 ---
+    'live_qr_badge': '动态二维码',
+    'dynamic_token_refresh': '动态安全令牌每30秒自动刷新',
+    'ticket_status_valid': '有效 / 待使用',
+    'ticket_status_used': '已使用 / 已核销',
+    'ticket_status_expired': '已过期',
+    'ticket_already_scanned': '车票已被扫描核销',
+    'ticket_expired_notice': '车票已过期',
+
+    // --- 17. 支付与银行回调 ---
+    'check_webhook_real_btn': '检查银行网关通知 (实时验证)',
+    'bcel_app_hint': '请打开 BCEL One 或手机银行APP扫描此二维码',
+    'waiting_bank_webhook': '正在等待银行通知确认...',
+    'waiting_bank_seconds': '正在等待银行确认',
+    'testing_sandbox': '正在进行沙盒模拟测试...',
+
+    // --- 18. 隐私政策与数据保护 (PDPA) ---
+    'privacy_policy_title': '隐私政策与数据保护 (Privacy & PDPA)',
+    'privacy_section_1_title': '1. 个人数据收集 (Data Collection)',
+    'privacy_section_1_desc': '万象城市快速公交系统 (BRT) 收集提供运输服务所必需的信息，包括：\n• 用于身份验证的电话号码及姓名\n• 购票信息与乘车出行记录\n• 地理位置信息 (GPS)，用于检索附近车站及计算公交预估到达时间 (ETA)',
+    'privacy_section_2_title': '2. 支付安全保障 (Payment Security)',
+    'privacy_section_2_desc': '通过 Lao QR 及 BCEL OnePay 进行的支付均遵循国际安全标准 (EMVCo)。\n本应用绝不会在您的设备上存储任何银行账户密码或信用卡敏感数据。',
+    'privacy_section_3_title': '3. 用户权利与隐私保障 (User Rights & PDPA)',
+    'privacy_section_3_desc': '您可以随时通过应用设置或联系 BRT 客服中心，查阅、更正或申请注销您的账户及出行记录。',
+    'privacy_section_4_title': '4. 联系与客服支持 (Contact Support)',
+    'privacy_section_4_desc': '万象快速公交运营服务中心 (BRT Vientiane)\n• 服务热线：021-123456\n• 电子邮箱：support@brtlaos.com\n• 地址：老挝万象市早市公交总站',
+    'app_version_label': '版本 1.0.0 (Build 2026.10)',
   },
 };
 

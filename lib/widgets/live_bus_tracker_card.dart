@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/models/bus_live_location.dart';
 
 /// Card ສະແດງສະຖານະ ແລະ ພິກັດລົດເມແບບ Real-Time ພ້ອມເວລາເຖິງ (ETA)
@@ -58,7 +59,7 @@ class LiveBusTrackerCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'ຄົນຂັບ: ${bus.driverName}',
+                        '${tr('driver_prefix')} ${bus.driverName}',
                         style: const TextStyle(
                           color: AppColors.textMuted,
                           fontSize: 11,
@@ -139,18 +140,18 @@ class LiveBusTrackerCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.access_time, size: 14, color: AppColors.primary),
-                    SizedBox(width: 6),
+                    const Icon(Icons.access_time, size: 14, color: AppColors.primary),
+                    const SizedBox(width: 6),
                     Text(
-                      'ເວລາປະມານທີ່ຈະຮອດ (ETA):',
-                      style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                      tr('eta_approx_label'),
+                      style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
                     ),
                   ],
                 ),
                 Text(
-                  'ອີກປະມານ ${bus.etaMinutes} ນາທີ',
+                  '${tr('eta_minutes_format')} ${bus.etaMinutes} ${tr('minutes_unit')}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,

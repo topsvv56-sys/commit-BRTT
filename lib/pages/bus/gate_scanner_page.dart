@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
+import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/services/ticket_service.dart';
 import 'package:flutter_application_brt_bub/services/dynamic_qr_service.dart';
 
@@ -20,7 +21,7 @@ class _GateScannerPageState extends State<GateScannerPage> {
 
   bool _isProcessing = false;
   String _currentStation = 'ST_TALATXAO';
-  String _gateMode = 'ENTRY'; // 'ENTRY' หรือ 'EXIT'
+  String _gateMode = 'ENTRY'; // 'ENTRY' ຫຼື 'EXIT'
   final List<Map<String, dynamic>> _scanHistory = [];
 
   final List<Map<String, String>> _stations = [
@@ -116,7 +117,7 @@ class _GateScannerPageState extends State<GateScannerPage> {
               ),
               const SizedBox(height: 12),
               Text(
-                isSuccess ? 'ຜ່ານປະຕູໄດ້ (VALID)' : 'ບໍ່ສາມາດຜ່ານໄດ້ (REJECTED)',
+                isSuccess ? tr('gate_pass_valid') : tr('gate_pass_rejected'),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -140,7 +141,7 @@ class _GateScannerPageState extends State<GateScannerPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Ticket Ref:', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                      Text(tr('ticket_ref_label'), style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
                       Text(
                         result.ticketId!,
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
@@ -158,7 +159,7 @@ class _GateScannerPageState extends State<GateScannerPage> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text('ຕົກລົງ / Scan Next', style: TextStyle(color: AppColors.white)),
+                  child: Text(tr('scan_next_btn'), style: const TextStyle(color: AppColors.white)),
                 ),
               ),
             ],
@@ -170,165 +171,170 @@ class _GateScannerPageState extends State<GateScannerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.black,
-      appBar: AppBar(
-        title: const Text(
-          'ລະບົບກວດສອບຕົ໋ວ / Gate Scanner',
-          style: TextStyle(color: AppColors.white, fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.flash_on, color: AppColors.white),
-            onPressed: () => _cameraController.toggleTorch(),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Station & Mode Selector Header
-          Container(
-            color: AppColors.surfaceWhite,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: _currentStation,
-                      isExpanded: true,
-                      items: _stations.map((s) {
-                        return DropdownMenuItem(
-                          value: s['id'],
-                          child: Text(s['name']!, style: const TextStyle(fontSize: 13)),
-                        );
-                      }).toList(),
-                      onChanged: (val) {
-                        if (val != null) setState(() => _currentStation = val);
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                SegmentedButton<String>(
-                  segments: const [
-                    ButtonSegment(value: 'ENTRY', label: Text('ຂາເຂົ້າ')),
-                    ButtonSegment(value: 'EXIT', label: Text('ຂາອອກ')),
-                  ],
-                  selected: {_gateMode},
-                  onSelectionChanged: (set) => setState(() => _gateMode = set.first),
-                ),
-              ],
+    return ValueListenableBuilder<String>(
+      valueListenable: appLanguageNotifier,
+      builder: (context, lang, _) {
+        return Scaffold(
+          backgroundColor: AppColors.black,
+          appBar: AppBar(
+            title: Text(
+              tr('gate_scanner_app_bar'),
+              style: const TextStyle(color: AppColors.white, fontSize: 16, fontWeight: FontWeight.bold),
             ),
+            backgroundColor: AppColors.primary,
+            elevation: 0,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.flash_on, color: AppColors.white),
+                onPressed: () => _cameraController.toggleTorch(),
+              ),
+            ],
           ),
-
-          // Camera Viewport
-          Expanded(
-            flex: 5,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                MobileScanner(
-                  controller: _cameraController,
-                  onDetect: _handleBarcodeDetected,
-                ),
-                // Scanner Overlay Viewport
-                Container(
-                  width: 260,
-                  height: 260,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: _isProcessing ? AppColors.warning : AppColors.primary,
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                Positioned(
-                  bottom: 24,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: AppColors.black.withValues(alpha: 0.75),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      _isProcessing
-                          ? 'ກຳລັງກວດສອບຕົ໋ວກັບຖານຂໍ້ມູນ...'
-                          : 'ສ່ອງ QR Code ຕົ໋ວໂດຍສານທີ່ນີ້',
-                      style: const TextStyle(color: AppColors.white, fontSize: 13),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Recent Scans List
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: AppColors.surfaceWhite,
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'ປະຫວັດການສະແກນຫຼ້າສຸດ',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+          body: Column(
+            children: [
+              // Station & Mode Selector Header
+              Container(
+                color: AppColors.surfaceWhite,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: _currentStation,
+                          isExpanded: true,
+                          items: _stations.map((s) {
+                            return DropdownMenuItem(
+                              value: s['id'],
+                              child: Text(s['name']!, style: const TextStyle(fontSize: 13)),
+                            );
+                          }).toList(),
+                          onChanged: (val) {
+                            if (val != null) setState(() => _currentStation = val);
+                          },
+                        ),
                       ),
-                      Text(
-                        '${_scanHistory.length} ລາຍການ',
-                        style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
+                    ),
+                    const SizedBox(width: 10),
+                    SegmentedButton<String>(
+                      segments: [
+                        ButtonSegment(value: 'ENTRY', label: Text(tr('gate_entry'))),
+                        ButtonSegment(value: 'EXIT', label: Text(tr('gate_exit'))),
+                      ],
+                      selected: {_gateMode},
+                      onSelectionChanged: (set) => setState(() => _gateMode = set.first),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Camera Viewport
+              Expanded(
+                flex: 5,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    MobileScanner(
+                      controller: _cameraController,
+                      onDetect: _handleBarcodeDetected,
+                    ),
+                    // Scanner Overlay Viewport
+                    Container(
+                      width: 260,
+                      height: 260,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: _isProcessing ? AppColors.warning : AppColors.primary,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 24,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.black.withValues(alpha: 0.75),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          _isProcessing
+                              ? tr('verifying_ticket_db')
+                              : tr('scan_ticket_here'),
+                          style: const TextStyle(color: AppColors.white, fontSize: 13),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Recent Scans List
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: AppColors.surfaceWhite,
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            tr('recent_scan_history'),
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          ),
+                          Text(
+                            '${_scanHistory.length} ${tr('scan_items_unit')}',
+                            style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: _scanHistory.isEmpty
+                            ? Center(
+                                child: Text(
+                                  tr('no_scan_history'),
+                                  style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
+                                ),
+                              )
+                            : ListView.separated(
+                                itemCount: _scanHistory.length,
+                                separatorBuilder: (_, _) => const Divider(height: 1),
+                                itemBuilder: (ctx, idx) {
+                                  final item = _scanHistory[idx];
+                                  final isOk = item['isValid'] as bool;
+                                  return ListTile(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.zero,
+                                    leading: Icon(
+                                      isOk ? Icons.check_circle : Icons.cancel,
+                                      color: isOk ? AppColors.success : AppColors.errorAccent,
+                                      size: 20,
+                                    ),
+                                    title: Text(
+                                      item['ticketId'] as String,
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                    ),
+                                    subtitle: Text(
+                                      item['message'] as String,
+                                      style: const TextStyle(fontSize: 11),
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child: _scanHistory.isEmpty
-                        ? const Center(
-                            child: Text(
-                              'ຍັງບໍ່ມີປະຫວັດການສະແກນ',
-                              style: TextStyle(color: AppColors.textMuted, fontSize: 12),
-                            ),
-                          )
-                        : ListView.separated(
-                            itemCount: _scanHistory.length,
-                            separatorBuilder: (_, _) => const Divider(height: 1),
-                            itemBuilder: (ctx, idx) {
-                              final item = _scanHistory[idx];
-                              final isOk = item['isValid'] as bool;
-                              return ListTile(
-                                dense: true,
-                                contentPadding: EdgeInsets.zero,
-                                leading: Icon(
-                                  isOk ? Icons.check_circle : Icons.cancel,
-                                  color: isOk ? AppColors.success : AppColors.errorAccent,
-                                  size: 20,
-                                ),
-                                title: Text(
-                                  item['ticketId'] as String,
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                                ),
-                                subtitle: Text(
-                                  item['message'] as String,
-                                  style: const TextStyle(fontSize: 11),
-                                ),
-                              );
-                            },
-                          ),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
