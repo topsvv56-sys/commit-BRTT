@@ -10,6 +10,8 @@ import 'package:flutter_application_brt_bub/pages/profile/edit_profile_page.dart
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
+import 'package:flutter_application_brt_bub/pages/bus/gate_scanner_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/privacy_policy_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -332,6 +334,82 @@ class _ProfilePageState extends State<ProfilePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (_) => const SettingsPage(),
+                              ),
+                            );
+                          },
+                        ),
+                        const Divider(height: 1, indent: 60),
+
+                        // 4. ລະບົບກວດສອບຕົ໋ວ (Gate / Turnstile Scanner)
+                        ListTile(
+                          leading: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.qr_code_scanner,
+                              color: AppColors.primary,
+                              size: 22,
+                            ),
+                          ),
+                          title: const Text(
+                            'ລະບົບກວດສອບຕົ໋ວ (Gate Scanner)',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textDark,
+                            ),
+                          ),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                            color: AppColors.textMuted,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const GateScannerPage(),
+                              ),
+                            );
+                          },
+                        ),
+                        const Divider(height: 1, indent: 60),
+
+                        // 5. ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy & PDPA)
+                        ListTile(
+                          leading: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.infoBlue.withValues(alpha: 0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.privacy_tip_outlined,
+                              color: AppColors.infoBlue,
+                              size: 22,
+                            ),
+                          ),
+                          title: const Text(
+                            'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy Policy)',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textDark,
+                            ),
+                          ),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                            color: AppColors.textMuted,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const PrivacyPolicyPage(),
                               ),
                             );
                           },

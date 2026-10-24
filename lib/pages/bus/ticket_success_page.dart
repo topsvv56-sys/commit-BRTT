@@ -8,6 +8,7 @@ import 'package:flutter_application_brt_bub/config/app_colors.dart';
 import 'package:flutter_application_brt_bub/models/ticket_model.dart';
 import 'package:flutter_application_brt_bub/pages/profile/history_page.dart';
 import 'bus_page.dart' show BusPage;
+import 'package:flutter_application_brt_bub/widgets/dynamic_ticket_qr_view.dart';
 
 class SuccessPage extends StatelessWidget {
   final int total;
@@ -218,45 +219,48 @@ class SuccessPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            // --- QR Code ແທ້ (Dynamic Ticket QR Code) ---
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.surfaceWhite,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.borderMedium),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  QrImageView(
-                    data: qrData,
-                    version: QrVersions.auto,
-                    size: 160.0,
-                    backgroundColor: AppColors.white,
-                    eyeStyle: const QrEyeStyle(
-                      eyeShape: QrEyeShape.square,
-                      color: AppColors.primary,
+            // --- QR Code ແທ້ (Dynamic Ticket QR Code ພ້ອມ Time-based Token) ---
+            if (ticket != null)
+              DynamicTicketQrView(ticket: ticket!)
+            else
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceWhite,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.borderMedium),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                    dataModuleStyle: const QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.square,
-                      color: AppColors.textNavy,
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    QrImageView(
+                      data: qrData,
+                      version: QrVersions.auto,
+                      size: 160.0,
+                      backgroundColor: AppColors.white,
+                      eyeStyle: const QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: AppColors.primary,
+                      ),
+                      dataModuleStyle: const QrDataModuleStyle(
+                        dataModuleShape: QrDataModuleShape.square,
+                        color: AppColors.textNavy,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    tr('scan_qr_hint'),
-                    style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                    Text(
+                      tr('scan_qr_hint'),
+                      style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+                    ),
+                  ],
+                ),
               ),
-            ),
             const SizedBox(height: 24),
 
             // ປຸ່ມກັບຄືນໜ້າຫຼັກ

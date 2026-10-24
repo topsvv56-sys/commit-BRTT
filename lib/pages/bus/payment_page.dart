@@ -31,6 +31,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final MobileScannerController cameraController = MobileScannerController();
   final ImagePicker _picker = ImagePicker();
   bool _isProcessing = false;
+  String _processingMessage = '';
   late String _orderRef;
   late String _paymentQrData;
 
@@ -44,6 +45,21 @@ class _PaymentPageState extends State<PaymentPage> {
       amount: widget.total,
       orderRef: _orderRef,
     );
+
+    // ສ້າງ Order ໃນ Server Backend ຖ້າເຊື່ອມຕໍ່ໄດ້
+    PaymentService().createPaymentOrder(
+      totalAmount: widget.total,
+      originStation: widget.originStation,
+      destinationStation: widget.destinationStation,
+      quantity: widget.qty,
+    ).then((info) {
+      if (mounted) {
+        setState(() {
+          _orderRef = info.orderRef;
+          _paymentQrData = info.qrData;
+        });
+      }
+    });
   }
 
   @override
@@ -52,9 +68,72 @@ class _PaymentPageState extends State<PaymentPage> {
     super.dispose();
   }
 
-  // --- 1. ຈຳລອງການຮັບ Webhook ຈາກລະບົບທະນາຄານ (Webhook Simulation) ---
+  // --- 1. ກວດສອບ Webhook ຕົວຈິງຈາກ Server ທະນາຄານ (Real Webhook Polling) ---
+  Future<void> _handleRealWebhookPolling() async {
+    setState(() {
+      _isProcessing = true;
+      _processingMessage = 'ກຳລັງລໍຖ້າ Webhook ຢືນຢັນຈາກທະນາຄານ...';
+    });
+
+    try {
+      final result = await PaymentService().pollPaymentVerification(
+        orderRef: _orderRef,
+        originStation: widget.originStation,
+        destinationStation: widget.destinationStation,
+        quantity: widget.qty,
+        totalAmount: widget.total,
+        onTick: (sec) {
+          if (mounted) {
+            setState(() {
+              _processingMessage = 'ກຳລັງລໍຖ້າທະນາຄານຢືນຢັນ (${sec}s)...';
+            });
+          }
+        },
+      );
+
+      if (!mounted) return;
+      setState(() => _isProcessing = false);
+
+      if (result.isSuccess && result.ticket != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.message),
+            backgroundColor: AppColors.success,
+          ),
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SuccessPage(ticket: result.ticket!),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.message),
+            backgroundColor: AppColors.errorAccent,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isProcessing = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Payment Error: $e'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
+  }
+
+  // --- 2. ຈຳລອງການຮັບ Webhook ຈາກລະບົບທະນາຄານ (Sandbox Simulation Test) ---
   Future<void> _handleWebhookSimulation() async {
-    setState(() => _isProcessing = true);
+    setState(() {
+      _isProcessing = true;
+      _processingMessage = 'ກຳລັງທົດສອບ Webhook Sandbox...';
+    });
 
     try {
       final result = await PaymentService().simulateBankWebhookPayment(
@@ -62,7 +141,7 @@ class _PaymentPageState extends State<PaymentPage> {
         destinationStation: widget.destinationStation,
         quantity: widget.qty,
         totalAmount: widget.total,
-        paymentMethod: 'BCEL OnePay (Webhook)',
+        paymentMethod: 'BCEL OnePay (Sandbox Test)',
       );
 
       if (!mounted) return;
@@ -327,10 +406,16 @@ class _PaymentPageState extends State<PaymentPage> {
                 child: Column(
                   children: [
                     const CircularProgressIndicator(color: AppColors.primary),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     Text(
-                      tr('checking_webhook'),
-                      style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
+                      _processingMessage.isNotEmpty ? _processingMessage : tr('checking_webhook'),
+                      style: const TextStyle(color: AppColors.textNavy, fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'ກະລຸນາເປີດແອັບ BCEL One / Mobile Banking ເພື່ອສະແກນ QR Code',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 11),
                     ),
                   ],
                 ),
@@ -338,7 +423,33 @@ class _PaymentPageState extends State<PaymentPage> {
             else
               Column(
                 children: [
-                  // ປຸ່ມ 1: ຈຳລອງ Webhook ຈາກທະນາຄານ (Instant Simulation)
+                  // ປຸ່ມ 1: ກວດສອບ Webhook ຈາກທະນາຄານຕົວຈິງ (Real Bank Webhook Polling)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 46,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(23),
+                        ),
+                        elevation: 2,
+                      ),
+                      onPressed: _handleRealWebhookPolling,
+                      icon: const Icon(Icons.sync, color: AppColors.white),
+                      label: const Text(
+                        'ກວດສອບ Webhook ທະນາຄານ (Real Check)',
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // ປຸ່ມ 2: ຈຳລອງ Webhook ຈາກທະນາຄານ (Sandbox Instant Test)
                   SizedBox(
                     width: double.infinity,
                     height: 46,
@@ -348,7 +459,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(23),
                         ),
-                        elevation: 2,
+                        elevation: 0,
                       ),
                       onPressed: _handleWebhookSimulation,
                       icon: const Icon(Icons.flash_on, color: AppColors.white),
@@ -364,28 +475,27 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                   const SizedBox(height: 10),
 
-                  // ປຸ່ມ 2: ຢືນຢັນການຊຳລະເງິນ & ຮັບບິນ
+                  // ປຸ່ມ 3: ຢືນຢັນການຊຳລະເງິນ & ຮັບບິນ (Manual Confirm)
                   SizedBox(
                     width: double.infinity,
-                    height: 46,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
+                    height: 44,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.primary),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(23),
                         ),
-                        elevation: 0,
                       ),
                       onPressed: _handleConfirmPayment,
                       icon: const Icon(
                         Icons.check_circle_outline,
-                        color: AppColors.white,
+                        color: AppColors.primary,
                       ),
                       label: Text(
                         tr('confirm_and_receipt'),
                         style: const TextStyle(
-                          color: AppColors.white,
-                          fontSize: 14,
+                          color: AppColors.primary,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -393,7 +503,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                   const SizedBox(height: 10),
 
-                  // ປຸ່ມ 3: ສະແກນຮູບສະລິບຈາກ Gallery
+                  // ປຸ່ມ 4: ສະແກນຮູບສະລິບຈາກ Gallery
                   TextButton.icon(
                     onPressed: _scanQrFromGallery,
                     icon: const Icon(

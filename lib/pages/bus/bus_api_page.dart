@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
+import 'package:flutter_application_brt_bub/models/bus_live_location.dart';
+import 'package:flutter_application_brt_bub/services/bus_tracking_service.dart';
+import 'package:flutter_application_brt_bub/widgets/live_bus_tracker_card.dart';
 
 
 class BUS extends StatefulWidget {
@@ -168,34 +171,48 @@ class _BUSState extends State<BUS> {
     return ValueListenableBuilder<String>(
       valueListenable: appLanguageNotifier,
       builder: (context, currentLang, _) {
-        return Scaffold(
-          backgroundColor: AppColors.scaffoldBg,
-          appBar: AppBar(
-            backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.white,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: AppColors.white),
-              onPressed: () => Navigator.pop(context),
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            backgroundColor: AppColors.scaffoldBg,
+            appBar: AppBar(
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.white,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: AppColors.white),
+                onPressed: () => Navigator.pop(context),
+              ),
+              title: Text(
+                tr('bus_api_title'),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              bottom: const TabBar(
+                indicatorColor: AppColors.white,
+                indicatorWeight: 3,
+                labelColor: AppColors.white,
+                unselectedLabelColor: Colors.white70,
+                tabs: [
+                  Tab(icon: Icon(Icons.list_alt, size: 20), text: 'ຕາຕະລາງລົດ'),
+                  Tab(icon: Icon(Icons.gps_fixed, size: 20), text: 'GPS ສົດ & ETA'),
+                ],
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  tooltip: tr('set_url_tooltip'),
+                  onPressed: _showChangeUrlDialog,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: tr('refresh_tooltip'),
+                  onPressed: _refreshData,
+                ),
+              ],
             ),
-            title: Text(
-              tr('bus_api_title'),
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: tr('set_url_tooltip'),
-            onPressed: _showChangeUrlDialog,
-          ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: tr('refresh_tooltip'),
-            onPressed: _refreshData,
-          ),
-        ],
-      ),
-      body: Column(
+            body: TabBarView(
+              children: [
+                Column(
         children: [
           // ແຖບແຈ້ງເຕືອນສະຖານະການເຊື່ອມຕໍ່ API
           Container(
@@ -409,7 +426,64 @@ class _BUSState extends State<BUS> {
           ),
         ],
       ),
-    );
+
+      // Tab 2: ຕິດຕາມພິກັດ GPS ສົດ & ຄຳນວນ ETA ແບບ Real-time
+      StreamBuilder<List<BusLiveLocation>>(
+        stream: BusTrackingService().streamLiveBuses(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            );
+          }
+
+          final liveBuses = snapshot.data!;
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.primarySurface,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: AppColors.primaryBorder),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.satellite_alt, color: AppColors.primary),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'ລະບົບຕິດຕາມລົດເມ Real-time GPS',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          Text(
+                            'ອັບເດດສົດທຸກໆ 3 ວິນາທີ ພ້ອມຄຳນວນ ETA ຮອດສະຖານີ',
+                            style: TextStyle(fontSize: 11, color: AppColors.textMuted),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...liveBuses.map((b) => LiveBusTrackerCard(bus: b)),
+            ],
+          );
+        },
+      ),
+    ],
+  ),
+),
+);
       },
     );
   }

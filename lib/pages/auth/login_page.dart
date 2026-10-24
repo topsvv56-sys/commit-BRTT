@@ -5,6 +5,7 @@ import 'package:flutter_application_brt_bub/pages/auth/register_page.dart';
 import 'package:flutter_application_brt_bub/pages/bus/bus_page.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
+import 'package:flutter_application_brt_bub/pages/profile/privacy_policy_page.dart';
 
 // ==========================================
 // 1. ໜ້າ ກູ້ຄືນລະຫັດຜ່ານ (ForgotPasswordPage)
@@ -1219,8 +1220,28 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const PrivacyPolicyPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ (Privacy & PDPA)',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
                     ],
                   ),
                 ),

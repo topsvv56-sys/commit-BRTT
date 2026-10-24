@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isStaffOrAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.role == 'staff' || 
+         request.auth.token.role == 'admin' ||
+         request.auth.token.email.matches('.*@brtadmin\\.com'));
+    }
+
+    // 1. Users Collection: ผู้ใช้เข้าถึงได้เฉพาะข้อมูลโปรไฟล์ของตนเอง
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isStaffOrAdmin();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isOwner(userId) || isStaffOrAdmin();
+      allow delete: if isStaffOrAdmin();
+    }
+
+    // 2. Tickets Collection: 
+    // - ผู้โดยสารอ่านได้เฉพาะตั๋วของตนเอง
+    // - สร้างตั๋วได้เมื่อล็อกอินแล้ว และเป็นตั๋วของตนเอง
+    // - แก้ไขสถานะได้เฉพาะเจ้าหน้าที่ตรวจตั๋ว (Staff) หรือระบบ
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isStaffOrAdmin());
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isStaffOrAdmin() || (
+        isAuthenticated() && 
+        resource.data.userId == request.auth.uid && 
+        request.resource.data.userId == resource.data.userId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastViewedAt'])
+      );
+      allow delete: if isStaffOrAdmin();
+    }
+
+    // 3. Ticket Scans Audit Log: เจ้าหน้าที่และเกทสแกนเนอร์เท่านั้นที่บันทึกได้
+    match /ticket_scans/{scanId} {
+      allow read: if isStaffOrAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // ห้ามแก้ไข Audit Log
+    }
+
+    // 4. Stations & Routes: สาธารณะสามารถอ่านได้ แก้ไขได้เฉพาะ Admin
+    match /stations/{stationId} {
+      allow read: if true;
+      allow write: if isStaffOrAdmin();
+    }
+
+    match /routes/{routeId} {
+      allow read: if true;
+      allow write: if isStaffOrAdmin();
+    }
+
+    // 5. Buses & Live Locations: สาธารณะอ่านพิกัดสดได้ แก้ไขได้เฉพาะ GPS Device / Driver
+    match /buses/{busId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}

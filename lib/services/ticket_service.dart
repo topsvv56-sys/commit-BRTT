@@ -1,10 +1,11 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_brt_bub/models/ticket_model.dart';
+import 'dynamic_qr_service.dart';
+import 'offline_ticket_cache.dart';
 
 class TicketService {
   static final TicketService _instance = TicketService._internal();
@@ -29,7 +30,7 @@ class TicketService {
     return 'BRT-$year$month-$randomDigits';
   }
 
-  /// ສ້າງ QR Payload ທີ່ຖືກຕ້ອງຕາມມາດຕະຖານ BRT System
+  /// ສ້າງ QR Payload ທີ່ຖືກຕ້ອງຕາມມາດຕະຖານ BRT System (Dynamic TOTP Compatible)
   static String generateQrPayload({
     required String ticketId,
     required String origin,
@@ -37,16 +38,13 @@ class TicketService {
     required int quantity,
     required DateTime expiresAt,
   }) {
-    final payload = {
-      'app': 'BRT_LAOS',
-      'tid': ticketId,
-      'from': origin,
-      'to': destination,
-      'qty': quantity,
-      'exp': expiresAt.millisecondsSinceEpoch,
-      'sec': Random().nextInt(999999),
-    };
-    return jsonEncode(payload);
+    return DynamicQrService.generateDynamicPayload(
+      ticketId: ticketId,
+      origin: origin,
+      destination: destination,
+      quantity: quantity,
+      expiresAt: expiresAt,
+    );
   }
 
   /// ບັນທຶກຕົ໋ວໃໝ່ລົງ Firebase Firestore ແລະ Local Cache
@@ -89,7 +87,8 @@ class TicketService {
       qrPayload: qrPayload,
     );
 
-    // 1. ບັນທຶກລົງ Local Cache ທັນທີ (ບໍ່ໃຫ້ພາດ)
+    // 1. ບັນທຶກລົງ Offline Cache ທັນທີ (ບໍ່ໃຫ້ພາດ)
+    await OfflineTicketCache().saveTicket(ticket);
     await _saveTicketToLocalCache(ticket);
 
     // 2. ບັນທຶກລົງ Firebase Firestore
@@ -129,8 +128,8 @@ class TicketService {
       debugPrint('Notice: Fallback to local cache for tickets: $e');
     }
 
-    // ດຶງຈາກ Local Cache ມາລວມກັນ
-    final cachedTickets = await _getLocalCachedTickets();
+    // ດຶງຈາກ Offline Cache ມາລວມກັນ
+    final cachedTickets = await OfflineTicketCache().getCachedTickets();
     for (var cached in cachedTickets) {
       if (!tickets.any((t) => t.id == cached.id)) {
         tickets.add(cached);
@@ -157,6 +156,122 @@ class TicketService {
         });
   }
 
+  /// ກວດສອບ ແລະ ຕັດສິດການໃຊ້ງານຕົ໋ວຢູ່ປະຕູກັ້ນ ຫຼື ໂດຍເຈົ້າໜ້າທີ່ (Gate / Turnstile Validation)
+  Future<TicketValidationResult> validateAndUseTicket({
+    required String rawQrPayload,
+    required String stationId,
+    String? staffId,
+  }) async {
+    // 1. ກວດສອບຮູບແບບ Dynamic QR ແລະ Signature ພາຍໃນ
+    final localResult = DynamicQrService.verifyScannedPayload(rawQrPayload);
+    if (!localResult.isValid || localResult.ticketId == null) {
+      return localResult;
+    }
+
+    final String ticketId = localResult.ticketId!;
+
+    try {
+      // 2. ກວດສອບສະຖານະໃນ Firebase Firestore
+      final docRef = _firestore.collection('tickets').doc(ticketId);
+      final doc = await docRef.get().timeout(const Duration(seconds: 4));
+
+      if (!doc.exists) {
+        // ລອງກວດສອບໃນ Offline Cache ຖ້າເຄືອຂ່າຍຕິດຂັດ
+        final offlineTicket = await OfflineTicketCache().getTicketById(ticketId);
+        if (offlineTicket != null) {
+          if (offlineTicket.status == 'used' || offlineTicket.status == 'in_use') {
+            await recordScanAudit(ticketId: ticketId, stationId: stationId, result: 'ALREADY_USED', staffId: staffId);
+            return TicketValidationResult(
+              isValid: false,
+              status: 'ALREADY_USED',
+              message: 'ຕົ໋ວໃບນີ້ຖືກໃຊ້ງານແລ້ວ (Used at ${offlineTicket.usedAt})',
+              ticketId: ticketId,
+            );
+          }
+        }
+      } else {
+        final data = doc.data()!;
+        final String status = data['status'] ?? 'paid';
+
+        if (status == 'used' || status == 'completed') {
+          await recordScanAudit(ticketId: ticketId, stationId: stationId, result: 'ALREADY_USED', staffId: staffId);
+          return TicketValidationResult(
+            isValid: false,
+            status: 'ALREADY_USED',
+            message: 'ຕົ໋ວໃບນີ້ຖືກສະແກນຜ່ານປະຕູແລ້ວ ບໍ່ສາມາດໃຊ້ຊ້ຳໄດ້',
+            ticketId: ticketId,
+          );
+        }
+
+        if (status == 'expired') {
+          await recordScanAudit(ticketId: ticketId, stationId: stationId, result: 'EXPIRED', staffId: staffId);
+          return TicketValidationResult(
+            isValid: false,
+            status: 'EXPIRED',
+            message: 'ຕົ໋ວໃບນີ້ໝົດອາຍຸການໃຊ້ງານແລ້ວ',
+            ticketId: ticketId,
+          );
+        }
+
+        // 3. ອັບເດດສະຖານະເປັນ 'used' ຫຼື 'in_use' ໃນ Firestore
+        await docRef.update({
+          'status': 'used',
+          'usedAt': DateTime.now().toIso8601String(),
+          'usedStation': stationId,
+          'scannedBy': staffId ?? currentUserId,
+        });
+      }
+
+      // 4. ອັບເດດສະຖານະໃນ Offline Cache
+      await OfflineTicketCache().updateTicketStatus(ticketId, 'used');
+
+      // 5. ບັນທຶກ Audit Log ລົງ ticket_scans (ກົງກັບ schema.sql)
+      await recordScanAudit(ticketId: ticketId, stationId: stationId, result: 'SUCCESS', staffId: staffId);
+
+      return TicketValidationResult(
+        isValid: true,
+        status: 'SUCCESS',
+        message: 'ຜ່ານປະຕູສຳເລັດ! ຂໍໃຫ້ທ່ານເດີນທາງໂດຍສະຫວັດດີພາບ',
+        ticketId: ticketId,
+        origin: localResult.origin,
+        destination: localResult.destination,
+        quantity: localResult.quantity,
+      );
+    } catch (e) {
+      debugPrint('Gate validation error: $e');
+      // Offline fallback: ຖ້າ Network ມີບັນຫາ ແຕ່ signature ຖືກຕ້ອງ ໃຫ້ຜ່ານພ້ອມບັນທຶກ offline
+      await OfflineTicketCache().updateTicketStatus(ticketId, 'used');
+      return TicketValidationResult(
+        isValid: true,
+        status: 'SUCCESS_OFFLINE',
+        message: 'ຜ່ານປະຕູສຳເລັດ (ໂໝດ Offline ຢືນຢັນ Signature ຖືກຕ້ອງ)',
+        ticketId: ticketId,
+        origin: localResult.origin,
+        destination: localResult.destination,
+      );
+    }
+  }
+
+  /// ບັນທຶກປະຫວັດການສະແກນກວດສອບຕົ໋ວ (Audit Log ກົງກັບ Table TicketScans ໃນ schema.sql)
+  Future<void> recordScanAudit({
+    required String ticketId,
+    required String stationId,
+    required String result,
+    String? staffId,
+  }) async {
+    try {
+      await _firestore.collection('ticket_scans').add({
+        'ticketId': ticketId,
+        'stationId': stationId,
+        'scannedByStaffId': staffId ?? currentUserId,
+        'scanResult': result,
+        'scannedAt': DateTime.now().toIso8601String(),
+      }).timeout(const Duration(seconds: 3));
+    } catch (e) {
+      debugPrint('Scan audit logging skipped or offline: $e');
+    }
+  }
+
   /// ປ່ຽນສະຖານະຕົ໋ວເປັນ 'used' (ໃຊ້ແລ້ວ)
   Future<bool> markTicketAsUsed(String ticketId) async {
     try {
@@ -168,15 +283,7 @@ class TicketService {
       debugPrint('Update firestore error: $e');
     }
 
-    // ອັບເດດ local cache
-    final localList = await _getLocalCachedTickets();
-    final updatedList = localList.map((t) {
-      if (t.id == ticketId) {
-        return t.copyWith(status: 'used', usedAt: DateTime.now());
-      }
-      return t;
-    }).toList();
-    await _saveAllTicketsToLocalCache(updatedList);
+    await OfflineTicketCache().updateTicketStatus(ticketId, 'used');
     return true;
   }
 
