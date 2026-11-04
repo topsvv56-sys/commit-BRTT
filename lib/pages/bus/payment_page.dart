@@ -767,7 +767,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         height: 46,
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.buttonBgNavy,
+                            backgroundColor: AppColors.infoNavy,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(23),
                             ),

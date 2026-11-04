@@ -125,6 +125,7 @@ class AppColors {
   static const Color infoLight = Color(0xFFDBEAFE);
   static const Color infoGoogle = Color(0xFF4285F4);
   static const Color infoNavy = Color(0xFF2E5F8A);
+  static const Color buttonBgNavy = Color(0xFF2E5F8A);
 
   // ---------------------------------------------------------------------------
   // สีสำหรับแผนที่และเส้นทางเดินรถ (Map & Route Colors)
