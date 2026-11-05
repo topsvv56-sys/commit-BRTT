@@ -71,7 +71,7 @@ class OfflineTicketCache {
       if (index >= 0) {
         all[index] = all[index].copyWith(
           status: newStatus,
-          usedAt: usedAt ?? DateTime.now(),
+          usedAt: newStatus == 'used' ? (usedAt ?? DateTime.now()) : all[index].usedAt,
         );
         final jsonList = all.map((t) => t.toMap()).toList();
         await prefs.setString(_storageKey, jsonEncode(jsonList));

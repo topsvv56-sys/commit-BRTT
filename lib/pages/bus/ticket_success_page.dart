@@ -171,13 +171,19 @@ class SuccessPage extends StatelessWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.successBg,
+                          color: (ticket?.status == 'used')
+                              ? const Color(0xFFF1F5F9)
+                              : AppColors.successBg,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          tr('paid_status'),
-                          style: const TextStyle(
-                            color: AppColors.successBadge,
+                          (ticket?.status == 'used')
+                              ? tr('ticket_scan_completed')
+                              : tr('paid_status'),
+                          style: TextStyle(
+                            color: (ticket?.status == 'used')
+                                ? const Color(0xFF475569)
+                                : AppColors.successBadge,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),

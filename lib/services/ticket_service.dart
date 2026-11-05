@@ -55,9 +55,11 @@ class TicketService {
     required int totalAmount,
     String paymentMethod = 'BCEL OnePay',
     String? transactionId,
+    String status = 'paid',
+    String? existingId,
   }) async {
     final now = DateTime.now();
-    final ticketId = generateTicketId();
+    final ticketId = existingId ?? generateTicketId();
     final expiresAt = now.add(const Duration(hours: 24));
     final txnId = transactionId ?? 'TXN-${now.millisecondsSinceEpoch}';
 
@@ -79,7 +81,7 @@ class TicketService {
       pricePerTicket: (quantity > 0) ? (totalAmount ~/ quantity) : totalAmount,
       totalAmount: totalAmount,
       currency: 'LAK',
-      status: 'paid',
+      status: status,
       paymentMethod: paymentMethod,
       transactionId: txnId,
       createdAt: now,
@@ -272,7 +274,7 @@ class TicketService {
     }
   }
 
-  /// ປ່ຽນສະຖານະຕົ໋ວເປັນ 'used' (ໃຊ້ແລ້ວ)
+  /// ປ່ຽນສະຖານະຕົ໋ວເປັນ 'used' (ໃຊ້ແລ້ວ / ສະແກນສຳເລັດ)
   Future<bool> markTicketAsUsed(String ticketId) async {
     try {
       await _firestore.collection('tickets').doc(ticketId).update({
@@ -284,6 +286,33 @@ class TicketService {
     }
 
     await OfflineTicketCache().updateTicketStatus(ticketId, 'used');
+    final localList = await _getLocalCachedTickets();
+    final idx = localList.indexWhere((t) => t.id == ticketId);
+    if (idx != -1) {
+      localList[idx] = localList[idx].copyWith(status: 'used', usedAt: DateTime.now());
+      await _saveAllTicketsToLocalCache(localList);
+    }
+    return true;
+  }
+
+  /// ປ່ຽນສະຖານະຕົ໋ວເປັນ 'paid' (ຈ່າຍແລ້ວ)
+  Future<bool> markTicketAsPaid(String ticketId) async {
+    try {
+      await _firestore.collection('tickets').doc(ticketId).update({
+        'status': 'paid',
+        'paidAt': DateTime.now().toIso8601String(),
+      });
+    } catch (e) {
+      debugPrint('Update firestore error: $e');
+    }
+
+    await OfflineTicketCache().updateTicketStatus(ticketId, 'paid');
+    final localList = await _getLocalCachedTickets();
+    final idx = localList.indexWhere((t) => t.id == ticketId);
+    if (idx != -1) {
+      localList[idx] = localList[idx].copyWith(status: 'paid');
+      await _saveAllTicketsToLocalCache(localList);
+    }
     return true;
   }
 
