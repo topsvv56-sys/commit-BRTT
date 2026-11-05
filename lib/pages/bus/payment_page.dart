@@ -440,6 +440,80 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
     }
   }
 
+  // --- ຢືນຢັນດ້ວຍເລກໃບບິນ (Bill Number) ຂອງ BCEL One / LAPNet ---
+  void _handleEnterBillNumber() {
+    final TextEditingController billController = TextEditingController(text: '202611052018039');
+    showDialog(
+      context: context,
+      builder: (dialogCtx) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Row(
+            children: [
+              Icon(Icons.receipt_long, color: Color(0xFFD97724)),
+              SizedBox(width: 8),
+              Text(
+                "ເລກໃບບິນ BCEL One",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "ປ້ອນເລກໃບບິນໂອນເງິນທີ່ໄດ້ຈາກ BCEL One (ເຊັ່ນ: 202611052018039):",
+                style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: billController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: "ຕົວຢ່າງ: 202611052018039",
+                  prefixIcon: const Icon(Icons.numbers, color: Color(0xFFD97724)),
+                  filled: true,
+                  fillColor: const Color(0xFFF8FAFC),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx),
+              child: const Text("ຍົກເລີກ", style: TextStyle(color: Color(0xFF64748B))),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD97724),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: () {
+                final billNo = billController.text.trim();
+                if (billNo.isEmpty) return;
+                Navigator.pop(dialogCtx);
+                _autoCheckTimer?.cancel();
+                _handlePaymentSuccessWorkflow(
+                  methodName: 'BCEL One (ໃບບິນ: $billNo)',
+                );
+              },
+              child: const Text(
+                "ຢືນຢັນ ແລະ ຮັບປີ້",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // --- ບັນທຶກຮູບ QR ---
   void _saveQrImage() {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -797,7 +871,33 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 10),
 
-                        // ປຸ່ມ 2 (ຮອງ): ຍັງບໍ່ທັນໂອນ (ໄປໜ້າປະຫວັດເພື່ອໂອນ)
+                        // ປຸ່ມ 2: ຢືນຢັນດ້ວຍເລກໃບບິນ BCEL One (Bill No.)
+                        SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFFF7ED),
+                              side: const BorderSide(color: Color(0xFFD97724), width: 1.2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                            ),
+                            onPressed: _handleEnterBillNumber,
+                            icon: const Icon(Icons.receipt_long, color: Color(0xFFD97724), size: 18),
+                            label: Text(
+                              tr('enter_bill_no_btn'),
+                              style: const TextStyle(
+                                color: Color(0xFFD97724),
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+
+                        // ປຸ່ມ 3 (ຮອງ): ຍັງບໍ່ທັນໂອນ (ໄປໜ້າປະຫວັດເພື່ອໂອນ)
                         SizedBox(
                           width: double.infinity,
                           height: 48,
