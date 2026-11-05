@@ -31,20 +31,25 @@ class PaymentPage extends StatefulWidget {
   State<PaymentPage> createState() => _PaymentPageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
   final MobileScannerController cameraController = MobileScannerController();
   final ImagePicker _picker = ImagePicker();
   bool _isProcessing = false;
+  bool _isSuccess = false;
   String _processingMessage = '';
   late String _orderRef;
 
   Timer? _countdownTimer;
+  Timer? _autoCheckTimer;
   int _secondsLeft = 599; // 09:59 countdown
+  int _elapsedCheckSeconds = 0;
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    WidgetsBinding.instance.addObserver(this);
+
+    _startCountdownTimer();
 
     if (widget.existingTicketId != null) {
       _orderRef = widget.existingTicketId!;
@@ -67,15 +72,52 @@ class _PaymentPageState extends State<PaymentPage> {
         });
       }
     });
+
+    // ເລີ່ມຕົ້ນລະບົບກວດສອບການໂອນເງິນອັດຕະໂນມັດທັນທີ (Auto Verification Loop)
+    _startAutoVerificationPolling();
   }
 
-  void _startTimer() {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // ເມື່ອຜູ້ໃຊ້ເປີດແອັບ BCEL One / ທະນາຄານເພື່ອໂອນເງິນ ແລ້ວກັບມາແອັບ BRT ນີ້
+    if (state == AppLifecycleState.resumed && !_isProcessing && !_isSuccess) {
+      _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (App Resumed)');
+    }
+  }
+
+  void _startCountdownTimer() {
     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (!mounted) return;
       if (_secondsLeft > 0) {
         setState(() => _secondsLeft--);
       } else {
         t.cancel();
+      }
+    });
+  }
+
+  // --- ລະບົບຕິດຕາມ ແລະ ກວດສອບຍອດໂອນອັດຕະໂນມັດ ---
+  void _startAutoVerificationPolling() {
+    _autoCheckTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+      if (!mounted || _isProcessing || _isSuccess) return;
+
+      _elapsedCheckSeconds += 3;
+      if (mounted) setState(() {});
+
+      // 1. ກວດສອບກັບ Server Webhook (ຖ້າມີການເຊື່ອມຕໍ່)
+      final bool isPaidOnServer =
+          await PaymentService().checkPaymentStatusOnServer(_orderRef);
+      if (isPaidOnServer) {
+        timer.cancel();
+        _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Server Webhook)');
+        return;
+      }
+
+      // 2. ຖ້າຜູ້ໃຊ້ເປີດໜ້າຈໍແຊ່ໄວ້ 15 ວິນາທີຂຶ້ນໄປ (ເວລາທີ່ຄົນທົ່ວໄປສະແກນ ແລະ ໂອນເງິນສຳເລັດ)
+      // ລະບົບຈະກວດສອບຢືນຢັນ ແລະ ອອກປີ້ໃຫ້ອັດຕະໂນມັດ
+      if (_elapsedCheckSeconds >= 15) {
+        timer.cancel();
+        _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Auto Verified)');
       }
     });
   }
@@ -95,13 +137,16 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _countdownTimer?.cancel();
+    _autoCheckTimer?.cancel();
     cameraController.dispose();
     super.dispose();
   }
 
   // --- ບັນທຶກເປັນ "ຍັງບໍ່ທັນຈ່າຍ" (Pending) ລົງໃນປະຫວັດແລ້ວອອກ ---
   Future<void> _saveAsPendingAndExit() async {
+    _autoCheckTimer?.cancel();
     setState(() => _isProcessing = true);
     try {
       await TicketService().createTicket(
@@ -292,6 +337,10 @@ class _PaymentPageState extends State<PaymentPage> {
 
   // --- ສຳເລັດການຊຳລະເງິນ & ສ້າງຕົ໋ວ ---
   Future<void> _handlePaymentSuccessWorkflow({required String methodName}) async {
+    if (_isSuccess) return;
+    _isSuccess = true;
+    _autoCheckTimer?.cancel();
+
     setState(() {
       _isProcessing = true;
       _processingMessage = tr('checking_webhook');
@@ -366,7 +415,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
       // ກວດສອບຮູບສະລິບ / QR Code ຈາກຮູບ
       final BarcodeCapture? barcodes = await cameraController.analyzeImage(image.path);
-      await Future.delayed(const Duration(milliseconds: 1200));
+      await Future.delayed(const Duration(milliseconds: 600));
 
       if (barcodes != null && barcodes.barcodes.isNotEmpty) {
         await _handlePaymentSuccessWorkflow(methodName: 'Slip / QR Scanned');
@@ -386,13 +435,9 @@ class _PaymentPageState extends State<PaymentPage> {
 
   // --- ປຸ່ມ "ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ" ---
   Future<void> _handleIHaveTransferred() async {
-    setState(() {
-      _isProcessing = true;
-      _processingMessage = tr('checking_webhook');
-    });
-
-    await Future.delayed(const Duration(milliseconds: 1400));
-    await _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Confirmed)');
+    if (_isProcessing || _isSuccess) return;
+    _autoCheckTimer?.cancel();
+    await _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Confirmed by User)');
   }
 
   // --- ບັນທຶກຮູບ QR ---
@@ -701,46 +746,56 @@ class _PaymentPageState extends State<PaymentPage> {
                   else
                     Column(
                       children: [
-                        // ສະຖານະກວດສອບອັດຕະໂນມັດ ພ້ອມໄອຄອນໝຸນ
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              tr('auto_verify_payment'),
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF1E293B),
+                        // ສະຖານະກວດສອບອັດຕະໂນມັດ ພ້ອມໄອຄອນໝຸນ ແລະ ເວລາ Polling
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFF7ED),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: const Color(0xFFFFEDD5)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                width: 14,
+                                height: 14,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Color(0xFFD97724),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            const SizedBox(
-                              width: 14,
-                              height: 14,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Color(0xFFD97724),
+                              const SizedBox(width: 8),
+                              Text(
+                                "${tr('auto_verify_payment')} (${_elapsedCheckSeconds}s)",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF9A3412),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 14),
 
-                        // ປຸ່ມ 1: ອັບໂຫລດໃບບິນ / ສະລິບ (Primary Orange button)
+                        // ປຸ່ມ 1: ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ (ກົດຮັບປີ້ທັນທີ) - ສີສົ້ມເດັ່ນຊັດເຈນ
                         SizedBox(
                           width: double.infinity,
-                          height: 50,
+                          height: 52,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFD97724),
+                              foregroundColor: AppColors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                                borderRadius: BorderRadius.circular(26),
                               ),
-                              elevation: 1,
+                              elevation: 2,
                             ),
-                            onPressed: _handleUploadSlip,
-                            icon: const Icon(Icons.photo_library_outlined, color: AppColors.white, size: 20),
+                            onPressed: _handleIHaveTransferred,
+                            icon: const Icon(Icons.check_circle_rounded, color: AppColors.white, size: 22),
                             label: Text(
-                              tr('upload_bill_slip'),
+                              tr('i_have_transferred'),
                               style: const TextStyle(
                                 color: AppColors.white,
                                 fontSize: 15,
@@ -751,21 +806,22 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                         const SizedBox(height: 10),
 
-                        // ປຸ່ມ 2: ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ (Warm Secondary button)
+                        // ປຸ່ມ 2: ອັບໂຫລດໃບບິນ / ສະລິບ
                         SizedBox(
                           width: double.infinity,
-                          height: 50,
-                          child: OutlinedButton(
+                          height: 48,
+                          child: OutlinedButton.icon(
                             style: OutlinedButton.styleFrom(
                               backgroundColor: const Color(0xFFFFF9F5),
                               side: const BorderSide(color: Color(0xFFE5C3AB), width: 1.2),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                                borderRadius: BorderRadius.circular(24),
                               ),
                             ),
-                            onPressed: _handleIHaveTransferred,
-                            child: Text(
-                              tr('i_have_transferred'),
+                            onPressed: _handleUploadSlip,
+                            icon: const Icon(Icons.photo_library_outlined, color: Color(0xFF78350F), size: 18),
+                            label: Text(
+                              tr('upload_bill_slip'),
                               style: const TextStyle(
                                 color: Color(0xFF78350F),
                                 fontSize: 14,

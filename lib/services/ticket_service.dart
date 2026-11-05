@@ -99,7 +99,7 @@ class TicketService {
           .collection('tickets')
           .doc(ticket.id)
           .set(ticket.toMap())
-          .timeout(const Duration(seconds: 5));
+          .timeout(const Duration(seconds: 2));
       debugPrint('Ticket saved to Firestore successfully: ${ticket.id}');
     } catch (e) {
       debugPrint(
