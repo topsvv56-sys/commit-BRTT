@@ -43,6 +43,7 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
   Timer? _countdownTimer;
   Timer? _autoCheckTimer;
   int _secondsLeft = 599; // 09:59 countdown
+  DateTime? _pausedAt;
 
   @override
   void initState() {
@@ -79,14 +80,79 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && !_isProcessing && !_isSuccess) {
-      // ກວດສອບກັບ Server ທະນາຄານອີກຮອບຕອນກັບມາ (ແຕ່ບໍ່ອອກປີ້ຖ້າທະນາຄານຍັງບໍ່ຢືນຢັນ)
+    if (state == AppLifecycleState.paused) {
+      _pausedAt = DateTime.now();
+    } else if (state == AppLifecycleState.resumed && !_isProcessing && !_isSuccess) {
+      // ກວດສອບກັບ Server ທະນາຄານອີກຮອບຕອນກັບມາ (ຖ້າມີ Webhook)
       PaymentService().checkPaymentStatusOnServer(_orderRef).then((isPaid) {
         if (isPaid && mounted && !_isSuccess) {
           _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Server Webhook)');
+          return;
         }
       });
+
+      // ຖ້າຜູ້ໃຊ້ກັບມາຈາກແອັບທະນາຄານ (BCEL One) ຫຼັງຈາກອອກໄປຫຼາຍກວ່າ 2 ວິນາທີ
+      if (_pausedAt != null) {
+        final duration = DateTime.now().difference(_pausedAt!);
+        if (duration.inSeconds >= 2) {
+          _showResumeTransferPrompt();
+        }
+      }
     }
+  }
+
+  // --- Popup ຖາມຢືນຢັນເມື່ອກັບມາຈາກແອັບທະນາຄານ ---
+  void _showResumeTransferPrompt() {
+    if (_isSuccess || _isProcessing || !mounted) return;
+    showDialog(
+      context: context,
+      builder: (promptCtx) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Row(
+            children: [
+              const Icon(Icons.check_circle_outline, color: Color(0xFFD97724), size: 28),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  tr('resume_confirm_title'),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textNavy),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            tr('resume_confirm_desc'),
+            style: const TextStyle(fontSize: 14, color: AppColors.textMuted, height: 1.4),
+          ),
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(promptCtx),
+              child: Text(
+                tr('not_transferred_yet_btn'),
+                style: const TextStyle(color: Colors.grey, fontSize: 13),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD97724),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              ),
+              onPressed: () {
+                Navigator.pop(promptCtx);
+                _handlePaymentSuccessWorkflow(methodName: 'BCEL OnePay (ໂອນເງິນສຳເລັດ)');
+              },
+              child: Text(
+                tr('get_ticket_now_btn'),
+                style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _startCountdownTimer() {
@@ -844,26 +910,28 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 14),
 
-                        // ປຸ່ມ 1 (ຫຼັກ): ອັບໂຫລດໃບບິນ / ສະລິບໂອນເງິນ
+                        // ປຸ່ມ 1 (ຫຼັກສຸດ): "ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ (ກົດຮັບປີ້ທັນທີ)"
                         SizedBox(
                           width: double.infinity,
-                          height: 52,
+                          height: 54,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFD97724),
                               foregroundColor: AppColors.white,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(26),
+                                borderRadius: BorderRadius.circular(27),
                               ),
-                              elevation: 2,
+                              elevation: 3,
                             ),
-                            onPressed: _handleUploadSlip,
-                            icon: const Icon(Icons.photo_library_outlined, color: AppColors.white, size: 20),
+                            onPressed: () => _handlePaymentSuccessWorkflow(
+                              methodName: 'BCEL OnePay (ໂອນເງິນສຳເລັດ)',
+                            ),
+                            icon: const Icon(Icons.check_circle, color: AppColors.white, size: 22),
                             label: Text(
-                              tr('upload_slip_btn'),
+                              tr('i_have_transferred_instant'),
                               style: const TextStyle(
                                 color: AppColors.white,
-                                fontSize: 15,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -871,7 +939,7 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 10),
 
-                        // ປຸ່ມ 2: ຢືນຢັນດ້ວຍເລກໃບບິນ BCEL One (Bill No.)
+                        // ປຸ່ມ 2 (ຮອງ): ອັບໂຫລດໃບບິນ / ສະລິບໂອນເງິນ
                         SizedBox(
                           width: double.infinity,
                           height: 48,
@@ -883,10 +951,10 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                                 borderRadius: BorderRadius.circular(24),
                               ),
                             ),
-                            onPressed: _handleEnterBillNumber,
-                            icon: const Icon(Icons.receipt_long, color: Color(0xFFD97724), size: 18),
+                            onPressed: _handleUploadSlip,
+                            icon: const Icon(Icons.photo_library_outlined, color: Color(0xFFD97724), size: 18),
                             label: Text(
-                              tr('enter_bill_no_btn'),
+                              tr('upload_slip_btn'),
                               style: const TextStyle(
                                 color: Color(0xFFD97724),
                                 fontSize: 13,
