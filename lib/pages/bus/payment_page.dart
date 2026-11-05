@@ -42,7 +42,6 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
   Timer? _countdownTimer;
   Timer? _autoCheckTimer;
   int _secondsLeft = 599; // 09:59 countdown
-  int _elapsedCheckSeconds = 0;
 
   @override
   void initState() {
@@ -79,9 +78,13 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // ເມື່ອຜູ້ໃຊ້ເປີດແອັບ BCEL One / ທະນາຄານເພື່ອໂອນເງິນ ແລ້ວກັບມາແອັບ BRT ນີ້
     if (state == AppLifecycleState.resumed && !_isProcessing && !_isSuccess) {
-      _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (App Resumed)');
+      // ກວດສອບກັບ Server ທະນາຄານອີກຮອບຕອນກັບມາ (ແຕ່ບໍ່ອອກປີ້ຖ້າທະນາຄານຍັງບໍ່ຢືນຢັນ)
+      PaymentService().checkPaymentStatusOnServer(_orderRef).then((isPaid) {
+        if (isPaid && mounted && !_isSuccess) {
+          _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Server Webhook)');
+        }
+      });
     }
   }
 
@@ -96,28 +99,17 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
     });
   }
 
-  // --- ລະບົບຕິດຕາມ ແລະ ກວດສອບຍອດໂອນອັດຕະໂນມັດ ---
+  // --- ລະບົບກວດສອບ Webhook ຈາກ Server ທະນາຄານຕົວຈິງເທົ່ານັ້ນ ---
   void _startAutoVerificationPolling() {
-    _autoCheckTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+    _autoCheckTimer = Timer.periodic(const Duration(seconds: 4), (timer) async {
       if (!mounted || _isProcessing || _isSuccess) return;
 
-      _elapsedCheckSeconds += 3;
-      if (mounted) setState(() {});
-
-      // 1. ກວດສອບກັບ Server Webhook (ຖ້າມີການເຊື່ອມຕໍ່)
+      // ກວດສອບສະເພາະ Webhook ຈາກ Server ທະນາຄານຕົວຈິງ (ຖ້າທະນາຄານຍັງບໍ່ຕອບ ຈະບໍ່ອອກປີ້ເດັດຂາດ)
       final bool isPaidOnServer =
           await PaymentService().checkPaymentStatusOnServer(_orderRef);
-      if (isPaidOnServer) {
+      if (isPaidOnServer && mounted && !_isSuccess) {
         timer.cancel();
         _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Server Webhook)');
-        return;
-      }
-
-      // 2. ຖ້າຜູ້ໃຊ້ເປີດໜ້າຈໍແຊ່ໄວ້ 15 ວິນາທີຂຶ້ນໄປ (ເວລາທີ່ຄົນທົ່ວໄປສະແກນ ແລະ ໂອນເງິນສຳເລັດ)
-      // ລະບົບຈະກວດສອບຢືນຢັນ ແລະ ອອກປີ້ໃຫ້ອັດຕະໂນມັດ
-      if (_elapsedCheckSeconds >= 15) {
-        timer.cancel();
-        _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Auto Verified)');
       }
     });
   }
@@ -434,10 +426,55 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
   }
 
   // --- ປຸ່ມ "ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ" ---
-  Future<void> _handleIHaveTransferred() async {
+  void _handleIHaveTransferred() {
     if (_isProcessing || _isSuccess) return;
-    _autoCheckTimer?.cancel();
-    await _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Confirmed by User)');
+
+    showDialog(
+      context: context,
+      builder: (dialogCtx) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Row(
+            children: [
+              Icon(Icons.verified_outlined, color: Color(0xFFD97724)),
+              SizedBox(width: 8),
+              Text(
+                "ຢືນຢັນການໂອນເງິນ",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: Text(
+            "ທ່ານໄດ້ສະແກນ QR ແລະ ໂອນເງິນ ${_formatKip(widget.total)} ກີບ ຜ່ານແອັບທະນາຄານຮຽບຮ້ອຍແລ້ວແມ່ນບໍ?",
+            style: const TextStyle(fontSize: 14, color: Color(0xFF1E293B)),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx),
+              child: const Text(
+                "ຍັງບໍ່ທັນໂອນ",
+                style: TextStyle(color: Color(0xFF64748B)),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD97724),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: () {
+                Navigator.pop(dialogCtx);
+                _autoCheckTimer?.cancel();
+                _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Confirmed by User)');
+              },
+              child: const Text(
+                "ໂອນແລ້ວ ຮັບປີ້",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // --- ບັນທຶກຮູບ QR ---
@@ -746,36 +783,27 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                   else
                     Column(
                       children: [
-                        // ສະຖານະກວດສອບອັດຕະໂນມັດ ພ້ອມໄອຄອນໝຸນ ແລະ ເວລາ Polling
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFF7ED),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: const Color(0xFFFFEDD5)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(
-                                width: 14,
-                                height: 14,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Color(0xFFD97724),
-                                ),
+                        // ສະຖານະກວດສອບອັດຕະໂນມັດ ພ້ອມໄອຄອນໝຸນ
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              tr('auto_verify_payment'),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF1E293B),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                "${tr('auto_verify_payment')} (${_elapsedCheckSeconds}s)",
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF9A3412),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            ),
+                            const SizedBox(width: 8),
+                            const SizedBox(
+                              width: 14,
+                              height: 14,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Color(0xFFD97724),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 14),
 
