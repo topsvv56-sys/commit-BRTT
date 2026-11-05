@@ -7,6 +7,7 @@ import 'package:flutter_application_brt_bub/localization/app_language.dart';
 import 'package:flutter_application_brt_bub/services/payment_service.dart';
 import 'package:flutter_application_brt_bub/services/ticket_service.dart';
 import 'package:flutter_application_brt_bub/pages/bus/ticket_success_page.dart';
+import 'package:flutter_application_brt_bub/pages/profile/history_page.dart';
 import 'package:flutter_application_brt_bub/config/app_colors.dart';
 import 'package:flutter_application_brt_bub/models/ticket_model.dart';
 import 'package:flutter_application_brt_bub/services/dynamic_qr_service.dart';
@@ -136,8 +137,8 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // --- ບັນທຶກເປັນ "ຍັງບໍ່ທັນຈ່າຍ" (Pending) ລົງໃນປະຫວັດແລ້ວອອກ ---
-  Future<void> _saveAsPendingAndExit() async {
+  // --- ບັນທຶກເປັນ "ຍັງບໍ່ທັນຈ່າຍ" (Pending) ລົງໃນປະຫວັດ ---
+  Future<void> _saveAsPendingAndExit({bool goToHistory = false}) async {
     _autoCheckTimer?.cancel();
     setState(() => _isProcessing = true);
     try {
@@ -158,12 +159,26 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
             backgroundColor: AppColors.primary,
           ),
         );
-        Navigator.pop(context);
+        if (goToHistory) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HistoryPage()),
+          );
+        } else {
+          Navigator.pop(context);
+        }
       }
     } catch (_) {
       if (mounted) {
         setState(() => _isProcessing = false);
-        Navigator.pop(context);
+        if (goToHistory) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HistoryPage()),
+          );
+        } else {
+          Navigator.pop(context);
+        }
       }
     }
   }
@@ -423,58 +438,6 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
         );
       }
     }
-  }
-
-  // --- ປຸ່ມ "ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ" ---
-  void _handleIHaveTransferred() {
-    if (_isProcessing || _isSuccess) return;
-
-    showDialog(
-      context: context,
-      builder: (dialogCtx) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Row(
-            children: [
-              Icon(Icons.verified_outlined, color: Color(0xFFD97724)),
-              SizedBox(width: 8),
-              Text(
-                "ຢືນຢັນການໂອນເງິນ",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          content: Text(
-            "ທ່ານໄດ້ສະແກນ QR ແລະ ໂອນເງິນ ${_formatKip(widget.total)} ກີບ ຜ່ານແອັບທະນາຄານຮຽບຮ້ອຍແລ້ວແມ່ນບໍ?",
-            style: const TextStyle(fontSize: 14, color: Color(0xFF1E293B)),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogCtx),
-              child: const Text(
-                "ຍັງບໍ່ທັນໂອນ",
-                style: TextStyle(color: Color(0xFF64748B)),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD97724),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              onPressed: () {
-                Navigator.pop(dialogCtx);
-                _autoCheckTimer?.cancel();
-                _handlePaymentSuccessWorkflow(methodName: 'LAPNet LAO QR (Confirmed by User)');
-              },
-              child: const Text(
-                "ໂອນແລ້ວ ຮັບປີ້",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   // --- ບັນທຶກຮູບ QR ---
@@ -807,7 +770,7 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 14),
 
-                        // ປຸ່ມ 1: ຂ້ອຍໄດ້ໂອນເງິນແລ້ວ (ກົດຮັບປີ້ທັນທີ) - ສີສົ້ມເດັ່ນຊັດເຈນ
+                        // ປຸ່ມ 1 (ຫຼັກ): ອັບໂຫລດໃບບິນ / ສະລິບໂອນເງິນ
                         SizedBox(
                           width: double.infinity,
                           height: 52,
@@ -820,10 +783,10 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                               ),
                               elevation: 2,
                             ),
-                            onPressed: _handleIHaveTransferred,
-                            icon: const Icon(Icons.check_circle_rounded, color: AppColors.white, size: 22),
+                            onPressed: _handleUploadSlip,
+                            icon: const Icon(Icons.photo_library_outlined, color: AppColors.white, size: 20),
                             label: Text(
-                              tr('i_have_transferred'),
+                              tr('upload_slip_btn'),
                               style: const TextStyle(
                                 color: AppColors.white,
                                 fontSize: 15,
@@ -834,7 +797,7 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 10),
 
-                        // ປຸ່ມ 2: ອັບໂຫລດໃບບິນ / ສະລິບ
+                        // ປຸ່ມ 2 (ຮອງ): ຍັງບໍ່ທັນໂອນ (ໄປໜ້າປະຫວັດເພື່ອໂອນ)
                         SizedBox(
                           width: double.infinity,
                           height: 48,
@@ -846,13 +809,13 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                                 borderRadius: BorderRadius.circular(24),
                               ),
                             ),
-                            onPressed: _handleUploadSlip,
-                            icon: const Icon(Icons.photo_library_outlined, color: Color(0xFF78350F), size: 18),
+                            onPressed: () => _saveAsPendingAndExit(goToHistory: true),
+                            icon: const Icon(Icons.history_outlined, color: Color(0xFF78350F), size: 18),
                             label: Text(
-                              tr('upload_bill_slip'),
+                              tr('not_transferred_yet_btn'),
                               style: const TextStyle(
                                 color: Color(0xFF78350F),
-                                fontSize: 14,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -860,9 +823,9 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 8),
 
-                        // ປຸ່ມ 3: ຍົກເລີກລາຍການ (Cancel & Save for later)
+                        // ປຸ່ມ 3: ຍົກເລີກລາຍການ
                         TextButton(
-                          onPressed: _saveAsPendingAndExit,
+                          onPressed: () => _saveAsPendingAndExit(goToHistory: false),
                           child: Text(
                             tr('cancel_order'),
                             style: const TextStyle(
