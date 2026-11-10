@@ -71,7 +71,25 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
       status: 'pending',
       existingId: _orderRef,
       paymentMethod: 'BCEL OnePay (Pending)',
-    );
+    ).catchError((e) {
+      debugPrint('Notice: Initial ticket save pending: $e');
+      return TicketModel(
+        id: _orderRef,
+        userId: TicketService().currentUserId,
+        userEmail: TicketService().currentUserEmail,
+        originStation: widget.originStation,
+        destinationStation: widget.destinationStation,
+        quantity: widget.qty,
+        pricePerTicket: (widget.qty > 0) ? (widget.total ~/ widget.qty) : widget.total,
+        totalAmount: widget.total,
+        status: 'pending',
+        paymentMethod: 'BCEL OnePay (Pending)',
+        transactionId: 'TXN-${DateTime.now().millisecondsSinceEpoch}',
+        createdAt: DateTime.now(),
+        expiresAt: DateTime.now().add(const Duration(hours: 24)),
+        qrPayload: '',
+      );
+    });
 
     // ສ້າງ Order ໃນ Server Backend ຖ້າເຊື່ອມຕໍ່ໄດ້
     PaymentService().createPaymentOrder(
@@ -86,6 +104,8 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
         });
         _listenToFirestoreWebhook(_orderRef);
       }
+    }).catchError((e) {
+      debugPrint('Notice: createPaymentOrder error: $e');
     });
 
     // ເລີ່ມຕົ້ນຟັງ Webhook ແບບ Real-time ຜ່ານ Cloud Firestore (ອັດຕະໂນມັດ 100%)
@@ -100,21 +120,32 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
   /// ແອັບຈະເດັ້ງ Popup ຮັບປີ້ທັນທີໂດຍທີ່ຜູ້ໃຊ້ບໍ່ຕ້ອງກົດປຸ່ມໃດເລີຍ!
   void _listenToFirestoreWebhook(String orderId) {
     _firestoreSubscription?.cancel();
-    _firestoreSubscription = FirebaseFirestore.instance
-        .collection('tickets')
-        .doc(orderId)
-        .snapshots()
-        .listen((snapshot) {
-      if (!mounted || _isProcessing || _isSuccess) return;
-      if (snapshot.exists) {
-        final data = snapshot.data();
-        if (data != null && data['status'] == 'paid') {
-          final method = data['paymentMethod']?.toString() ?? 'BCEL OnePay (Webhook Real-time)';
-          _firestoreSubscription?.cancel();
-          _handlePaymentSuccessWorkflow(methodName: method);
-        }
-      }
-    });
+    try {
+      _firestoreSubscription = FirebaseFirestore.instance
+          .collection('tickets')
+          .doc(orderId)
+          .snapshots()
+          .listen(
+        (snapshot) {
+          if (!mounted || _isProcessing || _isSuccess) return;
+          if (snapshot.exists) {
+            final data = snapshot.data();
+            if (data != null && data['status'] == 'paid') {
+              final method = data['paymentMethod']?.toString() ?? 'BCEL OnePay (Webhook Real-time)';
+              _firestoreSubscription?.cancel();
+              _handlePaymentSuccessWorkflow(methodName: method);
+            }
+          }
+        },
+        onError: (error) {
+          // ຈັດການ Error ຢ່າງປອດໄພ ເພື່ອປ້ອງກັນບໍ່ໃຫ້ເກີດ Uncaught Exception ໃນ Browser/Windows Debugger
+          debugPrint('Notice: Firestore webhook listener note: $error');
+        },
+        cancelOnError: false,
+      );
+    } catch (e) {
+      debugPrint('Notice: Could not attach firestore listener: $e');
+    }
   }
 
   @override
