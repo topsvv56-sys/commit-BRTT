@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter_application_brt_bub/localization/app_language.dart';
@@ -42,6 +43,7 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
 
   Timer? _countdownTimer;
   Timer? _autoCheckTimer;
+  StreamSubscription<DocumentSnapshot>? _firestoreSubscription;
   int _secondsLeft = 599; // 09:59 countdown
   DateTime? _pausedAt;
 
@@ -60,6 +62,17 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
           'BRT-ORD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}-$rand';
     }
 
+    // ບັນທຶກຕົ໋ວເປັນ Pending ລົງ Firestore & Local Cache ທັນທີ ເພື່ອພ້ອມຮັບ Webhook
+    TicketService().createTicket(
+      originStation: widget.originStation,
+      destinationStation: widget.destinationStation,
+      quantity: widget.qty,
+      totalAmount: widget.total,
+      status: 'pending',
+      existingId: _orderRef,
+      paymentMethod: 'BCEL OnePay (Pending)',
+    );
+
     // ສ້າງ Order ໃນ Server Backend ຖ້າເຊື່ອມຕໍ່ໄດ້
     PaymentService().createPaymentOrder(
       totalAmount: widget.total,
@@ -67,15 +80,41 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
       destinationStation: widget.destinationStation,
       quantity: widget.qty,
     ).then((info) {
-      if (mounted && widget.existingTicketId == null) {
+      if (mounted && widget.existingTicketId == null && info.orderRef != _orderRef) {
         setState(() {
           _orderRef = info.orderRef;
         });
+        _listenToFirestoreWebhook(_orderRef);
       }
     });
 
+    // ເລີ່ມຕົ້ນຟັງ Webhook ແບບ Real-time ຜ່ານ Cloud Firestore (ອັດຕະໂນມັດ 100%)
+    _listenToFirestoreWebhook(_orderRef);
+
     // ເລີ່ມຕົ້ນລະບົບກວດສອບການໂອນເງິນອັດຕະໂນມັດທັນທີ (Auto Verification Loop)
     _startAutoVerificationPolling();
+  }
+
+  /// ຟັງການປ່ຽນແປງຂອງຕົ໋ວໃນ Firestore ແບບ Real-time
+  /// ເມື່ອ Firebase Cloud Function ໄດ້ຮັບ Webhook ຈາກທະນາຄານແລ້ວອັບເດດ status ເປັນ 'paid'
+  /// ແອັບຈະເດັ້ງ Popup ຮັບປີ້ທັນທີໂດຍທີ່ຜູ້ໃຊ້ບໍ່ຕ້ອງກົດປຸ່ມໃດເລີຍ!
+  void _listenToFirestoreWebhook(String orderId) {
+    _firestoreSubscription?.cancel();
+    _firestoreSubscription = FirebaseFirestore.instance
+        .collection('tickets')
+        .doc(orderId)
+        .snapshots()
+        .listen((snapshot) {
+      if (!mounted || _isProcessing || _isSuccess) return;
+      if (snapshot.exists) {
+        final data = snapshot.data();
+        if (data != null && data['status'] == 'paid') {
+          final method = data['paymentMethod']?.toString() ?? 'BCEL OnePay (Webhook Real-time)';
+          _firestoreSubscription?.cancel();
+          _handlePaymentSuccessWorkflow(methodName: method);
+        }
+      }
+    });
   }
 
   @override
@@ -199,6 +238,7 @@ class _PaymentPageState extends State<PaymentPage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _countdownTimer?.cancel();
     _autoCheckTimer?.cancel();
+    _firestoreSubscription?.cancel();
     cameraController.dispose();
     super.dispose();
   }

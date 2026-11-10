@@ -250,6 +250,101 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "4. Payment Webhooks (Cloud Functions)",
+			"item": [
+				{
+					"name": "BCEL OnePay Webhook Callback",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderRef\": \"BRT-ORD-20261110-1001\",\n    \"billNo\": \"202611052018039\",\n    \"amount\": 7000,\n    \"status\": \"SUCCESS\",\n    \"paymentMethod\": \"BCEL OnePay\"\n}"
+						},
+						"url": {
+							"raw": "https://us-central1-{{FIREBASE_PROJECT_ID}}.cloudfunctions.net/bcelWebhook/bcelWebhook",
+							"protocol": "https",
+							"host": [
+								"us-central1-{{FIREBASE_PROJECT_ID}}",
+								"cloudfunctions",
+								"net"
+							],
+							"path": [
+								"bcelWebhook",
+								"bcelWebhook"
+							]
+						},
+						"description": "Webhook ที่ทวนส่งมาจาก BCEL OnePay / LAPNet Gateway เมื่อลูกค้าชำระเงินสำเร็จ"
+					},
+					"response": []
+				},
+				{
+					"name": "Simulate Payment (Developer Test)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderRef\": \"BRT-ORD-20261110-1001\",\n    \"billNo\": \"SIM-202611052018039\",\n    \"amount\": 7000\n}"
+						},
+						"url": {
+							"raw": "https://us-central1-{{FIREBASE_PROJECT_ID}}.cloudfunctions.net/bcelWebhook/simulatePayment",
+							"protocol": "https",
+							"host": [
+								"us-central1-{{FIREBASE_PROJECT_ID}}",
+								"cloudfunctions",
+								"net"
+							],
+							"path": [
+								"bcelWebhook",
+								"simulatePayment"
+							]
+						},
+						"description": "จำลองการยิง Webhook สำหรับ Developer ในการทดสอบตั๋วเด้งอัตโนมัติ"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Payment Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://us-central1-{{FIREBASE_PROJECT_ID}}.cloudfunctions.net/bcelWebhook/checkPaymentStatus?orderRef=BRT-ORD-20261110-1001",
+							"protocol": "https",
+							"host": [
+								"us-central1-{{FIREBASE_PROJECT_ID}}",
+								"cloudfunctions",
+								"net"
+							],
+							"path": [
+								"bcelWebhook",
+								"checkPaymentStatus"
+							],
+							"query": [
+								{
+									"key": "orderRef",
+									"value": "BRT-ORD-20261110-1001"
+								}
+							]
+						},
+						"description": "ตรวจสอบสถานะการชำระเงินของ Order"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
