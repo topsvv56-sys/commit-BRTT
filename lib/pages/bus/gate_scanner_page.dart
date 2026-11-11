@@ -237,6 +237,25 @@ class _GateScannerPageState extends State<GateScannerPage> {
                     MobileScanner(
                       controller: _cameraController,
                       onDetect: _handleBarcodeDetected,
+                      errorBuilder: (context, error) {
+                        return Container(
+                          color: AppColors.black,
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(24),
+                          child: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.videocam_off, color: AppColors.primary, size: 48),
+                              SizedBox(height: 12),
+                              Text(
+                                'ກ້ອງບໍ່ພ້ອມໃຊ້ງານ ຫຼື ບໍ່ຮອງຮັບໃນອຸປະກອນນີ້',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: AppColors.white, fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                     // Scanner Overlay Viewport
                     Container(

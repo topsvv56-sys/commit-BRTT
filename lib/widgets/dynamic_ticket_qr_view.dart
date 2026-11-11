@@ -187,11 +187,21 @@ class _DynamicTicketQrViewState extends State<DynamicTicketQrView>
                       border: Border.all(color: AppColors.primaryBorder),
                     ),
                     child: QrImageView(
-                      data: isUsed || isExpired
+                      data: (isUsed || isExpired)
                           ? 'BRT:INVALID:${widget.ticket.id}'
-                          : _currentDynamicPayload,
+                          : (_currentDynamicPayload.isNotEmpty
+                              ? _currentDynamicPayload
+                              : 'BRT:TICKET:${widget.ticket.id}:VALID'),
                       version: QrVersions.auto,
                       size: 210,
+                      errorStateBuilder: (cxt, err) {
+                        return Container(
+                          width: 210,
+                          height: 210,
+                          alignment: Alignment.center,
+                          child: const Icon(Icons.qr_code_2, size: 100, color: AppColors.primary),
+                        );
+                      },
                       eyeStyle: QrEyeStyle(
                         eyeShape: QrEyeShape.square,
                         color: isUsed

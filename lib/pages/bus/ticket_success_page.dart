@@ -142,12 +142,17 @@ class SuccessPage extends StatelessWidget {
                         tr('route_label'),
                         style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
                       ),
-                      Text(
-                        "${tr(origin)} ➔ ${tr(destination)}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: AppColors.textDark,
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          "${tr(origin)} ➔ ${tr(destination)}",
+                          textAlign: TextAlign.right,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: AppColors.textDark,
+                          ),
                         ),
                       ),
                     ],
@@ -246,10 +251,18 @@ class SuccessPage extends StatelessWidget {
                 child: Column(
                   children: [
                     QrImageView(
-                      data: qrData,
+                      data: qrData.isNotEmpty ? qrData : 'BRT:TICKET:$ticketId:VALID',
                       version: QrVersions.auto,
                       size: 160.0,
                       backgroundColor: AppColors.white,
+                      errorStateBuilder: (cxt, err) {
+                        return Container(
+                          width: 160,
+                          height: 160,
+                          alignment: Alignment.center,
+                          child: const Icon(Icons.qr_code, size: 80, color: AppColors.primary),
+                        );
+                      },
                       eyeStyle: const QrEyeStyle(
                         eyeShape: QrEyeShape.square,
                         color: AppColors.primary,

@@ -60,14 +60,32 @@ class TicketModel {
     };
   }
 
+  static DateTime _parseDateTime(dynamic value, [DateTime? fallback]) {
+    if (value == null) return fallback ?? DateTime.now();
+    if (value is DateTime) return value;
+    if (value is String) {
+      return DateTime.tryParse(value) ?? (fallback ?? DateTime.now());
+    }
+    if (value is int) {
+      return DateTime.fromMillisecondsSinceEpoch(value);
+    }
+    try {
+      final dynamic dyn = value;
+      if (dyn.toDate != null) {
+        return dyn.toDate() as DateTime;
+      }
+    } catch (_) {}
+    return fallback ?? DateTime.now();
+  }
+
   /// ສ້າງ TicketModel ຈາກ Firestore Document Data
   factory TicketModel.fromMap(Map<String, dynamic> map, [String? docId]) {
     return TicketModel(
       id: docId ?? map['id'] ?? '',
       userId: map['userId'] ?? '',
       userEmail: map['userEmail'] ?? '',
-      originStation: map['originStation'] ?? '',
-      destinationStation: map['destinationStation'] ?? '',
+      originStation: map['originStation'] ?? 'station_talatxao',
+      destinationStation: map['destinationStation'] ?? 'station_dongdok',
       quantity: (map['quantity'] as num?)?.toInt() ?? 1,
       pricePerTicket: (map['pricePerTicket'] as num?)?.toInt() ?? 7000,
       totalAmount: (map['totalAmount'] as num?)?.toInt() ?? 7000,
@@ -75,14 +93,12 @@ class TicketModel {
       status: map['status'] ?? 'paid',
       paymentMethod: map['paymentMethod'] ?? 'BCEL OnePay',
       transactionId: map['transactionId'] ?? '',
-      createdAt: map['createdAt'] != null
-          ? DateTime.tryParse(map['createdAt']) ?? DateTime.now()
-          : DateTime.now(),
-      usedAt: map['usedAt'] != null ? DateTime.tryParse(map['usedAt']) : null,
-      expiresAt: map['expiresAt'] != null
-          ? DateTime.tryParse(map['expiresAt']) ??
-                DateTime.now().add(const Duration(hours: 24))
-          : DateTime.now().add(const Duration(hours: 24)),
+      createdAt: _parseDateTime(map['createdAt']),
+      usedAt: map['usedAt'] != null ? _parseDateTime(map['usedAt']) : null,
+      expiresAt: _parseDateTime(
+        map['expiresAt'],
+        DateTime.now().add(const Duration(hours: 24)),
+      ),
       qrPayload: map['qrPayload'] ?? '',
     );
   }

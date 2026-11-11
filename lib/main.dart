@@ -9,6 +9,42 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initAppLanguage();
+
+  // ປ້ອງກັນໜ້າຈໍ Error ສີແດງ (Flutter Red Screen of Death) ທົ່ວທັງແອັບ
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      color: Colors.white,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.confirmation_number_outlined, color: AppColors.primary, size: 54),
+              const SizedBox(height: 14),
+              const Text(
+                'ກຳລັງສະແດງຂໍ້ມູນ...',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textDark,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                details.exceptionAsString(),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  };
+
   runApp(const MyApp());
 }
 
